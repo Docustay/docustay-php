@@ -19,7 +19,7 @@ All URIs are relative to https://app.docustay.app, except if the operation defin
 ## `createTemplateFromFile()`
 
 ```php
-createTemplateFromFile($file_template_request): \Docustay\Model\TemplateMade
+createTemplateFromFile($idempotency_key, $file_template_request): \Docustay\Model\TemplateMade
 ```
 
 Make a template from a file with text tags
@@ -43,10 +43,11 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     new GuzzleHttp\Client(),
     $config
 );
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 $file_template_request = new \Docustay\Model\FileTemplateRequest(); // \Docustay\Model\FileTemplateRequest
 
 try {
-    $result = $apiInstance->createTemplateFromFile($file_template_request);
+    $result = $apiInstance->createTemplateFromFile($idempotency_key, $file_template_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling TemplatesApi->createTemplateFromFile: ', $e->getMessage(), PHP_EOL;
@@ -57,6 +58,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 | **file_template_request** | [**\Docustay\Model\FileTemplateRequest**](../Model/FileTemplateRequest.md)|  | |
 
 ### Return type
@@ -79,7 +81,7 @@ try {
 ## `createTemplateFromHtml()`
 
 ```php
-createTemplateFromHtml($html_template_request): \Docustay\Model\TemplateMade
+createTemplateFromHtml($idempotency_key, $html_template_request): \Docustay\Model\TemplateMade
 ```
 
 Make a template from HTML with text tags
@@ -103,10 +105,11 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     new GuzzleHttp\Client(),
     $config
 );
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 $html_template_request = new \Docustay\Model\HtmlTemplateRequest(); // \Docustay\Model\HtmlTemplateRequest
 
 try {
-    $result = $apiInstance->createTemplateFromHtml($html_template_request);
+    $result = $apiInstance->createTemplateFromHtml($idempotency_key, $html_template_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling TemplatesApi->createTemplateFromHtml: ', $e->getMessage(), PHP_EOL;
@@ -117,6 +120,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 | **html_template_request** | [**\Docustay\Model\HtmlTemplateRequest**](../Model/HtmlTemplateRequest.md)|  | |
 
 ### Return type
@@ -139,7 +143,7 @@ try {
 ## `createTemplateFromSource()`
 
 ```php
-createTemplateFromSource($create_template_from_source_request): \Docustay\Model\CreateTemplateFromSource201Response
+createTemplateFromSource($idempotency_key, $create_template_from_source_request): \Docustay\Model\CreateTemplateFromSource201Response
 ```
 
 Make a template from a document source
@@ -163,10 +167,11 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     new GuzzleHttp\Client(),
     $config
 );
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 $create_template_from_source_request = new \Docustay\Model\CreateTemplateFromSourceRequest(); // \Docustay\Model\CreateTemplateFromSourceRequest
 
 try {
-    $result = $apiInstance->createTemplateFromSource($create_template_from_source_request);
+    $result = $apiInstance->createTemplateFromSource($idempotency_key, $create_template_from_source_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling TemplatesApi->createTemplateFromSource: ', $e->getMessage(), PHP_EOL;
@@ -177,6 +182,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 | **create_template_from_source_request** | [**\Docustay\Model\CreateTemplateFromSourceRequest**](../Model/CreateTemplateFromSourceRequest.md)|  | |
 
 ### Return type
@@ -561,7 +567,7 @@ try {
 ## `useTemplate()`
 
 ```php
-useTemplate($id, $use_template_request): \Docustay\Model\DocumentMade
+useTemplate($id, $idempotency_key, $use_template_request): \Docustay\Model\DocumentMade
 ```
 
 Use a written template for people
@@ -586,10 +592,11 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     $config
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 $use_template_request = new \Docustay\Model\UseTemplateRequest(); // \Docustay\Model\UseTemplateRequest
 
 try {
-    $result = $apiInstance->useTemplate($id, $use_template_request);
+    $result = $apiInstance->useTemplate($id, $idempotency_key, $use_template_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling TemplatesApi->useTemplate: ', $e->getMessage(), PHP_EOL;
@@ -601,6 +608,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 | **use_template_request** | [**\Docustay\Model\UseTemplateRequest**](../Model/UseTemplateRequest.md)|  | |
 
 ### Return type

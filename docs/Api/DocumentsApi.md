@@ -205,7 +205,7 @@ try {
 ## `createDocument()`
 
 ```php
-createDocument($create_document_request): \Docustay\Model\DocumentMade
+createDocument($idempotency_key, $create_document_request): \Docustay\Model\DocumentMade
 ```
 
 Make a document from words and people
@@ -229,10 +229,11 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     new GuzzleHttp\Client(),
     $config
 );
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 $create_document_request = new \Docustay\Model\CreateDocumentRequest(); // \Docustay\Model\CreateDocumentRequest
 
 try {
-    $result = $apiInstance->createDocument($create_document_request);
+    $result = $apiInstance->createDocument($idempotency_key, $create_document_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling DocumentsApi->createDocument: ', $e->getMessage(), PHP_EOL;
@@ -243,6 +244,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 | **create_document_request** | [**\Docustay\Model\CreateDocumentRequest**](../Model/CreateDocumentRequest.md)|  | |
 
 ### Return type
@@ -977,7 +979,7 @@ try {
 ## `reviseDocument()`
 
 ```php
-reviseDocument($id, $revise_document_request): \Docustay\Model\ReviseDocument201Response
+reviseDocument($id, $idempotency_key, $revise_document_request): \Docustay\Model\ReviseDocument201Response
 ```
 
 Change the words of a draft
@@ -1002,10 +1004,11 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     $config
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 $revise_document_request = new \Docustay\Model\ReviseDocumentRequest(); // \Docustay\Model\ReviseDocumentRequest
 
 try {
-    $result = $apiInstance->reviseDocument($id, $revise_document_request);
+    $result = $apiInstance->reviseDocument($id, $idempotency_key, $revise_document_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling DocumentsApi->reviseDocument: ', $e->getMessage(), PHP_EOL;
@@ -1017,6 +1020,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 | **revise_document_request** | [**\Docustay\Model\ReviseDocumentRequest**](../Model/ReviseDocumentRequest.md)|  | |
 
 ### Return type
@@ -1101,7 +1105,7 @@ try {
 ## `sendDocument()`
 
 ```php
-sendDocument($send_request): \Docustay\Model\SendDocument201Response
+sendDocument($idempotency_key, $send_request): \Docustay\Model\SendDocument201Response
 ```
 
 Send a template to people to sign
@@ -1125,10 +1129,11 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     new GuzzleHttp\Client(),
     $config
 );
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 $send_request = new \Docustay\Model\SendRequest(); // \Docustay\Model\SendRequest
 
 try {
-    $result = $apiInstance->sendDocument($send_request);
+    $result = $apiInstance->sendDocument($idempotency_key, $send_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling DocumentsApi->sendDocument: ', $e->getMessage(), PHP_EOL;
@@ -1139,6 +1144,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 | **send_request** | [**\Docustay\Model\SendRequest**](../Model/SendRequest.md)|  | |
 
 ### Return type
@@ -1161,7 +1167,7 @@ try {
 ## `sendDraft()`
 
 ```php
-sendDraft($id): \Docustay\Model\SendDraft201Response
+sendDraft($id, $idempotency_key): \Docustay\Model\SendDraft201Response
 ```
 
 Send a draft
@@ -1186,9 +1192,10 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     $config
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 
 try {
-    $result = $apiInstance->sendDraft($id);
+    $result = $apiInstance->sendDraft($id, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling DocumentsApi->sendDraft: ', $e->getMessage(), PHP_EOL;
@@ -1200,6 +1207,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 
 ### Return type
 

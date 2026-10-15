@@ -254,7 +254,7 @@ This endpoint does not need any parameter.
 ## `publishForm()`
 
 ```php
-publishForm($publish_form_request): mixed
+publishForm($idempotency_key, $publish_form_request): mixed
 ```
 
 Publish a form
@@ -278,10 +278,11 @@ $apiInstance = new Docustay\Api\FormsApi(
     new GuzzleHttp\Client(),
     $config
 );
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 $publish_form_request = new \Docustay\Model\PublishFormRequest(); // \Docustay\Model\PublishFormRequest
 
 try {
-    $result = $apiInstance->publishForm($publish_form_request);
+    $result = $apiInstance->publishForm($idempotency_key, $publish_form_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FormsApi->publishForm: ', $e->getMessage(), PHP_EOL;
@@ -292,6 +293,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 | **publish_form_request** | [**\Docustay\Model\PublishFormRequest**](../Model/PublishFormRequest.md)|  | |
 
 ### Return type

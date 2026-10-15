@@ -12,7 +12,7 @@
 /**
  * Docustay API
  *
- * Send documents for signature and follow them, from your own software.  **Authentication.** Send `Authorization: Bearer <key>`. Make keys in Settings → Developers → API keys and give each only the scopes it needs: `accounts:read`, `accounts:write`, `booking:read`, `booking:write`, `documents:read`, `documents:write`, `growth:read`, `growth:write`, `items:read`, `items:write`, `lead:write`, `money:read`, `money:write`, `network:read`, `network:write`, `notifications:read`, `notifications:write`, `people:read`, `people:write`, `platform:read`, `platform:write`, `records:read`, `records:write`, `settings:read`, `settings:write`, `plays:read`, `plays:write`, `drafts:write`, `templates:read`, `templates:write`, `webhooks:read`, `webhooks:write`, `reports:read`, `account:read`, `embedded:write`. A key that starts `dsk_test_` works in **test mode**: documents it sends are practice runs (emailed only to the sender, stamped TEST, never counted or billed), it can only see and act on test documents (any other document answers `404`), and it can sign them itself with `POST /api/v1/documents/{id}/test-sign`. A key can also be limited to a list of addresses, given an expiry, or made **draft-only**.  **Draft-only keys.** A draft-only key can make and edit drafts but cannot send. Asking it to send answers `202` with an `approval`, the document stays a draft, and a person approves or declines in Settings → Developers → Approvals. Keys can also have a daily limit of drafts and sends; past it you get `429`.  **Payments.** A template may contain payment fields (text tag `type=payment` with one of `amount`, `formula`, `price` or `link`). The signer pays on Stripe's hosted page; the money goes to your own connected Stripe account; Docustay's fee is 2% on the Free plan and 0% on Pro, plus Stripe's own fees. The document's `payments` list shows each payment, its receipt and the fee. Card details never reach Docustay.  **Idempotency.** Requests that create a document or a template, or send one, need an `Idempotency-Key` header (8–200 characters). Repeating a request with the same key and body returns the first answer instead of doing it twice.  **Your own reference.** Documents and templates take `externalId` (your id for it) and `metadata` (up to 20 short key/value pairs). List with `externalId=` or `metadata[key]=value` to find them again, and both come back in webhooks.  **Errors.** Every error is `{ \"error\": { \"kind\", \"message\", \"requestId\", \"retryable\" } }`. `kind` is one of `invalid`, `unauthenticated`, `forbidden`, `not_found`, `conflict`, `rate_limited`, `dependency`, `timeout`. Quote the `requestId` to support, or search it in Settings → Developers → API log. **Plan limits** are `403 forbidden` with `error.detail.code`: `plan_document_limit` (the plan's documents this month are used; a form counts the first time it is published, and every signed response counts) or `plan_template_limit` (Free: 5 new templates a month, documents and forms together; a new version of a template you have does not count). Both carry `detail.used`, `detail.limit` and `detail.resetsAt` (the first of next month, UTC). Everything already made keeps working. Pro and self-hosted installs have no template limit.  **Rate limits.** Each key has its own per-minute budget. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` (seconds); over the budget you get `429` with a `Retry-After` header.  **Versions.** Every answer carries `Docustay-Version`, a date. A change that could break a caller gets a new date and is announced in the changelog before it ships; additions (a new field, a new route) are not breaking and do not change the date.  **Pagination.** Lists take `limit` (1–200) and `cursor`; the answer carries `page.nextCursor` (null on the last page).  **Signing links.** No response contains a signing link or access code, with one exception you control: a seat you send in `embedded` can be given an embedded signing session (`POST /api/v1/documents/{id}/embed-session`), a one-hour link for a frame on a website you listed. A key can start and follow a signature, and put your own signer in front of the form for seats you marked yourself; it cannot sign for anyone.
+ * Send documents for signature and follow them, from your own software.  **Authentication.** Send `Authorization: Bearer <key>`. Make keys in Settings → Developers → API keys and give each only the scopes it needs (there are 35 in all): `accounts:read`, `accounts:write`, `booking:read`, `booking:write`, `documents:read`, `documents:write`, `growth:read`, `growth:write`, `items:read`, `items:write`, `lead:write`, `money:read`, `money:write`, `network:read`, `network:write`, `notifications:read`, `notifications:write`, `people:read`, `people:write`, `platform:read`, `platform:write`, `records:read`, `records:write`, `settings:read`, `settings:write`, `plays:read`, `plays:write`, `drafts:write`, `templates:read`, `templates:write`, `webhooks:read`, `webhooks:write`, `reports:read`, `account:read`, `embedded:write`. A key that starts `dsk_test_` works in **test mode**: documents it sends are practice runs (emailed only to the sender, stamped TEST, never counted or billed), it can only see and act on test documents (any other document answers `404`), and it can sign them itself with `POST /api/v1/documents/{id}/test-sign`. A key can also be limited to a list of addresses, given an expiry, or made **draft-only**.  **Draft-only keys.** A draft-only key can make and edit drafts but cannot send. Asking it to send answers `202` with an `approval`, the document stays a draft, and a person approves or declines in Settings → Developers → Approvals. Keys can also have a daily limit of drafts and sends; past it you get `429`.  **Payments.** A template may contain payment fields (text tag `type=payment` with one of `amount`, `formula`, `price` or `link`). The signer pays on Stripe's hosted page; the money goes to your own connected Stripe account; Docustay's fee is 2% on the Free plan and 0% on Pro, plus Stripe's own fees. The document's `payments` list shows each payment, its receipt and the fee. Card details never reach Docustay.  **Idempotency.** Requests that create a document or a template, or send one, need an `Idempotency-Key` header (8–200 characters). Repeating a request with the same key and body returns the first answer instead of doing it twice.  **Your own reference.** Documents and templates take `externalId` (your id for it) and `metadata` (up to 20 short key/value pairs). List with `externalId=` or `metadata[key]=value` to find them again, and both come back in webhooks.  **Errors.** Every error is `{ \"error\": { \"kind\", \"message\", \"requestId\", \"retryable\" } }`. `kind` is one of `invalid`, `unauthenticated`, `forbidden`, `not_found`, `conflict`, `rate_limited`, `dependency`, `timeout`. Quote the `requestId` to support, or search it in Settings → Developers → API log. **Plan limits** are `403 forbidden` with `error.detail.code`: `plan_document_limit` (the plan's documents this month are used; a form counts the first time it is published, and every signed response counts) or `plan_template_limit` (Free: 5 new templates a month, documents and forms together; a new version of a template you have does not count). Both carry `detail.used`, `detail.limit` and `detail.resetsAt` (the first of next month, UTC). Everything already made keeps working. Pro and self-hosted installs have no template limit.  **Rate limits.** Each key has its own per-minute budget. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` (seconds); over the budget you get `429` with a `Retry-After` header.  **Versions.** Every answer carries `Docustay-Version`, a date. A change that could break a caller gets a new date and is announced in the changelog before it ships; additions (a new field, a new route) are not breaking and do not change the date.  **Pagination.** Lists take `limit` (1–200) and `cursor`; the answer carries `page.nextCursor` (null on the last page).  **Signing links.** No response contains a signing link or access code, with one exception you control: a seat you send in `embedded` can be given an embedded signing session (`POST /api/v1/documents/{id}/embed-session`), a one-hour link for a frame on a website you listed. A key can start and follow a signature, and put your own signer in front of the form for seats you marked yourself; it cannot sign for anyone.
  *
  * The version of the OpenAPI document: 2026-10-07
  * Contact: support@docustay.app
@@ -1616,6 +1616,7 @@ class DocumentsApi
      *
      * Make a document from words and people
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateDocumentRequest $create_document_request create_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createDocument'] to see the possible values for this operation
      *
@@ -1623,9 +1624,9 @@ class DocumentsApi
      * @throws \InvalidArgumentException
      * @return \Docustay\Model\DocumentMade|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error
      */
-    public function createDocument($create_document_request, string $contentType = self::contentTypes['createDocument'][0])
+    public function createDocument($idempotency_key, $create_document_request, string $contentType = self::contentTypes['createDocument'][0])
     {
-        list($response) = $this->createDocumentWithHttpInfo($create_document_request, $contentType);
+        list($response) = $this->createDocumentWithHttpInfo($idempotency_key, $create_document_request, $contentType);
         return $response;
     }
 
@@ -1634,6 +1635,7 @@ class DocumentsApi
      *
      * Make a document from words and people
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateDocumentRequest $create_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createDocument'] to see the possible values for this operation
      *
@@ -1641,9 +1643,9 @@ class DocumentsApi
      * @throws \InvalidArgumentException
      * @return array of \Docustay\Model\DocumentMade|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createDocumentWithHttpInfo($create_document_request, string $contentType = self::contentTypes['createDocument'][0])
+    public function createDocumentWithHttpInfo($idempotency_key, $create_document_request, string $contentType = self::contentTypes['createDocument'][0])
     {
-        $request = $this->createDocumentRequest($create_document_request, $contentType);
+        $request = $this->createDocumentRequest($idempotency_key, $create_document_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1899,15 +1901,16 @@ class DocumentsApi
      *
      * Make a document from words and people
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateDocumentRequest $create_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createDocumentAsync($create_document_request, string $contentType = self::contentTypes['createDocument'][0])
+    public function createDocumentAsync($idempotency_key, $create_document_request, string $contentType = self::contentTypes['createDocument'][0])
     {
-        return $this->createDocumentAsyncWithHttpInfo($create_document_request, $contentType)
+        return $this->createDocumentAsyncWithHttpInfo($idempotency_key, $create_document_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1920,16 +1923,17 @@ class DocumentsApi
      *
      * Make a document from words and people
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateDocumentRequest $create_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createDocumentAsyncWithHttpInfo($create_document_request, string $contentType = self::contentTypes['createDocument'][0])
+    public function createDocumentAsyncWithHttpInfo($idempotency_key, $create_document_request, string $contentType = self::contentTypes['createDocument'][0])
     {
         $returnType = '\Docustay\Model\DocumentMade';
-        $request = $this->createDocumentRequest($create_document_request, $contentType);
+        $request = $this->createDocumentRequest($idempotency_key, $create_document_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1970,15 +1974,29 @@ class DocumentsApi
     /**
      * Create request for operation 'createDocument'
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateDocumentRequest $create_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createDocumentRequest($create_document_request, string $contentType = self::contentTypes['createDocument'][0])
+    public function createDocumentRequest($idempotency_key, $create_document_request, string $contentType = self::contentTypes['createDocument'][0])
     {
 
+        // verify the required parameter 'idempotency_key' is set
+        if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $idempotency_key when calling createDocument'
+            );
+        }
+        if (strlen($idempotency_key) > 200) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling DocumentsApi.createDocument, must be smaller than or equal to 200.');
+        }
+        if (strlen($idempotency_key) < 8) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling DocumentsApi.createDocument, must be bigger than or equal to 8.');
+        }
+        
         // verify the required parameter 'create_document_request' is set
         if ($create_document_request === null || (is_array($create_document_request) && count($create_document_request) === 0)) {
             throw new \InvalidArgumentException(
@@ -1995,6 +2013,10 @@ class DocumentsApi
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -7810,6 +7832,7 @@ class DocumentsApi
      * Change the words of a draft
      *
      * @param  string $id id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\ReviseDocumentRequest $revise_document_request revise_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reviseDocument'] to see the possible values for this operation
      *
@@ -7817,9 +7840,9 @@ class DocumentsApi
      * @throws \InvalidArgumentException
      * @return \Docustay\Model\ReviseDocument201Response|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error
      */
-    public function reviseDocument($id, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
+    public function reviseDocument($id, $idempotency_key, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
     {
-        list($response) = $this->reviseDocumentWithHttpInfo($id, $revise_document_request, $contentType);
+        list($response) = $this->reviseDocumentWithHttpInfo($id, $idempotency_key, $revise_document_request, $contentType);
         return $response;
     }
 
@@ -7829,6 +7852,7 @@ class DocumentsApi
      * Change the words of a draft
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\ReviseDocumentRequest $revise_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reviseDocument'] to see the possible values for this operation
      *
@@ -7836,9 +7860,9 @@ class DocumentsApi
      * @throws \InvalidArgumentException
      * @return array of \Docustay\Model\ReviseDocument201Response|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error, HTTP status code, HTTP response headers (array of strings)
      */
-    public function reviseDocumentWithHttpInfo($id, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
+    public function reviseDocumentWithHttpInfo($id, $idempotency_key, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
     {
-        $request = $this->reviseDocumentRequest($id, $revise_document_request, $contentType);
+        $request = $this->reviseDocumentRequest($id, $idempotency_key, $revise_document_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -8130,15 +8154,16 @@ class DocumentsApi
      * Change the words of a draft
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\ReviseDocumentRequest $revise_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reviseDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function reviseDocumentAsync($id, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
+    public function reviseDocumentAsync($id, $idempotency_key, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
     {
-        return $this->reviseDocumentAsyncWithHttpInfo($id, $revise_document_request, $contentType)
+        return $this->reviseDocumentAsyncWithHttpInfo($id, $idempotency_key, $revise_document_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -8152,16 +8177,17 @@ class DocumentsApi
      * Change the words of a draft
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\ReviseDocumentRequest $revise_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reviseDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function reviseDocumentAsyncWithHttpInfo($id, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
+    public function reviseDocumentAsyncWithHttpInfo($id, $idempotency_key, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
     {
         $returnType = '\Docustay\Model\ReviseDocument201Response';
-        $request = $this->reviseDocumentRequest($id, $revise_document_request, $contentType);
+        $request = $this->reviseDocumentRequest($id, $idempotency_key, $revise_document_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -8203,13 +8229,14 @@ class DocumentsApi
      * Create request for operation 'reviseDocument'
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\ReviseDocumentRequest $revise_document_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reviseDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function reviseDocumentRequest($id, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
+    public function reviseDocumentRequest($id, $idempotency_key, $revise_document_request, string $contentType = self::contentTypes['reviseDocument'][0])
     {
 
         // verify the required parameter 'id' is set
@@ -8219,6 +8246,19 @@ class DocumentsApi
             );
         }
 
+        // verify the required parameter 'idempotency_key' is set
+        if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $idempotency_key when calling reviseDocument'
+            );
+        }
+        if (strlen($idempotency_key) > 200) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling DocumentsApi.reviseDocument, must be smaller than or equal to 200.');
+        }
+        if (strlen($idempotency_key) < 8) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling DocumentsApi.reviseDocument, must be bigger than or equal to 8.');
+        }
+        
         // verify the required parameter 'revise_document_request' is set
         if ($revise_document_request === null || (is_array($revise_document_request) && count($revise_document_request) === 0)) {
             throw new \InvalidArgumentException(
@@ -8235,6 +8275,10 @@ class DocumentsApi
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($id !== null) {
@@ -8689,8 +8733,8 @@ class DocumentsApi
                 'Missing the required parameter $q when calling search'
             );
         }
-        if (strlen($q) > 200) {
-            throw new \InvalidArgumentException('invalid length for "$q" when calling DocumentsApi.search, must be smaller than or equal to 200.');
+        if (strlen($q) > 120) {
+            throw new \InvalidArgumentException('invalid length for "$q" when calling DocumentsApi.search, must be smaller than or equal to 120.');
         }
         
         if ($per !== null && $per > 20) {
@@ -8792,6 +8836,7 @@ class DocumentsApi
      *
      * Send a template to people to sign
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\SendRequest $send_request send_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDocument'] to see the possible values for this operation
      *
@@ -8799,9 +8844,9 @@ class DocumentsApi
      * @throws \InvalidArgumentException
      * @return \Docustay\Model\SendDocument201Response|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error
      */
-    public function sendDocument($send_request, string $contentType = self::contentTypes['sendDocument'][0])
+    public function sendDocument($idempotency_key, $send_request, string $contentType = self::contentTypes['sendDocument'][0])
     {
-        list($response) = $this->sendDocumentWithHttpInfo($send_request, $contentType);
+        list($response) = $this->sendDocumentWithHttpInfo($idempotency_key, $send_request, $contentType);
         return $response;
     }
 
@@ -8810,6 +8855,7 @@ class DocumentsApi
      *
      * Send a template to people to sign
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\SendRequest $send_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDocument'] to see the possible values for this operation
      *
@@ -8817,9 +8863,9 @@ class DocumentsApi
      * @throws \InvalidArgumentException
      * @return array of \Docustay\Model\SendDocument201Response|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error, HTTP status code, HTTP response headers (array of strings)
      */
-    public function sendDocumentWithHttpInfo($send_request, string $contentType = self::contentTypes['sendDocument'][0])
+    public function sendDocumentWithHttpInfo($idempotency_key, $send_request, string $contentType = self::contentTypes['sendDocument'][0])
     {
-        $request = $this->sendDocumentRequest($send_request, $contentType);
+        $request = $this->sendDocumentRequest($idempotency_key, $send_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -9075,15 +9121,16 @@ class DocumentsApi
      *
      * Send a template to people to sign
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\SendRequest $send_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendDocumentAsync($send_request, string $contentType = self::contentTypes['sendDocument'][0])
+    public function sendDocumentAsync($idempotency_key, $send_request, string $contentType = self::contentTypes['sendDocument'][0])
     {
-        return $this->sendDocumentAsyncWithHttpInfo($send_request, $contentType)
+        return $this->sendDocumentAsyncWithHttpInfo($idempotency_key, $send_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -9096,16 +9143,17 @@ class DocumentsApi
      *
      * Send a template to people to sign
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\SendRequest $send_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendDocumentAsyncWithHttpInfo($send_request, string $contentType = self::contentTypes['sendDocument'][0])
+    public function sendDocumentAsyncWithHttpInfo($idempotency_key, $send_request, string $contentType = self::contentTypes['sendDocument'][0])
     {
         $returnType = '\Docustay\Model\SendDocument201Response';
-        $request = $this->sendDocumentRequest($send_request, $contentType);
+        $request = $this->sendDocumentRequest($idempotency_key, $send_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -9146,15 +9194,29 @@ class DocumentsApi
     /**
      * Create request for operation 'sendDocument'
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\SendRequest $send_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function sendDocumentRequest($send_request, string $contentType = self::contentTypes['sendDocument'][0])
+    public function sendDocumentRequest($idempotency_key, $send_request, string $contentType = self::contentTypes['sendDocument'][0])
     {
 
+        // verify the required parameter 'idempotency_key' is set
+        if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $idempotency_key when calling sendDocument'
+            );
+        }
+        if (strlen($idempotency_key) > 200) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling DocumentsApi.sendDocument, must be smaller than or equal to 200.');
+        }
+        if (strlen($idempotency_key) < 8) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling DocumentsApi.sendDocument, must be bigger than or equal to 8.');
+        }
+        
         // verify the required parameter 'send_request' is set
         if ($send_request === null || (is_array($send_request) && count($send_request) === 0)) {
             throw new \InvalidArgumentException(
@@ -9171,6 +9233,10 @@ class DocumentsApi
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -9244,15 +9310,16 @@ class DocumentsApi
      * Send a draft
      *
      * @param  string $id id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDraft'] to see the possible values for this operation
      *
      * @throws \Docustay\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \Docustay\Model\SendDraft201Response|\Docustay\Model\SendDraft202Response|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error
      */
-    public function sendDraft($id, string $contentType = self::contentTypes['sendDraft'][0])
+    public function sendDraft($id, $idempotency_key, string $contentType = self::contentTypes['sendDraft'][0])
     {
-        list($response) = $this->sendDraftWithHttpInfo($id, $contentType);
+        list($response) = $this->sendDraftWithHttpInfo($id, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -9262,15 +9329,16 @@ class DocumentsApi
      * Send a draft
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDraft'] to see the possible values for this operation
      *
      * @throws \Docustay\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \Docustay\Model\SendDraft201Response|\Docustay\Model\SendDraft202Response|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error, HTTP status code, HTTP response headers (array of strings)
      */
-    public function sendDraftWithHttpInfo($id, string $contentType = self::contentTypes['sendDraft'][0])
+    public function sendDraftWithHttpInfo($id, $idempotency_key, string $contentType = self::contentTypes['sendDraft'][0])
     {
-        $request = $this->sendDraftRequest($id, $contentType);
+        $request = $this->sendDraftRequest($id, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -9597,14 +9665,15 @@ class DocumentsApi
      * Send a draft
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDraft'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendDraftAsync($id, string $contentType = self::contentTypes['sendDraft'][0])
+    public function sendDraftAsync($id, $idempotency_key, string $contentType = self::contentTypes['sendDraft'][0])
     {
-        return $this->sendDraftAsyncWithHttpInfo($id, $contentType)
+        return $this->sendDraftAsyncWithHttpInfo($id, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -9618,15 +9687,16 @@ class DocumentsApi
      * Send a draft
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDraft'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendDraftAsyncWithHttpInfo($id, string $contentType = self::contentTypes['sendDraft'][0])
+    public function sendDraftAsyncWithHttpInfo($id, $idempotency_key, string $contentType = self::contentTypes['sendDraft'][0])
     {
         $returnType = '\Docustay\Model\SendDraft201Response';
-        $request = $this->sendDraftRequest($id, $contentType);
+        $request = $this->sendDraftRequest($id, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -9668,12 +9738,13 @@ class DocumentsApi
      * Create request for operation 'sendDraft'
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDraft'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function sendDraftRequest($id, string $contentType = self::contentTypes['sendDraft'][0])
+    public function sendDraftRequest($id, $idempotency_key, string $contentType = self::contentTypes['sendDraft'][0])
     {
 
         // verify the required parameter 'id' is set
@@ -9683,6 +9754,19 @@ class DocumentsApi
             );
         }
 
+        // verify the required parameter 'idempotency_key' is set
+        if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $idempotency_key when calling sendDraft'
+            );
+        }
+        if (strlen($idempotency_key) > 200) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling DocumentsApi.sendDraft, must be smaller than or equal to 200.');
+        }
+        if (strlen($idempotency_key) < 8) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling DocumentsApi.sendDraft, must be bigger than or equal to 8.');
+        }
+        
 
         $resourcePath = '/api/v1/documents/{id}/send';
         $formParams = [];
@@ -9692,6 +9776,10 @@ class DocumentsApi
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($id !== null) {

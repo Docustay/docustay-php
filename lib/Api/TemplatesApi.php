@@ -12,7 +12,7 @@
 /**
  * Docustay API
  *
- * Send documents for signature and follow them, from your own software.  **Authentication.** Send `Authorization: Bearer <key>`. Make keys in Settings → Developers → API keys and give each only the scopes it needs: `accounts:read`, `accounts:write`, `booking:read`, `booking:write`, `documents:read`, `documents:write`, `growth:read`, `growth:write`, `items:read`, `items:write`, `lead:write`, `money:read`, `money:write`, `network:read`, `network:write`, `notifications:read`, `notifications:write`, `people:read`, `people:write`, `platform:read`, `platform:write`, `records:read`, `records:write`, `settings:read`, `settings:write`, `plays:read`, `plays:write`, `drafts:write`, `templates:read`, `templates:write`, `webhooks:read`, `webhooks:write`, `reports:read`, `account:read`, `embedded:write`. A key that starts `dsk_test_` works in **test mode**: documents it sends are practice runs (emailed only to the sender, stamped TEST, never counted or billed), it can only see and act on test documents (any other document answers `404`), and it can sign them itself with `POST /api/v1/documents/{id}/test-sign`. A key can also be limited to a list of addresses, given an expiry, or made **draft-only**.  **Draft-only keys.** A draft-only key can make and edit drafts but cannot send. Asking it to send answers `202` with an `approval`, the document stays a draft, and a person approves or declines in Settings → Developers → Approvals. Keys can also have a daily limit of drafts and sends; past it you get `429`.  **Payments.** A template may contain payment fields (text tag `type=payment` with one of `amount`, `formula`, `price` or `link`). The signer pays on Stripe's hosted page; the money goes to your own connected Stripe account; Docustay's fee is 2% on the Free plan and 0% on Pro, plus Stripe's own fees. The document's `payments` list shows each payment, its receipt and the fee. Card details never reach Docustay.  **Idempotency.** Requests that create a document or a template, or send one, need an `Idempotency-Key` header (8–200 characters). Repeating a request with the same key and body returns the first answer instead of doing it twice.  **Your own reference.** Documents and templates take `externalId` (your id for it) and `metadata` (up to 20 short key/value pairs). List with `externalId=` or `metadata[key]=value` to find them again, and both come back in webhooks.  **Errors.** Every error is `{ \"error\": { \"kind\", \"message\", \"requestId\", \"retryable\" } }`. `kind` is one of `invalid`, `unauthenticated`, `forbidden`, `not_found`, `conflict`, `rate_limited`, `dependency`, `timeout`. Quote the `requestId` to support, or search it in Settings → Developers → API log. **Plan limits** are `403 forbidden` with `error.detail.code`: `plan_document_limit` (the plan's documents this month are used; a form counts the first time it is published, and every signed response counts) or `plan_template_limit` (Free: 5 new templates a month, documents and forms together; a new version of a template you have does not count). Both carry `detail.used`, `detail.limit` and `detail.resetsAt` (the first of next month, UTC). Everything already made keeps working. Pro and self-hosted installs have no template limit.  **Rate limits.** Each key has its own per-minute budget. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` (seconds); over the budget you get `429` with a `Retry-After` header.  **Versions.** Every answer carries `Docustay-Version`, a date. A change that could break a caller gets a new date and is announced in the changelog before it ships; additions (a new field, a new route) are not breaking and do not change the date.  **Pagination.** Lists take `limit` (1–200) and `cursor`; the answer carries `page.nextCursor` (null on the last page).  **Signing links.** No response contains a signing link or access code, with one exception you control: a seat you send in `embedded` can be given an embedded signing session (`POST /api/v1/documents/{id}/embed-session`), a one-hour link for a frame on a website you listed. A key can start and follow a signature, and put your own signer in front of the form for seats you marked yourself; it cannot sign for anyone.
+ * Send documents for signature and follow them, from your own software.  **Authentication.** Send `Authorization: Bearer <key>`. Make keys in Settings → Developers → API keys and give each only the scopes it needs (there are 35 in all): `accounts:read`, `accounts:write`, `booking:read`, `booking:write`, `documents:read`, `documents:write`, `growth:read`, `growth:write`, `items:read`, `items:write`, `lead:write`, `money:read`, `money:write`, `network:read`, `network:write`, `notifications:read`, `notifications:write`, `people:read`, `people:write`, `platform:read`, `platform:write`, `records:read`, `records:write`, `settings:read`, `settings:write`, `plays:read`, `plays:write`, `drafts:write`, `templates:read`, `templates:write`, `webhooks:read`, `webhooks:write`, `reports:read`, `account:read`, `embedded:write`. A key that starts `dsk_test_` works in **test mode**: documents it sends are practice runs (emailed only to the sender, stamped TEST, never counted or billed), it can only see and act on test documents (any other document answers `404`), and it can sign them itself with `POST /api/v1/documents/{id}/test-sign`. A key can also be limited to a list of addresses, given an expiry, or made **draft-only**.  **Draft-only keys.** A draft-only key can make and edit drafts but cannot send. Asking it to send answers `202` with an `approval`, the document stays a draft, and a person approves or declines in Settings → Developers → Approvals. Keys can also have a daily limit of drafts and sends; past it you get `429`.  **Payments.** A template may contain payment fields (text tag `type=payment` with one of `amount`, `formula`, `price` or `link`). The signer pays on Stripe's hosted page; the money goes to your own connected Stripe account; Docustay's fee is 2% on the Free plan and 0% on Pro, plus Stripe's own fees. The document's `payments` list shows each payment, its receipt and the fee. Card details never reach Docustay.  **Idempotency.** Requests that create a document or a template, or send one, need an `Idempotency-Key` header (8–200 characters). Repeating a request with the same key and body returns the first answer instead of doing it twice.  **Your own reference.** Documents and templates take `externalId` (your id for it) and `metadata` (up to 20 short key/value pairs). List with `externalId=` or `metadata[key]=value` to find them again, and both come back in webhooks.  **Errors.** Every error is `{ \"error\": { \"kind\", \"message\", \"requestId\", \"retryable\" } }`. `kind` is one of `invalid`, `unauthenticated`, `forbidden`, `not_found`, `conflict`, `rate_limited`, `dependency`, `timeout`. Quote the `requestId` to support, or search it in Settings → Developers → API log. **Plan limits** are `403 forbidden` with `error.detail.code`: `plan_document_limit` (the plan's documents this month are used; a form counts the first time it is published, and every signed response counts) or `plan_template_limit` (Free: 5 new templates a month, documents and forms together; a new version of a template you have does not count). Both carry `detail.used`, `detail.limit` and `detail.resetsAt` (the first of next month, UTC). Everything already made keeps working. Pro and self-hosted installs have no template limit.  **Rate limits.** Each key has its own per-minute budget. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` (seconds); over the budget you get `429` with a `Retry-After` header.  **Versions.** Every answer carries `Docustay-Version`, a date. A change that could break a caller gets a new date and is announced in the changelog before it ships; additions (a new field, a new route) are not breaking and do not change the date.  **Pagination.** Lists take `limit` (1–200) and `cursor`; the answer carries `page.nextCursor` (null on the last page).  **Signing links.** No response contains a signing link or access code, with one exception you control: a seat you send in `embedded` can be given an embedded signing session (`POST /api/v1/documents/{id}/embed-session`), a one-hour link for a frame on a website you listed. A key can start and follow a signature, and put your own signer in front of the form for seats you marked yourself; it cannot sign for anyone.
  *
  * The version of the OpenAPI document: 2026-10-07
  * Contact: support@docustay.app
@@ -155,6 +155,7 @@ class TemplatesApi
      *
      * Make a template from a file with text tags
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\FileTemplateRequest $file_template_request file_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromFile'] to see the possible values for this operation
      *
@@ -162,9 +163,9 @@ class TemplatesApi
      * @throws \InvalidArgumentException
      * @return \Docustay\Model\TemplateMade|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error
      */
-    public function createTemplateFromFile($file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
+    public function createTemplateFromFile($idempotency_key, $file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
     {
-        list($response) = $this->createTemplateFromFileWithHttpInfo($file_template_request, $contentType);
+        list($response) = $this->createTemplateFromFileWithHttpInfo($idempotency_key, $file_template_request, $contentType);
         return $response;
     }
 
@@ -173,6 +174,7 @@ class TemplatesApi
      *
      * Make a template from a file with text tags
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\FileTemplateRequest $file_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromFile'] to see the possible values for this operation
      *
@@ -180,9 +182,9 @@ class TemplatesApi
      * @throws \InvalidArgumentException
      * @return array of \Docustay\Model\TemplateMade|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createTemplateFromFileWithHttpInfo($file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
+    public function createTemplateFromFileWithHttpInfo($idempotency_key, $file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
     {
-        $request = $this->createTemplateFromFileRequest($file_template_request, $contentType);
+        $request = $this->createTemplateFromFileRequest($idempotency_key, $file_template_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -438,15 +440,16 @@ class TemplatesApi
      *
      * Make a template from a file with text tags
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\FileTemplateRequest $file_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplateFromFileAsync($file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
+    public function createTemplateFromFileAsync($idempotency_key, $file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
     {
-        return $this->createTemplateFromFileAsyncWithHttpInfo($file_template_request, $contentType)
+        return $this->createTemplateFromFileAsyncWithHttpInfo($idempotency_key, $file_template_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -459,16 +462,17 @@ class TemplatesApi
      *
      * Make a template from a file with text tags
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\FileTemplateRequest $file_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplateFromFileAsyncWithHttpInfo($file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
+    public function createTemplateFromFileAsyncWithHttpInfo($idempotency_key, $file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
     {
         $returnType = '\Docustay\Model\TemplateMade';
-        $request = $this->createTemplateFromFileRequest($file_template_request, $contentType);
+        $request = $this->createTemplateFromFileRequest($idempotency_key, $file_template_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -509,15 +513,29 @@ class TemplatesApi
     /**
      * Create request for operation 'createTemplateFromFile'
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\FileTemplateRequest $file_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createTemplateFromFileRequest($file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
+    public function createTemplateFromFileRequest($idempotency_key, $file_template_request, string $contentType = self::contentTypes['createTemplateFromFile'][0])
     {
 
+        // verify the required parameter 'idempotency_key' is set
+        if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $idempotency_key when calling createTemplateFromFile'
+            );
+        }
+        if (strlen($idempotency_key) > 200) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling TemplatesApi.createTemplateFromFile, must be smaller than or equal to 200.');
+        }
+        if (strlen($idempotency_key) < 8) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling TemplatesApi.createTemplateFromFile, must be bigger than or equal to 8.');
+        }
+        
         // verify the required parameter 'file_template_request' is set
         if ($file_template_request === null || (is_array($file_template_request) && count($file_template_request) === 0)) {
             throw new \InvalidArgumentException(
@@ -534,6 +552,10 @@ class TemplatesApi
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -606,6 +628,7 @@ class TemplatesApi
      *
      * Make a template from HTML with text tags
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\HtmlTemplateRequest $html_template_request html_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromHtml'] to see the possible values for this operation
      *
@@ -613,9 +636,9 @@ class TemplatesApi
      * @throws \InvalidArgumentException
      * @return \Docustay\Model\TemplateMade|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error
      */
-    public function createTemplateFromHtml($html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
+    public function createTemplateFromHtml($idempotency_key, $html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
     {
-        list($response) = $this->createTemplateFromHtmlWithHttpInfo($html_template_request, $contentType);
+        list($response) = $this->createTemplateFromHtmlWithHttpInfo($idempotency_key, $html_template_request, $contentType);
         return $response;
     }
 
@@ -624,6 +647,7 @@ class TemplatesApi
      *
      * Make a template from HTML with text tags
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\HtmlTemplateRequest $html_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromHtml'] to see the possible values for this operation
      *
@@ -631,9 +655,9 @@ class TemplatesApi
      * @throws \InvalidArgumentException
      * @return array of \Docustay\Model\TemplateMade|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createTemplateFromHtmlWithHttpInfo($html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
+    public function createTemplateFromHtmlWithHttpInfo($idempotency_key, $html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
     {
-        $request = $this->createTemplateFromHtmlRequest($html_template_request, $contentType);
+        $request = $this->createTemplateFromHtmlRequest($idempotency_key, $html_template_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -889,15 +913,16 @@ class TemplatesApi
      *
      * Make a template from HTML with text tags
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\HtmlTemplateRequest $html_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromHtml'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplateFromHtmlAsync($html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
+    public function createTemplateFromHtmlAsync($idempotency_key, $html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
     {
-        return $this->createTemplateFromHtmlAsyncWithHttpInfo($html_template_request, $contentType)
+        return $this->createTemplateFromHtmlAsyncWithHttpInfo($idempotency_key, $html_template_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -910,16 +935,17 @@ class TemplatesApi
      *
      * Make a template from HTML with text tags
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\HtmlTemplateRequest $html_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromHtml'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplateFromHtmlAsyncWithHttpInfo($html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
+    public function createTemplateFromHtmlAsyncWithHttpInfo($idempotency_key, $html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
     {
         $returnType = '\Docustay\Model\TemplateMade';
-        $request = $this->createTemplateFromHtmlRequest($html_template_request, $contentType);
+        $request = $this->createTemplateFromHtmlRequest($idempotency_key, $html_template_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -960,15 +986,29 @@ class TemplatesApi
     /**
      * Create request for operation 'createTemplateFromHtml'
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\HtmlTemplateRequest $html_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromHtml'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createTemplateFromHtmlRequest($html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
+    public function createTemplateFromHtmlRequest($idempotency_key, $html_template_request, string $contentType = self::contentTypes['createTemplateFromHtml'][0])
     {
 
+        // verify the required parameter 'idempotency_key' is set
+        if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $idempotency_key when calling createTemplateFromHtml'
+            );
+        }
+        if (strlen($idempotency_key) > 200) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling TemplatesApi.createTemplateFromHtml, must be smaller than or equal to 200.');
+        }
+        if (strlen($idempotency_key) < 8) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling TemplatesApi.createTemplateFromHtml, must be bigger than or equal to 8.');
+        }
+        
         // verify the required parameter 'html_template_request' is set
         if ($html_template_request === null || (is_array($html_template_request) && count($html_template_request) === 0)) {
             throw new \InvalidArgumentException(
@@ -985,6 +1025,10 @@ class TemplatesApi
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -1057,6 +1101,7 @@ class TemplatesApi
      *
      * Make a template from a document source
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateTemplateFromSourceRequest $create_template_from_source_request create_template_from_source_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromSource'] to see the possible values for this operation
      *
@@ -1064,9 +1109,9 @@ class TemplatesApi
      * @throws \InvalidArgumentException
      * @return \Docustay\Model\CreateTemplateFromSource201Response|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error
      */
-    public function createTemplateFromSource($create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
+    public function createTemplateFromSource($idempotency_key, $create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
     {
-        list($response) = $this->createTemplateFromSourceWithHttpInfo($create_template_from_source_request, $contentType);
+        list($response) = $this->createTemplateFromSourceWithHttpInfo($idempotency_key, $create_template_from_source_request, $contentType);
         return $response;
     }
 
@@ -1075,6 +1120,7 @@ class TemplatesApi
      *
      * Make a template from a document source
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateTemplateFromSourceRequest $create_template_from_source_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromSource'] to see the possible values for this operation
      *
@@ -1082,9 +1128,9 @@ class TemplatesApi
      * @throws \InvalidArgumentException
      * @return array of \Docustay\Model\CreateTemplateFromSource201Response|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createTemplateFromSourceWithHttpInfo($create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
+    public function createTemplateFromSourceWithHttpInfo($idempotency_key, $create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
     {
-        $request = $this->createTemplateFromSourceRequest($create_template_from_source_request, $contentType);
+        $request = $this->createTemplateFromSourceRequest($idempotency_key, $create_template_from_source_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1340,15 +1386,16 @@ class TemplatesApi
      *
      * Make a template from a document source
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateTemplateFromSourceRequest $create_template_from_source_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromSource'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplateFromSourceAsync($create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
+    public function createTemplateFromSourceAsync($idempotency_key, $create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
     {
-        return $this->createTemplateFromSourceAsyncWithHttpInfo($create_template_from_source_request, $contentType)
+        return $this->createTemplateFromSourceAsyncWithHttpInfo($idempotency_key, $create_template_from_source_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1361,16 +1408,17 @@ class TemplatesApi
      *
      * Make a template from a document source
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateTemplateFromSourceRequest $create_template_from_source_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromSource'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplateFromSourceAsyncWithHttpInfo($create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
+    public function createTemplateFromSourceAsyncWithHttpInfo($idempotency_key, $create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
     {
         $returnType = '\Docustay\Model\CreateTemplateFromSource201Response';
-        $request = $this->createTemplateFromSourceRequest($create_template_from_source_request, $contentType);
+        $request = $this->createTemplateFromSourceRequest($idempotency_key, $create_template_from_source_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1411,15 +1459,29 @@ class TemplatesApi
     /**
      * Create request for operation 'createTemplateFromSource'
      *
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\CreateTemplateFromSourceRequest $create_template_from_source_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplateFromSource'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createTemplateFromSourceRequest($create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
+    public function createTemplateFromSourceRequest($idempotency_key, $create_template_from_source_request, string $contentType = self::contentTypes['createTemplateFromSource'][0])
     {
 
+        // verify the required parameter 'idempotency_key' is set
+        if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $idempotency_key when calling createTemplateFromSource'
+            );
+        }
+        if (strlen($idempotency_key) > 200) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling TemplatesApi.createTemplateFromSource, must be smaller than or equal to 200.');
+        }
+        if (strlen($idempotency_key) < 8) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling TemplatesApi.createTemplateFromSource, must be bigger than or equal to 8.');
+        }
+        
         // verify the required parameter 'create_template_from_source_request' is set
         if ($create_template_from_source_request === null || (is_array($create_template_from_source_request) && count($create_template_from_source_request) === 0)) {
             throw new \InvalidArgumentException(
@@ -1436,6 +1498,10 @@ class TemplatesApi
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -4480,6 +4546,7 @@ class TemplatesApi
      * Use a written template for people
      *
      * @param  string $id id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\UseTemplateRequest $use_template_request use_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['useTemplate'] to see the possible values for this operation
      *
@@ -4487,9 +4554,9 @@ class TemplatesApi
      * @throws \InvalidArgumentException
      * @return \Docustay\Model\DocumentMade|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error
      */
-    public function useTemplate($id, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
+    public function useTemplate($id, $idempotency_key, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
     {
-        list($response) = $this->useTemplateWithHttpInfo($id, $use_template_request, $contentType);
+        list($response) = $this->useTemplateWithHttpInfo($id, $idempotency_key, $use_template_request, $contentType);
         return $response;
     }
 
@@ -4499,6 +4566,7 @@ class TemplatesApi
      * Use a written template for people
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\UseTemplateRequest $use_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['useTemplate'] to see the possible values for this operation
      *
@@ -4506,9 +4574,9 @@ class TemplatesApi
      * @throws \InvalidArgumentException
      * @return array of \Docustay\Model\DocumentMade|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error|\Docustay\Model\Error, HTTP status code, HTTP response headers (array of strings)
      */
-    public function useTemplateWithHttpInfo($id, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
+    public function useTemplateWithHttpInfo($id, $idempotency_key, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
     {
-        $request = $this->useTemplateRequest($id, $use_template_request, $contentType);
+        $request = $this->useTemplateRequest($id, $idempotency_key, $use_template_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4800,15 +4868,16 @@ class TemplatesApi
      * Use a written template for people
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\UseTemplateRequest $use_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['useTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function useTemplateAsync($id, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
+    public function useTemplateAsync($id, $idempotency_key, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
     {
-        return $this->useTemplateAsyncWithHttpInfo($id, $use_template_request, $contentType)
+        return $this->useTemplateAsyncWithHttpInfo($id, $idempotency_key, $use_template_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4822,16 +4891,17 @@ class TemplatesApi
      * Use a written template for people
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\UseTemplateRequest $use_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['useTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function useTemplateAsyncWithHttpInfo($id, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
+    public function useTemplateAsyncWithHttpInfo($id, $idempotency_key, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
     {
         $returnType = '\Docustay\Model\DocumentMade';
-        $request = $this->useTemplateRequest($id, $use_template_request, $contentType);
+        $request = $this->useTemplateRequest($id, $idempotency_key, $use_template_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -4873,13 +4943,14 @@ class TemplatesApi
      * Create request for operation 'useTemplate'
      *
      * @param  string $id (required)
+     * @param  string $idempotency_key A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. (required)
      * @param  \Docustay\Model\UseTemplateRequest $use_template_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['useTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function useTemplateRequest($id, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
+    public function useTemplateRequest($id, $idempotency_key, $use_template_request, string $contentType = self::contentTypes['useTemplate'][0])
     {
 
         // verify the required parameter 'id' is set
@@ -4889,6 +4960,19 @@ class TemplatesApi
             );
         }
 
+        // verify the required parameter 'idempotency_key' is set
+        if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $idempotency_key when calling useTemplate'
+            );
+        }
+        if (strlen($idempotency_key) > 200) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling TemplatesApi.useTemplate, must be smaller than or equal to 200.');
+        }
+        if (strlen($idempotency_key) < 8) {
+            throw new \InvalidArgumentException('invalid length for "$idempotency_key" when calling TemplatesApi.useTemplate, must be bigger than or equal to 8.');
+        }
+        
         // verify the required parameter 'use_template_request' is set
         if ($use_template_request === null || (is_array($use_template_request) && count($use_template_request) === 0)) {
             throw new \InvalidArgumentException(
@@ -4905,6 +4989,10 @@ class TemplatesApi
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($id !== null) {

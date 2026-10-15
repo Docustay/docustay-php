@@ -73,7 +73,7 @@ try {
 ## `refundPayment()`
 
 ```php
-refundPayment($id, $refund_payment_request): mixed
+refundPayment($id, $idempotency_key, $refund_payment_request): mixed
 ```
 
 Refund a payment, in full or in part
@@ -98,10 +98,11 @@ $apiInstance = new Docustay\Api\PaymentsApi(
     $config
 );
 $id = 'id_example'; // string
+$idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
 $refund_payment_request = new \Docustay\Model\RefundPaymentRequest(); // \Docustay\Model\RefundPaymentRequest
 
 try {
-    $result = $apiInstance->refundPayment($id, $refund_payment_request);
+    $result = $apiInstance->refundPayment($id, $idempotency_key, $refund_payment_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PaymentsApi->refundPayment: ', $e->getMessage(), PHP_EOL;
@@ -113,6 +114,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
+| **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
 | **refund_payment_request** | [**\Docustay\Model\RefundPaymentRequest**](../Model/RefundPaymentRequest.md)|  | |
 
 ### Return type
