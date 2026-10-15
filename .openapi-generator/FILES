@@ -42,6 +42,8 @@ docs/Model/DetectedField.md
 docs/Model/Document.md
 docs/Model/DocumentEventsInner.md
 docs/Model/DocumentMade.md
+docs/Model/DocumentMadeApproval.md
+docs/Model/DocumentProgress.md
 docs/Model/DocumentSummary.md
 docs/Model/DraftFromLibraryTemplateRequest.md
 docs/Model/DraftWithAi202Response.md
@@ -88,6 +90,7 @@ docs/Model/Remind200Response.md
 docs/Model/RemindRequest.md
 docs/Model/Report.md
 docs/Model/ReportByDayInner.md
+docs/Model/ReportByTeamInner.md
 docs/Model/ReportByTemplateInner.md
 docs/Model/ReportTotals.md
 docs/Model/ReportWindow.md
@@ -178,6 +181,8 @@ lib/Model/DetectedField.php
 lib/Model/Document.php
 lib/Model/DocumentEventsInner.php
 lib/Model/DocumentMade.php
+lib/Model/DocumentMadeApproval.php
+lib/Model/DocumentProgress.php
 lib/Model/DocumentSummary.php
 lib/Model/DraftFromLibraryTemplateRequest.php
 lib/Model/DraftWithAi202Response.php
@@ -225,6 +230,7 @@ lib/Model/Remind200Response.php
 lib/Model/RemindRequest.php
 lib/Model/Report.php
 lib/Model/ReportByDayInner.php
+lib/Model/ReportByTeamInner.php
 lib/Model/ReportByTemplateInner.php
 lib/Model/ReportTotals.php
 lib/Model/ReportWindow.php
@@ -311,7 +317,9 @@ test/Model/DetectFieldsResultSummaryTest.php
 test/Model/DetectFieldsResultTest.php
 test/Model/DetectedFieldTest.php
 test/Model/DocumentEventsInnerTest.php
+test/Model/DocumentMadeApprovalTest.php
 test/Model/DocumentMadeTest.php
+test/Model/DocumentProgressTest.php
 test/Model/DocumentSummaryTest.php
 test/Model/DocumentTest.php
 test/Model/DraftFromLibraryTemplateRequestTest.php
@@ -358,6 +366,7 @@ test/Model/RefundPaymentRequestTest.php
 test/Model/Remind200ResponseTest.php
 test/Model/RemindRequestTest.php
 test/Model/ReportByDayInnerTest.php
+test/Model/ReportByTeamInnerTest.php
 test/Model/ReportByTemplateInnerTest.php
 test/Model/ReportTest.php
 test/Model/ReportTotalsTest.php

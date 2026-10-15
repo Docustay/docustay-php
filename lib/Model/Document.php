@@ -69,7 +69,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'executed_at' => 'string',
         'voided_at' => 'string',
         'void_reason' => 'string',
-        'progress' => '\Docustay\Model\TestSign200ResponseProgress',
+        'progress' => '\Docustay\Model\DocumentProgress',
         'signed_copy_available' => 'bool',
         'parties' => '\Docustay\Model\Party[]',
         'payments' => '\Docustay\Model\Payment[]',
@@ -108,17 +108,17 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'external_id' => true,
+        'external_id' => false,
         'metadata' => false,
         'test' => false,
         'id' => false,
         'title' => false,
         'state' => false,
-        'sent_at' => true,
-        'expires_at' => true,
-        'executed_at' => true,
-        'voided_at' => true,
-        'void_reason' => true,
+        'sent_at' => false,
+        'expires_at' => false,
+        'executed_at' => false,
+        'voided_at' => false,
+        'void_reason' => false,
         'progress' => false,
         'signed_copy_available' => false,
         'parties' => false,
@@ -471,19 +471,12 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setExternalId($external_id)
     {
         if (is_null($external_id)) {
-            array_push($this->openAPINullablesSetToNull, 'external_id');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('external_id', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable external_id cannot be null');
         }
-        if (!is_null($external_id) && (mb_strlen($external_id) > 200)) {
+        if ((mb_strlen($external_id) > 200)) {
             throw new \InvalidArgumentException('invalid length for $external_id when calling Document., must be smaller than or equal to 200.');
         }
-        if (!is_null($external_id) && (mb_strlen($external_id) < 1)) {
+        if ((mb_strlen($external_id) < 1)) {
             throw new \InvalidArgumentException('invalid length for $external_id when calling Document., must be bigger than or equal to 1.');
         }
 
@@ -647,14 +640,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setSentAt($sent_at)
     {
         if (is_null($sent_at)) {
-            array_push($this->openAPINullablesSetToNull, 'sent_at');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('sent_at', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable sent_at cannot be null');
         }
         $this->container['sent_at'] = $sent_at;
 
@@ -681,14 +667,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setExpiresAt($expires_at)
     {
         if (is_null($expires_at)) {
-            array_push($this->openAPINullablesSetToNull, 'expires_at');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('expires_at', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable expires_at cannot be null');
         }
         $this->container['expires_at'] = $expires_at;
 
@@ -715,14 +694,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setExecutedAt($executed_at)
     {
         if (is_null($executed_at)) {
-            array_push($this->openAPINullablesSetToNull, 'executed_at');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('executed_at', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable executed_at cannot be null');
         }
         $this->container['executed_at'] = $executed_at;
 
@@ -749,14 +721,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setVoidedAt($voided_at)
     {
         if (is_null($voided_at)) {
-            array_push($this->openAPINullablesSetToNull, 'voided_at');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('voided_at', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable voided_at cannot be null');
         }
         $this->container['voided_at'] = $voided_at;
 
@@ -783,14 +748,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setVoidReason($void_reason)
     {
         if (is_null($void_reason)) {
-            array_push($this->openAPINullablesSetToNull, 'void_reason');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('void_reason', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable void_reason cannot be null');
         }
         $this->container['void_reason'] = $void_reason;
 
@@ -800,7 +758,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets progress
      *
-     * @return \Docustay\Model\TestSign200ResponseProgress
+     * @return \Docustay\Model\DocumentProgress
      */
     public function getProgress()
     {
@@ -810,7 +768,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets progress
      *
-     * @param \Docustay\Model\TestSign200ResponseProgress $progress progress
+     * @param \Docustay\Model\DocumentProgress $progress progress
      *
      * @return self
      */

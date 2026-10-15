@@ -88,11 +88,11 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'external_id' => true,
+        'external_id' => false,
         'metadata' => false,
         'id' => false,
         'name' => false,
-        'pages' => true,
+        'pages' => false,
         'seats' => false
     ];
 
@@ -365,19 +365,12 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setExternalId($external_id)
     {
         if (is_null($external_id)) {
-            array_push($this->openAPINullablesSetToNull, 'external_id');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('external_id', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable external_id cannot be null');
         }
-        if (!is_null($external_id) && (mb_strlen($external_id) > 200)) {
+        if ((mb_strlen($external_id) > 200)) {
             throw new \InvalidArgumentException('invalid length for $external_id when calling Template., must be smaller than or equal to 200.');
         }
-        if (!is_null($external_id) && (mb_strlen($external_id) < 1)) {
+        if ((mb_strlen($external_id) < 1)) {
             throw new \InvalidArgumentException('invalid length for $external_id when calling Template., must be bigger than or equal to 1.');
         }
 
@@ -487,14 +480,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPages($pages)
     {
         if (is_null($pages)) {
-            array_push($this->openAPINullablesSetToNull, 'pages');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('pages', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable pages cannot be null');
         }
         $this->container['pages'] = $pages;
 

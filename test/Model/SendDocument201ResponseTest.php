@@ -99,6 +99,24 @@ class SendDocument201ResponseTest extends TestCase
     }
 
     /**
+     * Test attribute "external_id"
+     */
+    public function testPropertyExternalId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "metadata"
+     */
+    public function testPropertyMetadata()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "emailed"
      */
     public function testPropertyEmailed()

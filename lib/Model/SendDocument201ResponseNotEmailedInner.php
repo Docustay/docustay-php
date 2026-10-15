@@ -87,7 +87,7 @@ class SendDocument201ResponseNotEmailedInner implements ModelInterface, ArrayAcc
         'seat' => false,
         'email' => false,
         'reason' => false,
-        'detail' => true
+        'detail' => false
     ];
 
     /**
@@ -424,14 +424,7 @@ class SendDocument201ResponseNotEmailedInner implements ModelInterface, ArrayAcc
     public function setDetail($detail)
     {
         if (is_null($detail)) {
-            array_push($this->openAPINullablesSetToNull, 'detail');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('detail', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable detail cannot be null');
         }
         $this->container['detail'] = $detail;
 

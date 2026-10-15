@@ -58,7 +58,7 @@ class DocumentMade implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var string[]
       */
     protected static $openAPITypes = [
-        'approval' => '\Docustay\Model\SendDraft202ResponseApproval',
+        'approval' => '\Docustay\Model\DocumentMadeApproval',
         'external_id' => 'string',
         'metadata' => 'array<string,string>',
         'id' => 'string',
@@ -95,7 +95,7 @@ class DocumentMade implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'approval' => false,
-        'external_id' => true,
+        'external_id' => false,
         'metadata' => false,
         'id' => false,
         'state' => false,
@@ -387,7 +387,7 @@ class DocumentMade implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets approval
      *
-     * @return \Docustay\Model\SendDraft202ResponseApproval|null
+     * @return \Docustay\Model\DocumentMadeApproval|null
      */
     public function getApproval()
     {
@@ -397,7 +397,7 @@ class DocumentMade implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets approval
      *
-     * @param \Docustay\Model\SendDraft202ResponseApproval|null $approval approval
+     * @param \Docustay\Model\DocumentMadeApproval|null $approval approval
      *
      * @return self
      */
@@ -431,19 +431,12 @@ class DocumentMade implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setExternalId($external_id)
     {
         if (is_null($external_id)) {
-            array_push($this->openAPINullablesSetToNull, 'external_id');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('external_id', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable external_id cannot be null');
         }
-        if (!is_null($external_id) && (mb_strlen($external_id) > 200)) {
+        if ((mb_strlen($external_id) > 200)) {
             throw new \InvalidArgumentException('invalid length for $external_id when calling DocumentMade., must be smaller than or equal to 200.');
         }
-        if (!is_null($external_id) && (mb_strlen($external_id) < 1)) {
+        if ((mb_strlen($external_id) < 1)) {
             throw new \InvalidArgumentException('invalid length for $external_id when calling DocumentMade., must be bigger than or equal to 1.');
         }
 

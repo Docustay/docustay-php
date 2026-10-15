@@ -81,7 +81,7 @@ class PaymentsStatus200Response implements ModelInterface, ArrayAccess, \JsonSer
       */
     protected static array $openAPINullables = [
         'status' => false,
-        'mode' => true
+        'mode' => false
     ];
 
     /**
@@ -386,14 +386,7 @@ class PaymentsStatus200Response implements ModelInterface, ArrayAccess, \JsonSer
     public function setMode($mode)
     {
         if (is_null($mode)) {
-            array_push($this->openAPINullablesSetToNull, 'mode');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('mode', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable mode cannot be null');
         }
         $this->container['mode'] = $mode;
 

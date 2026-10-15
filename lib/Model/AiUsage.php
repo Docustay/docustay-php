@@ -99,13 +99,13 @@ class AiUsage implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'mode' => false,
-        'plan' => true,
-        'allowance' => true,
-        'used' => true,
-        'remaining' => true,
-        'percent' => true,
+        'plan' => false,
+        'allowance' => false,
+        'used' => false,
+        'remaining' => false,
+        'percent' => false,
         'state' => false,
-        'resets_at' => true,
+        'resets_at' => false,
         'by_feature' => false,
         'think_harder' => false,
         'paused' => false
@@ -476,14 +476,7 @@ class AiUsage implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPlan($plan)
     {
         if (is_null($plan)) {
-            array_push($this->openAPINullablesSetToNull, 'plan');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('plan', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable plan cannot be null');
         }
         $this->container['plan'] = $plan;
 
@@ -510,14 +503,7 @@ class AiUsage implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setAllowance($allowance)
     {
         if (is_null($allowance)) {
-            array_push($this->openAPINullablesSetToNull, 'allowance');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('allowance', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable allowance cannot be null');
         }
         $this->container['allowance'] = $allowance;
 
@@ -544,14 +530,7 @@ class AiUsage implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setUsed($used)
     {
         if (is_null($used)) {
-            array_push($this->openAPINullablesSetToNull, 'used');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('used', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable used cannot be null');
         }
         $this->container['used'] = $used;
 
@@ -578,14 +557,7 @@ class AiUsage implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setRemaining($remaining)
     {
         if (is_null($remaining)) {
-            array_push($this->openAPINullablesSetToNull, 'remaining');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('remaining', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable remaining cannot be null');
         }
         $this->container['remaining'] = $remaining;
 
@@ -612,14 +584,7 @@ class AiUsage implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPercent($percent)
     {
         if (is_null($percent)) {
-            array_push($this->openAPINullablesSetToNull, 'percent');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('percent', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable percent cannot be null');
         }
         $this->container['percent'] = $percent;
 
@@ -673,14 +638,7 @@ class AiUsage implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setResetsAt($resets_at)
     {
         if (is_null($resets_at)) {
-            array_push($this->openAPINullablesSetToNull, 'resets_at');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('resets_at', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable resets_at cannot be null');
         }
         $this->container['resets_at'] = $resets_at;
 

@@ -63,8 +63,8 @@ class Report implements ModelInterface, ArrayAccess, \JsonSerializable
         'totals' => '\Docustay\Model\ReportTotals',
         'by_day' => '\Docustay\Model\ReportByDayInner[]',
         'by_template' => '\Docustay\Model\ReportByTemplateInner[]',
-        'by_team' => '\Docustay\Model\ReportByTemplateInner[]',
-        'by_sender' => '\Docustay\Model\ReportByTemplateInner[]'
+        'by_team' => '\Docustay\Model\ReportByTeamInner[]',
+        'by_sender' => '\Docustay\Model\ReportByTeamInner[]'
     ];
 
     /**
@@ -491,7 +491,7 @@ class Report implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets by_team
      *
-     * @return \Docustay\Model\ReportByTemplateInner[]
+     * @return \Docustay\Model\ReportByTeamInner[]
      */
     public function getByTeam()
     {
@@ -501,7 +501,7 @@ class Report implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets by_team
      *
-     * @param \Docustay\Model\ReportByTemplateInner[] $by_team by_team
+     * @param \Docustay\Model\ReportByTeamInner[] $by_team by_team
      *
      * @return self
      */
@@ -518,7 +518,7 @@ class Report implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets by_sender
      *
-     * @return \Docustay\Model\ReportByTemplateInner[]
+     * @return \Docustay\Model\ReportByTeamInner[]
      */
     public function getBySender()
     {
@@ -528,7 +528,7 @@ class Report implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets by_sender
      *
-     * @param \Docustay\Model\ReportByTemplateInner[] $by_sender by_sender
+     * @param \Docustay\Model\ReportByTeamInner[] $by_sender by_sender
      *
      * @return self
      */

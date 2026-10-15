@@ -89,10 +89,10 @@ class TestWebhook200Response implements ModelInterface, ArrayAccess, \JsonSerial
       */
     protected static array $openAPINullables = [
         'outcome' => false,
-        'status' => true,
+        'status' => false,
         'duration_ms' => false,
-        'response_excerpt' => true,
-        'error' => true,
+        'response_excerpt' => false,
+        'error' => false,
         'topic' => false
     ];
 
@@ -390,14 +390,7 @@ class TestWebhook200Response implements ModelInterface, ArrayAccess, \JsonSerial
     public function setStatus($status)
     {
         if (is_null($status)) {
-            array_push($this->openAPINullablesSetToNull, 'status');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('status', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
         }
         $this->container['status'] = $status;
 
@@ -451,14 +444,7 @@ class TestWebhook200Response implements ModelInterface, ArrayAccess, \JsonSerial
     public function setResponseExcerpt($response_excerpt)
     {
         if (is_null($response_excerpt)) {
-            array_push($this->openAPINullablesSetToNull, 'response_excerpt');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('response_excerpt', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable response_excerpt cannot be null');
         }
         $this->container['response_excerpt'] = $response_excerpt;
 
@@ -485,14 +471,7 @@ class TestWebhook200Response implements ModelInterface, ArrayAccess, \JsonSerial
     public function setError($error)
     {
         if (is_null($error)) {
-            array_push($this->openAPINullablesSetToNull, 'error');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('error', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable error cannot be null');
         }
         $this->container['error'] = $error;
 

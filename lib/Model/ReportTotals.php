@@ -100,9 +100,9 @@ class ReportTotals implements ModelInterface, ArrayAccess, \JsonSerializable
         'expired' => false,
         'voided' => false,
         'waiting_now' => false,
-        'completion_rate' => true,
-        'average_hours_to_complete' => true,
-        'median_hours_to_complete' => true
+        'completion_rate' => false,
+        'average_hours_to_complete' => false,
+        'median_hours_to_complete' => false
     ];
 
     /**
@@ -555,14 +555,7 @@ class ReportTotals implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setCompletionRate($completion_rate)
     {
         if (is_null($completion_rate)) {
-            array_push($this->openAPINullablesSetToNull, 'completion_rate');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('completion_rate', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable completion_rate cannot be null');
         }
         $this->container['completion_rate'] = $completion_rate;
 
@@ -589,14 +582,7 @@ class ReportTotals implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setAverageHoursToComplete($average_hours_to_complete)
     {
         if (is_null($average_hours_to_complete)) {
-            array_push($this->openAPINullablesSetToNull, 'average_hours_to_complete');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('average_hours_to_complete', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable average_hours_to_complete cannot be null');
         }
         $this->container['average_hours_to_complete'] = $average_hours_to_complete;
 
@@ -623,14 +609,7 @@ class ReportTotals implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setMedianHoursToComplete($median_hours_to_complete)
     {
         if (is_null($median_hours_to_complete)) {
-            array_push($this->openAPINullablesSetToNull, 'median_hours_to_complete');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('median_hours_to_complete', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable median_hours_to_complete cannot be null');
         }
         $this->container['median_hours_to_complete'] = $median_hours_to_complete;
 

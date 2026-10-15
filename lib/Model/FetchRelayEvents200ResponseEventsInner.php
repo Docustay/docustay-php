@@ -87,7 +87,7 @@ class FetchRelayEvents200ResponseEventsInner implements ModelInterface, ArrayAcc
       */
     protected static array $openAPINullables = [
         'id' => false,
-        'topic' => true,
+        'topic' => false,
         'headers' => false,
         'body' => false,
         'at' => false
@@ -380,14 +380,7 @@ class FetchRelayEvents200ResponseEventsInner implements ModelInterface, ArrayAcc
     public function setTopic($topic)
     {
         if (is_null($topic)) {
-            array_push($this->openAPINullablesSetToNull, 'topic');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('topic', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable topic cannot be null');
         }
         $this->container['topic'] = $topic;
 

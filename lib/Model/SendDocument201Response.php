@@ -60,6 +60,8 @@ class SendDocument201Response implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $openAPITypes = [
         'id' => 'string',
         'state' => 'string',
+        'external_id' => 'string',
+        'metadata' => 'array<string,string>',
         'emailed' => 'int',
         'not_emailed' => '\Docustay\Model\SendDocument201ResponseNotEmailedInner[]'
     ];
@@ -74,6 +76,8 @@ class SendDocument201Response implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $openAPIFormats = [
         'id' => 'uuid',
         'state' => null,
+        'external_id' => null,
+        'metadata' => null,
         'emailed' => null,
         'not_emailed' => null
     ];
@@ -86,6 +90,8 @@ class SendDocument201Response implements ModelInterface, ArrayAccess, \JsonSeria
     protected static array $openAPINullables = [
         'id' => false,
         'state' => false,
+        'external_id' => false,
+        'metadata' => false,
         'emailed' => false,
         'not_emailed' => false
     ];
@@ -178,6 +184,8 @@ class SendDocument201Response implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $attributeMap = [
         'id' => 'id',
         'state' => 'state',
+        'external_id' => 'externalId',
+        'metadata' => 'metadata',
         'emailed' => 'emailed',
         'not_emailed' => 'notEmailed'
     ];
@@ -190,6 +198,8 @@ class SendDocument201Response implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $setters = [
         'id' => 'setId',
         'state' => 'setState',
+        'external_id' => 'setExternalId',
+        'metadata' => 'setMetadata',
         'emailed' => 'setEmailed',
         'not_emailed' => 'setNotEmailed'
     ];
@@ -202,6 +212,8 @@ class SendDocument201Response implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $getters = [
         'id' => 'getId',
         'state' => 'getState',
+        'external_id' => 'getExternalId',
+        'metadata' => 'getMetadata',
         'emailed' => 'getEmailed',
         'not_emailed' => 'getNotEmailed'
     ];
@@ -265,6 +277,8 @@ class SendDocument201Response implements ModelInterface, ArrayAccess, \JsonSeria
     {
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('state', $data ?? [], null);
+        $this->setIfExists('external_id', $data ?? [], null);
+        $this->setIfExists('metadata', $data ?? [], null);
         $this->setIfExists('emailed', $data ?? [], null);
         $this->setIfExists('not_emailed', $data ?? [], null);
     }
@@ -302,6 +316,14 @@ class SendDocument201Response implements ModelInterface, ArrayAccess, \JsonSeria
         if ($this->container['state'] === null) {
             $invalidProperties[] = "'state' can't be null";
         }
+        if (!is_null($this->container['external_id']) && (mb_strlen($this->container['external_id']) > 200)) {
+            $invalidProperties[] = "invalid value for 'external_id', the character length must be smaller than or equal to 200.";
+        }
+
+        if (!is_null($this->container['external_id']) && (mb_strlen($this->container['external_id']) < 1)) {
+            $invalidProperties[] = "invalid value for 'external_id', the character length must be bigger than or equal to 1.";
+        }
+
         if ($this->container['emailed'] === null) {
             $invalidProperties[] = "'emailed' can't be null";
         }
@@ -373,6 +395,67 @@ class SendDocument201Response implements ModelInterface, ArrayAccess, \JsonSeria
             throw new \InvalidArgumentException('non-nullable state cannot be null');
         }
         $this->container['state'] = $state;
+
+        return $this;
+    }
+
+    /**
+     * Gets external_id
+     *
+     * @return string|null
+     */
+    public function getExternalId()
+    {
+        return $this->container['external_id'];
+    }
+
+    /**
+     * Sets external_id
+     *
+     * @param string|null $external_id Your own id for this thing, so you can match it to your records. Filter lists with `externalId=`.
+     *
+     * @return self
+     */
+    public function setExternalId($external_id)
+    {
+        if (is_null($external_id)) {
+            throw new \InvalidArgumentException('non-nullable external_id cannot be null');
+        }
+        if ((mb_strlen($external_id) > 200)) {
+            throw new \InvalidArgumentException('invalid length for $external_id when calling SendDocument201Response., must be smaller than or equal to 200.');
+        }
+        if ((mb_strlen($external_id) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $external_id when calling SendDocument201Response., must be bigger than or equal to 1.');
+        }
+
+        $this->container['external_id'] = $external_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets metadata
+     *
+     * @return array<string,string>|null
+     */
+    public function getMetadata()
+    {
+        return $this->container['metadata'];
+    }
+
+    /**
+     * Sets metadata
+     *
+     * @param array<string,string>|null $metadata Your own key-value text (up to 20 keys; keys 1–40 letters, digits, dot, dash or underscore; values up to 500 characters). Returned in every response and every webhook for this document; never shown to a signer.
+     *
+     * @return self
+     */
+    public function setMetadata($metadata)
+    {
+        if (is_null($metadata)) {
+            throw new \InvalidArgumentException('non-nullable metadata cannot be null');
+        }
+        $this->container['metadata'] = $metadata;
 
         return $this;
     }

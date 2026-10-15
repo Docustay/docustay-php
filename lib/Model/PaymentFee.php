@@ -88,7 +88,7 @@ class PaymentFee implements ModelInterface, ArrayAccess, \JsonSerializable
         'basis_points' => false,
         'amount_minor' => false,
         'refunded_minor' => false,
-        'plan' => true
+        'plan' => false
     ];
 
     /**
@@ -425,14 +425,7 @@ class PaymentFee implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPlan($plan)
     {
         if (is_null($plan)) {
-            array_push($this->openAPINullablesSetToNull, 'plan');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('plan', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable plan cannot be null');
         }
         $this->container['plan'] = $plan;
 

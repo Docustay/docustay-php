@@ -94,8 +94,8 @@ class ListWebhookDeliveries200ResponseDeliveriesInner implements ModelInterface,
         'event' => false,
         'attempt' => false,
         'status' => false,
-        'response_status' => true,
-        'error' => true,
+        'response_status' => false,
+        'error' => false,
         'attempted_at' => false
     ];
 
@@ -481,14 +481,7 @@ class ListWebhookDeliveries200ResponseDeliveriesInner implements ModelInterface,
     public function setResponseStatus($response_status)
     {
         if (is_null($response_status)) {
-            array_push($this->openAPINullablesSetToNull, 'response_status');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('response_status', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable response_status cannot be null');
         }
         $this->container['response_status'] = $response_status;
 
@@ -515,14 +508,7 @@ class ListWebhookDeliveries200ResponseDeliveriesInner implements ModelInterface,
     public function setError($error)
     {
         if (is_null($error)) {
-            array_push($this->openAPINullablesSetToNull, 'error');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('error', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable error cannot be null');
         }
         $this->container['error'] = $error;
 

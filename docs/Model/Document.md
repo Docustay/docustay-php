@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **executed_at** | **string** |  |
 **voided_at** | **string** |  |
 **void_reason** | **string** |  |
-**progress** | [**\Docustay\Model\TestSign200ResponseProgress**](TestSign200ResponseProgress.md) |  |
+**progress** | [**\Docustay\Model\DocumentProgress**](DocumentProgress.md) |  |
 **signed_copy_available** | **bool** |  |
 **parties** | [**\Docustay\Model\Party[]**](Party.md) |  |
 **payments** | [**\Docustay\Model\Payment[]**](Payment.md) | Payments made through payment fields on this document (empty when it has none). A payment field&#39;s amount is set by ONE of: a fixed amount, a formula over the signer&#39;s own fields, a Stripe price, or a Stripe payment link — see the text tag settings &#x60;amount&#x60;, &#x60;formula&#x60;, &#x60;price&#x60; and &#x60;link&#x60;. |

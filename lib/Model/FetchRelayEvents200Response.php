@@ -81,7 +81,7 @@ class FetchRelayEvents200Response implements ModelInterface, ArrayAccess, \JsonS
       */
     protected static array $openAPINullables = [
         'events' => false,
-        'cursor' => true
+        'cursor' => false
     ];
 
     /**
@@ -350,14 +350,7 @@ class FetchRelayEvents200Response implements ModelInterface, ArrayAccess, \JsonS
     public function setCursor($cursor)
     {
         if (is_null($cursor)) {
-            array_push($this->openAPINullablesSetToNull, 'cursor');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('cursor', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable cursor cannot be null');
         }
         $this->container['cursor'] = $cursor;
 

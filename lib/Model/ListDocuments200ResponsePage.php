@@ -83,7 +83,7 @@ class ListDocuments200ResponsePage implements ModelInterface, ArrayAccess, \Json
       */
     protected static array $openAPINullables = [
         'limit' => false,
-        'next_cursor' => true,
+        'next_cursor' => false,
         'has_more' => false
     ];
 
@@ -360,14 +360,7 @@ class ListDocuments200ResponsePage implements ModelInterface, ArrayAccess, \Json
     public function setNextCursor($next_cursor)
     {
         if (is_null($next_cursor)) {
-            array_push($this->openAPINullablesSetToNull, 'next_cursor');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('next_cursor', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable next_cursor cannot be null');
         }
         $this->container['next_cursor'] = $next_cursor;
 

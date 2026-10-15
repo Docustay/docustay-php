@@ -82,7 +82,7 @@ class DocumentEventsInner implements ModelInterface, ArrayAccess, \JsonSerializa
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'at' => true,
+        'at' => false,
         'kind' => false,
         'text' => false
     ];
@@ -333,14 +333,7 @@ class DocumentEventsInner implements ModelInterface, ArrayAccess, \JsonSerializa
     public function setAt($at)
     {
         if (is_null($at)) {
-            array_push($this->openAPINullablesSetToNull, 'at');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('at', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable at cannot be null');
         }
         $this->container['at'] = $at;
 

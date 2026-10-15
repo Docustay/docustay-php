@@ -99,13 +99,13 @@ class Payment implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'id' => false,
-        'field_id' => true,
+        'field_id' => false,
         'person' => false,
         'status' => false,
         'amount_minor' => false,
         'currency' => false,
-        'paid_at' => true,
-        'receipt_url' => true,
+        'paid_at' => false,
+        'receipt_url' => false,
         'refunded_minor' => false,
         'fee' => false,
         'test' => false
@@ -470,14 +470,7 @@ class Payment implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setFieldId($field_id)
     {
         if (is_null($field_id)) {
-            array_push($this->openAPINullablesSetToNull, 'field_id');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('field_id', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable field_id cannot be null');
         }
         $this->container['field_id'] = $field_id;
 
@@ -622,14 +615,7 @@ class Payment implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPaidAt($paid_at)
     {
         if (is_null($paid_at)) {
-            array_push($this->openAPINullablesSetToNull, 'paid_at');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('paid_at', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable paid_at cannot be null');
         }
         $this->container['paid_at'] = $paid_at;
 
@@ -656,14 +642,7 @@ class Payment implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setReceiptUrl($receipt_url)
     {
         if (is_null($receipt_url)) {
-            array_push($this->openAPINullablesSetToNull, 'receipt_url');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('receipt_url', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable receipt_url cannot be null');
         }
         $this->container['receipt_url'] = $receipt_url;
 
