@@ -1,0 +1,45 @@
+{
+    "name": "docustay/docustay-php",
+    "description": "Official Docustay API client: send documents for signature and follow them from your own software. https://docustay.app/docs",
+    "keywords": [
+        "docustay",
+        "e-signature",
+        "document-signing",
+        "api",
+        "sdk"
+    ],
+    "homepage": "https://docustay.app",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Docustay",
+            "homepage": "https://docustay.app"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^1.7 || ^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0 || ^9.0",
+        "friendsofphp/php-cs-fixer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Docustay\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Docustay\\Test\\": "test/"
+        }
+    },
+    "support": {
+        "source": "https://github.com/Docustay/docustay-php",
+        "docs": "https://docustay.app/docs"
+    }
+}
