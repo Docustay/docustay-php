@@ -4,7 +4,7 @@ All URIs are relative to https://app.docustay.app, except if the operation defin
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**aiUsage()**](AccountApi.md#aiUsage) | **GET** /api/v1/ai/usage | AI credits used against your plan |
+| [**aiUsage()**](AccountApi.md#aiUsage) | **GET** /api/v1/ai/usage | AI drafts used against your plan |
 | [**paymentsStatus()**](AccountApi.md#paymentsStatus) | **GET** /api/v1/payments/status | Is Stripe ready to take a payment? |
 | [**usage()**](AccountApi.md#usage) | **GET** /api/v1/usage | Documents, templates and emails used against your plan |
 
@@ -15,9 +15,9 @@ All URIs are relative to https://app.docustay.app, except if the operation defin
 aiUsage(): \Docustay\Model\AiUsage
 ```
 
-AI credits used against your plan
+AI drafts used against your plan
 
-The AI allowance for the current period: credits included, used and remaining, when it resets, and the split by kind of work. `mode` is `own_key` (you bring your own provider key, so nothing is metered) or `unmetered` (self-hosted).
+The AI allowance for the current period: drafts included, used and remaining, when it resets, and the split by kind of work. `mode` is `own_key` (you bring your own provider key, so nothing is metered) or `unmetered` (self-hosted).
 
 ### Example
 
@@ -131,7 +131,7 @@ usage(): \Docustay\Model\Usage
 
 Documents, templates and emails used against your plan
 
-Documents sent this calendar month (UTC), new templates made this month and emails sent today, with the plan's limits. `limit` is null when the plan has no limit (Pro has no template limit; a self-hosted install has no limits).
+Documents sent this calendar month (UTC), AI drafts, new templates made this month and emails sent today, with the plan's limits, plus what the month costs so far on a plan with per-unit prices (`billing`). `limit` is null when the plan has no limit (Pro has no template limit; a self-hosted install has no limits).
 
 ### Example
 

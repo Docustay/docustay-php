@@ -11,7 +11,6 @@ Name | Type | Description | Notes
 **title** | **string** |  | [optional]
 **message** | **string** |  | [optional]
 **subject** | **string** |  | [optional]
-**language** | **string** |  | [optional]
 **expiry_days** | **int** |  | [optional]
 **embedded** | **string[]** | Seats signed inside your own app instead of by emailed link (for example [\&quot;signer_1\&quot;]). Nobody is emailed for these seats: you ask for a session with POST /api/v1/documents/{id}/embed-session and show it on a website you listed under Settings → Developers → Embedding. | [optional]
 **parties** | [**\Docustay\Model\SendRequestPartiesInner[]**](SendRequestPartiesInner.md) | One entry for each seat of the template (see GET /api/v1/documents/templates). |

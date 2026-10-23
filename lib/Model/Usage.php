@@ -13,7 +13,7 @@
 /**
  * Docustay API
  *
- * Send documents for signature and follow them, from your own software.  **Authentication.** Send `Authorization: Bearer <key>`. Make keys in Settings → Developers → API keys and give each only the scopes it needs (there are 35 in all): `accounts:read`, `accounts:write`, `booking:read`, `booking:write`, `documents:read`, `documents:write`, `growth:read`, `growth:write`, `items:read`, `items:write`, `lead:write`, `money:read`, `money:write`, `network:read`, `network:write`, `notifications:read`, `notifications:write`, `people:read`, `people:write`, `platform:read`, `platform:write`, `records:read`, `records:write`, `settings:read`, `settings:write`, `plays:read`, `plays:write`, `drafts:write`, `templates:read`, `templates:write`, `webhooks:read`, `webhooks:write`, `reports:read`, `account:read`, `embedded:write`. A key that starts `dsk_test_` works in **test mode**: documents it sends are practice runs (emailed only to the sender, stamped TEST, never counted or billed), it can only see and act on test documents (any other document answers `404`), and it can sign them itself with `POST /api/v1/documents/{id}/test-sign`. A key can also be limited to a list of addresses, given an expiry, or made **draft-only**.  **Draft-only keys.** A draft-only key can make and edit drafts but cannot send. Asking it to send answers `202` with an `approval`, the document stays a draft, and a person approves or declines in Settings → Developers → Approvals. Keys can also have a daily limit of drafts and sends; past it you get `429`.  **Payments.** A template may contain payment fields (text tag `type=payment` with one of `amount`, `formula`, `price` or `link`). The signer pays on Stripe's hosted page; the money goes to your own connected Stripe account; Docustay's fee is 2% on the Free plan and 0% on Pro, plus Stripe's own fees. The document's `payments` list shows each payment, its receipt and the fee. Card details never reach Docustay.  **Idempotency.** Requests that create a document or a template, or send one, need an `Idempotency-Key` header (8–200 characters). Repeating a request with the same key and body returns the first answer instead of doing it twice.  **Your own reference.** Documents and templates take `externalId` (your id for it) and `metadata` (up to 20 short key/value pairs). List with `externalId=` or `metadata[key]=value` to find them again, and both come back in webhooks.  **Errors.** Every error is `{ \"error\": { \"kind\", \"message\", \"requestId\", \"retryable\" } }`. `kind` is one of `invalid`, `unauthenticated`, `forbidden`, `not_found`, `conflict`, `rate_limited`, `dependency`, `timeout`. Quote the `requestId` to support, or search it in Settings → Developers → API log. **Plan limits** are `403 forbidden` with `error.detail.code`: `plan_document_limit` (the plan's documents this month are used; a form counts the first time it is published, and every signed response counts) or `plan_template_limit` (Free: 5 new templates a month, documents and forms together; a new version of a template you have does not count). Both carry `detail.used`, `detail.limit` and `detail.resetsAt` (the first of next month, UTC). Everything already made keeps working. Pro and self-hosted installs have no template limit.  **Rate limits.** Each key has its own per-minute budget. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` (seconds); over the budget you get `429` with a `Retry-After` header.  **Versions.** Every answer carries `Docustay-Version`, a date. A change that could break a caller gets a new date and is announced in the changelog before it ships; additions (a new field, a new route) are not breaking and do not change the date.  **Pagination.** Lists take `limit` (1–200) and `cursor`; the answer carries `page.nextCursor` (null on the last page).  **Signing links.** No response contains a signing link or access code, with one exception you control: a seat you send in `embedded` can be given an embedded signing session (`POST /api/v1/documents/{id}/embed-session`), a one-hour link for a frame on a website you listed. A key can start and follow a signature, and put your own signer in front of the form for seats you marked yourself; it cannot sign for anyone.
+ * Send documents for signature and follow them, from your own software.  **Authentication.** Send `Authorization: Bearer <key>`. Make keys in Settings → Developers → API keys and give each only the scopes it needs (there are 12 in all): `documents:read`, `documents:write`, `people:read`, `plays:read`, `plays:write`, `drafts:write`, `templates:read`, `templates:write`, `webhooks:read`, `webhooks:write`, `account:read`, `embedded:write`. A key that starts `dsk_test_` works in **test mode**: documents it sends are practice runs (emailed only to the sender, stamped TEST, never counted or billed), it can only see and act on test documents (any other document answers `404`), and it can sign them itself with `POST /api/v1/documents/{id}/test-sign`. A key can also be limited to a list of addresses, given an expiry, or made **draft-only**.  **Draft-only keys.** A draft-only key can make and edit drafts but cannot send. Asking it to send answers `202` with an `approval`, the document stays a draft, and a person approves or declines in Settings → Developers → Approvals. Keys can also have a daily limit of drafts and sends; past it you get `429`.  **Payments.** A template may contain payment fields (text tag `type=payment` with a set `amount`, optionally a `deposit`, or an amount you give when you send it with `amount=custom.<name>`). The signer pays on Stripe's hosted page; the money goes to your own connected Stripe account; Docustay's fee is 2% on the Free plan and 0% on Pro, plus Stripe's own fees. The document's `payments` list shows each payment, its receipt and the fee. Card details never reach Docustay.  **Idempotency.** Requests that create a document or a template, or send one, need an `Idempotency-Key` header (8–200 characters). Repeating a request with the same key and body returns the first answer instead of doing it twice.  **Your own reference.** Documents and templates take `externalId` (your id for it) and `metadata` (up to 20 short key/value pairs). List with `externalId=` or `metadata[key]=value` to find them again, and both come back in webhooks.  **Errors.** Every error is `{ \"error\": { \"kind\", \"message\", \"requestId\", \"retryable\" } }`. `kind` is one of `invalid`, `unauthenticated`, `forbidden`, `not_found`, `conflict`, `rate_limited`, `dependency`, `timeout`. Quote the `requestId` to support, or search it in Settings → Developers → API log. **Plan limits** are `403 forbidden` with `error.detail.code`: `plan_document_limit` (the plan's documents this month are used) or `plan_template_limit` (Free: 5 new templates a month; a new version of a template you have does not count). Both carry `detail.used`, `detail.limit` and `detail.resetsAt` (the first of next month, UTC). Everything already made keeps working. Pro and self-hosted installs have no template limit.  **Rate limits.** Each key has its own per-minute budget. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` (seconds); over the budget you get `429` with a `Retry-After` header.  **Versions.** Every answer carries `Docustay-Version`, a date. A change that could break a caller gets a new date and is announced in the changelog before it ships; additions (a new field, a new route) are not breaking and do not change the date.  **Pagination.** Lists take `limit` (1–200) and `cursor`; the answer carries `page.nextCursor` (null on the last page).  **Signing links.** No response contains a signing link or access code, with one exception you control: a seat you send in `embedded` can be given an embedded signing session (`POST /api/v1/documents/{id}/embed-session`), a one-hour link for a frame on a website you listed. A key can start and follow a signature, and put your own signer in front of the form for seats you marked yourself; it cannot sign for anyone.
  *
  * The version of the OpenAPI document: 2026-10-07
  * Contact: support@docustay.app
@@ -61,6 +61,8 @@ class Usage implements ModelInterface, ArrayAccess, \JsonSerializable
         'plan' => 'string',
         'period' => '\Docustay\Model\UsagePeriod',
         'documents' => '\Docustay\Model\UsageDocuments',
+        'drafts' => '\Docustay\Model\UsageDrafts',
+        'billing' => '\Docustay\Model\UsageBilling',
         'emails' => '\Docustay\Model\UsageEmails',
         'templates' => '\Docustay\Model\UsageTemplates'
     ];
@@ -76,6 +78,8 @@ class Usage implements ModelInterface, ArrayAccess, \JsonSerializable
         'plan' => null,
         'period' => null,
         'documents' => null,
+        'drafts' => null,
+        'billing' => null,
         'emails' => null,
         'templates' => null
     ];
@@ -89,6 +93,8 @@ class Usage implements ModelInterface, ArrayAccess, \JsonSerializable
         'plan' => true,
         'period' => false,
         'documents' => false,
+        'drafts' => false,
+        'billing' => false,
         'emails' => false,
         'templates' => false
     ];
@@ -182,6 +188,8 @@ class Usage implements ModelInterface, ArrayAccess, \JsonSerializable
         'plan' => 'plan',
         'period' => 'period',
         'documents' => 'documents',
+        'drafts' => 'drafts',
+        'billing' => 'billing',
         'emails' => 'emails',
         'templates' => 'templates'
     ];
@@ -195,6 +203,8 @@ class Usage implements ModelInterface, ArrayAccess, \JsonSerializable
         'plan' => 'setPlan',
         'period' => 'setPeriod',
         'documents' => 'setDocuments',
+        'drafts' => 'setDrafts',
+        'billing' => 'setBilling',
         'emails' => 'setEmails',
         'templates' => 'setTemplates'
     ];
@@ -208,6 +218,8 @@ class Usage implements ModelInterface, ArrayAccess, \JsonSerializable
         'plan' => 'getPlan',
         'period' => 'getPeriod',
         'documents' => 'getDocuments',
+        'drafts' => 'getDrafts',
+        'billing' => 'getBilling',
         'emails' => 'getEmails',
         'templates' => 'getTemplates'
     ];
@@ -272,6 +284,8 @@ class Usage implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('plan', $data ?? [], null);
         $this->setIfExists('period', $data ?? [], null);
         $this->setIfExists('documents', $data ?? [], null);
+        $this->setIfExists('drafts', $data ?? [], null);
+        $this->setIfExists('billing', $data ?? [], null);
         $this->setIfExists('emails', $data ?? [], null);
         $this->setIfExists('templates', $data ?? [], null);
     }
@@ -414,6 +428,60 @@ class Usage implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable documents cannot be null');
         }
         $this->container['documents'] = $documents;
+
+        return $this;
+    }
+
+    /**
+     * Gets drafts
+     *
+     * @return \Docustay\Model\UsageDrafts|null
+     */
+    public function getDrafts()
+    {
+        return $this->container['drafts'];
+    }
+
+    /**
+     * Sets drafts
+     *
+     * @param \Docustay\Model\UsageDrafts|null $drafts drafts
+     *
+     * @return self
+     */
+    public function setDrafts($drafts)
+    {
+        if (is_null($drafts)) {
+            throw new \InvalidArgumentException('non-nullable drafts cannot be null');
+        }
+        $this->container['drafts'] = $drafts;
+
+        return $this;
+    }
+
+    /**
+     * Gets billing
+     *
+     * @return \Docustay\Model\UsageBilling|null
+     */
+    public function getBilling()
+    {
+        return $this->container['billing'];
+    }
+
+    /**
+     * Sets billing
+     *
+     * @param \Docustay\Model\UsageBilling|null $billing billing
+     *
+     * @return self
+     */
+    public function setBilling($billing)
+    {
+        if (is_null($billing)) {
+            throw new \InvalidArgumentException('non-nullable billing cannot be null');
+        }
+        $this->container['billing'] = $billing;
 
         return $this;
     }

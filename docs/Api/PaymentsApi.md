@@ -4,7 +4,7 @@ All URIs are relative to https://app.docustay.app, except if the operation defin
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**listPayments()**](PaymentsApi.md#listPayments) | **GET** /api/v1/payments | List payments taken through documents and forms |
+| [**listPayments()**](PaymentsApi.md#listPayments) | **GET** /api/v1/payments | List payments taken through documents |
 | [**refundPayment()**](PaymentsApi.md#refundPayment) | **POST** /api/v1/payments/{id}/refund | Refund a payment, in full or in part |
 
 
@@ -14,7 +14,7 @@ All URIs are relative to https://app.docustay.app, except if the operation defin
 listPayments($before, $limit): mixed
 ```
 
-List payments taken through documents and forms
+List payments taken through documents
 
 Newest first: who paid, for which document, the amount, status (`paid`, `waiting` — signed, the signature kept while they pay — `started`, `refunded`, `partially_refunded`, `disputed`), and this month's figures (`month.stripeFee` is Stripe's own fees, `month.stripeFeePending` the payments Stripe has not settled yet). Page with `before` (the `next` of the previous page).
 

@@ -13,7 +13,7 @@
 /**
  * Docustay API
  *
- * Send documents for signature and follow them, from your own software.  **Authentication.** Send `Authorization: Bearer <key>`. Make keys in Settings → Developers → API keys and give each only the scopes it needs (there are 35 in all): `accounts:read`, `accounts:write`, `booking:read`, `booking:write`, `documents:read`, `documents:write`, `growth:read`, `growth:write`, `items:read`, `items:write`, `lead:write`, `money:read`, `money:write`, `network:read`, `network:write`, `notifications:read`, `notifications:write`, `people:read`, `people:write`, `platform:read`, `platform:write`, `records:read`, `records:write`, `settings:read`, `settings:write`, `plays:read`, `plays:write`, `drafts:write`, `templates:read`, `templates:write`, `webhooks:read`, `webhooks:write`, `reports:read`, `account:read`, `embedded:write`. A key that starts `dsk_test_` works in **test mode**: documents it sends are practice runs (emailed only to the sender, stamped TEST, never counted or billed), it can only see and act on test documents (any other document answers `404`), and it can sign them itself with `POST /api/v1/documents/{id}/test-sign`. A key can also be limited to a list of addresses, given an expiry, or made **draft-only**.  **Draft-only keys.** A draft-only key can make and edit drafts but cannot send. Asking it to send answers `202` with an `approval`, the document stays a draft, and a person approves or declines in Settings → Developers → Approvals. Keys can also have a daily limit of drafts and sends; past it you get `429`.  **Payments.** A template may contain payment fields (text tag `type=payment` with one of `amount`, `formula`, `price` or `link`). The signer pays on Stripe's hosted page; the money goes to your own connected Stripe account; Docustay's fee is 2% on the Free plan and 0% on Pro, plus Stripe's own fees. The document's `payments` list shows each payment, its receipt and the fee. Card details never reach Docustay.  **Idempotency.** Requests that create a document or a template, or send one, need an `Idempotency-Key` header (8–200 characters). Repeating a request with the same key and body returns the first answer instead of doing it twice.  **Your own reference.** Documents and templates take `externalId` (your id for it) and `metadata` (up to 20 short key/value pairs). List with `externalId=` or `metadata[key]=value` to find them again, and both come back in webhooks.  **Errors.** Every error is `{ \"error\": { \"kind\", \"message\", \"requestId\", \"retryable\" } }`. `kind` is one of `invalid`, `unauthenticated`, `forbidden`, `not_found`, `conflict`, `rate_limited`, `dependency`, `timeout`. Quote the `requestId` to support, or search it in Settings → Developers → API log. **Plan limits** are `403 forbidden` with `error.detail.code`: `plan_document_limit` (the plan's documents this month are used; a form counts the first time it is published, and every signed response counts) or `plan_template_limit` (Free: 5 new templates a month, documents and forms together; a new version of a template you have does not count). Both carry `detail.used`, `detail.limit` and `detail.resetsAt` (the first of next month, UTC). Everything already made keeps working. Pro and self-hosted installs have no template limit.  **Rate limits.** Each key has its own per-minute budget. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` (seconds); over the budget you get `429` with a `Retry-After` header.  **Versions.** Every answer carries `Docustay-Version`, a date. A change that could break a caller gets a new date and is announced in the changelog before it ships; additions (a new field, a new route) are not breaking and do not change the date.  **Pagination.** Lists take `limit` (1–200) and `cursor`; the answer carries `page.nextCursor` (null on the last page).  **Signing links.** No response contains a signing link or access code, with one exception you control: a seat you send in `embedded` can be given an embedded signing session (`POST /api/v1/documents/{id}/embed-session`), a one-hour link for a frame on a website you listed. A key can start and follow a signature, and put your own signer in front of the form for seats you marked yourself; it cannot sign for anyone.
+ * Send documents for signature and follow them, from your own software.  **Authentication.** Send `Authorization: Bearer <key>`. Make keys in Settings → Developers → API keys and give each only the scopes it needs (there are 12 in all): `documents:read`, `documents:write`, `people:read`, `plays:read`, `plays:write`, `drafts:write`, `templates:read`, `templates:write`, `webhooks:read`, `webhooks:write`, `account:read`, `embedded:write`. A key that starts `dsk_test_` works in **test mode**: documents it sends are practice runs (emailed only to the sender, stamped TEST, never counted or billed), it can only see and act on test documents (any other document answers `404`), and it can sign them itself with `POST /api/v1/documents/{id}/test-sign`. A key can also be limited to a list of addresses, given an expiry, or made **draft-only**.  **Draft-only keys.** A draft-only key can make and edit drafts but cannot send. Asking it to send answers `202` with an `approval`, the document stays a draft, and a person approves or declines in Settings → Developers → Approvals. Keys can also have a daily limit of drafts and sends; past it you get `429`.  **Payments.** A template may contain payment fields (text tag `type=payment` with a set `amount`, optionally a `deposit`, or an amount you give when you send it with `amount=custom.<name>`). The signer pays on Stripe's hosted page; the money goes to your own connected Stripe account; Docustay's fee is 2% on the Free plan and 0% on Pro, plus Stripe's own fees. The document's `payments` list shows each payment, its receipt and the fee. Card details never reach Docustay.  **Idempotency.** Requests that create a document or a template, or send one, need an `Idempotency-Key` header (8–200 characters). Repeating a request with the same key and body returns the first answer instead of doing it twice.  **Your own reference.** Documents and templates take `externalId` (your id for it) and `metadata` (up to 20 short key/value pairs). List with `externalId=` or `metadata[key]=value` to find them again, and both come back in webhooks.  **Errors.** Every error is `{ \"error\": { \"kind\", \"message\", \"requestId\", \"retryable\" } }`. `kind` is one of `invalid`, `unauthenticated`, `forbidden`, `not_found`, `conflict`, `rate_limited`, `dependency`, `timeout`. Quote the `requestId` to support, or search it in Settings → Developers → API log. **Plan limits** are `403 forbidden` with `error.detail.code`: `plan_document_limit` (the plan's documents this month are used) or `plan_template_limit` (Free: 5 new templates a month; a new version of a template you have does not count). Both carry `detail.used`, `detail.limit` and `detail.resetsAt` (the first of next month, UTC). Everything already made keeps working. Pro and self-hosted installs have no template limit.  **Rate limits.** Each key has its own per-minute budget. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` (seconds); over the budget you get `429` with a `Retry-After` header.  **Versions.** Every answer carries `Docustay-Version`, a date. A change that could break a caller gets a new date and is announced in the changelog before it ships; additions (a new field, a new route) are not breaking and do not change the date.  **Pagination.** Lists take `limit` (1–200) and `cursor`; the answer carries `page.nextCursor` (null on the last page).  **Signing links.** No response contains a signing link or access code, with one exception you control: a seat you send in `embedded` can be given an embedded signing session (`POST /api/v1/documents/{id}/embed-session`), a one-hour link for a frame on a website you listed. A key can start and follow a signature, and put your own signer in front of the form for seats you marked yourself; it cannot sign for anyone.
  *
  * The version of the OpenAPI document: 2026-10-07
  * Contact: support@docustay.app
@@ -65,7 +65,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'title' => 'string',
         'message' => 'string',
         'subject' => 'string',
-        'language' => 'string',
         'expiry_days' => 'int',
         'embedded' => 'string[]',
         'parties' => '\Docustay\Model\SendRequestPartiesInner[]'
@@ -86,7 +85,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'title' => null,
         'message' => null,
         'subject' => null,
-        'language' => null,
         'expiry_days' => null,
         'embedded' => null,
         'parties' => null
@@ -105,7 +103,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'title' => false,
         'message' => true,
         'subject' => false,
-        'language' => false,
         'expiry_days' => false,
         'embedded' => false,
         'parties' => false
@@ -204,7 +201,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'title' => 'title',
         'message' => 'message',
         'subject' => 'subject',
-        'language' => 'language',
         'expiry_days' => 'expiryDays',
         'embedded' => 'embedded',
         'parties' => 'parties'
@@ -223,7 +219,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'title' => 'setTitle',
         'message' => 'setMessage',
         'subject' => 'setSubject',
-        'language' => 'setLanguage',
         'expiry_days' => 'setExpiryDays',
         'embedded' => 'setEmbedded',
         'parties' => 'setParties'
@@ -242,7 +237,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'title' => 'getTitle',
         'message' => 'getMessage',
         'subject' => 'getSubject',
-        'language' => 'getLanguage',
         'expiry_days' => 'getExpiryDays',
         'embedded' => 'getEmbedded',
         'parties' => 'getParties'
@@ -289,45 +283,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const LANGUAGE_EN = 'en';
-    public const LANGUAGE_ES = 'es';
-    public const LANGUAGE_FR = 'fr';
-    public const LANGUAGE_DE = 'de';
-    public const LANGUAGE_PT = 'pt';
-    public const LANGUAGE_IT = 'it';
-    public const LANGUAGE_NL = 'nl';
-    public const LANGUAGE_PL = 'pl';
-    public const LANGUAGE_TR = 'tr';
-    public const LANGUAGE_RU = 'ru';
-    public const LANGUAGE_AR = 'ar';
-    public const LANGUAGE_JA = 'ja';
-    public const LANGUAGE_ZH = 'zh';
-    public const LANGUAGE_KO = 'ko';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getLanguageAllowableValues()
-    {
-        return [
-            self::LANGUAGE_EN,
-            self::LANGUAGE_ES,
-            self::LANGUAGE_FR,
-            self::LANGUAGE_DE,
-            self::LANGUAGE_PT,
-            self::LANGUAGE_IT,
-            self::LANGUAGE_NL,
-            self::LANGUAGE_PL,
-            self::LANGUAGE_TR,
-            self::LANGUAGE_RU,
-            self::LANGUAGE_AR,
-            self::LANGUAGE_JA,
-            self::LANGUAGE_ZH,
-            self::LANGUAGE_KO,
-        ];
-    }
 
     /**
      * Associative array for storing property values
@@ -351,7 +306,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('title', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('subject', $data ?? [], null);
-        $this->setIfExists('language', $data ?? [], null);
         $this->setIfExists('expiry_days', $data ?? [], null);
         $this->setIfExists('embedded', $data ?? [], null);
         $this->setIfExists('parties', $data ?? [], null);
@@ -405,15 +359,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
 
         if (!is_null($this->container['subject']) && (mb_strlen($this->container['subject']) > 200)) {
             $invalidProperties[] = "invalid value for 'subject', the character length must be smaller than or equal to 200.";
-        }
-
-        $allowedValues = $this->getLanguageAllowableValues();
-        if (!is_null($this->container['language']) && !in_array($this->container['language'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'language', must be one of '%s'",
-                $this->container['language'],
-                implode("', '", $allowedValues)
-            );
         }
 
         if (!is_null($this->container['expiry_days']) && ($this->container['expiry_days'] > 365)) {
@@ -657,43 +602,6 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         }
 
         $this->container['subject'] = $subject;
-
-        return $this;
-    }
-
-    /**
-     * Gets language
-     *
-     * @return string|null
-     */
-    public function getLanguage()
-    {
-        return $this->container['language'];
-    }
-
-    /**
-     * Sets language
-     *
-     * @param string|null $language language
-     *
-     * @return self
-     */
-    public function setLanguage($language)
-    {
-        if (is_null($language)) {
-            throw new \InvalidArgumentException('non-nullable language cannot be null');
-        }
-        $allowedValues = $this->getLanguageAllowableValues();
-        if (!in_array($language, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'language', must be one of '%s'",
-                    $language,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['language'] = $language;
 
         return $this;
     }

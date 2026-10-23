@@ -21,7 +21,7 @@ All URIs are relative to https://app.docustay.app, except if the operation defin
 | [**listTemplates()**](DocumentsApi.md#listTemplates) | **GET** /api/v1/documents/templates | Templates you can send |
 | [**remind()**](DocumentsApi.md#remind) | **POST** /api/v1/documents/{id}/remind | Remind the people who still have to sign |
 | [**reviseDocument()**](DocumentsApi.md#reviseDocument) | **POST** /api/v1/documents/{id}/revise | Change the words of a draft |
-| [**search()**](DocumentsApi.md#search) | **GET** /api/v1/search | Search documents, templates, forms and people |
+| [**search()**](DocumentsApi.md#search) | **GET** /api/v1/search | Search documents, templates and people |
 | [**sendDocument()**](DocumentsApi.md#sendDocument) | **POST** /api/v1/documents/send | Send a template to people to sign |
 | [**sendDraft()**](DocumentsApi.md#sendDraft) | **POST** /api/v1/documents/{id}/send | Send a draft |
 | [**testSign()**](DocumentsApi.md#testSign) | **POST** /api/v1/documents/{id}/test-sign | Sign a test document (test mode only) |
@@ -1046,9 +1046,9 @@ try {
 search($q, $per): mixed
 ```
 
-Search documents, templates, forms and people
+Search documents, templates and people
 
-The same search as ⌘K in the app: documents by title or signer, templates, forms and people, best first, grouped. `per` is how many of each kind (1 to 20, default 6).
+The same search as ⌘K in the app: documents by title or signer, templates and people, best first, grouped. `per` is how many of each kind (1 to 20, default 6).
 
 ### Example
 
