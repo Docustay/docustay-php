@@ -1,4 +1,4 @@
-# # CheckDocumentRequest
+# CheckDocumentRequest
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# # BuilderSession
+# BuilderSession
 
 ## Properties
 

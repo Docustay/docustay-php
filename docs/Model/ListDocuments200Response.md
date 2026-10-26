@@ -1,4 +1,4 @@
-# # ListDocuments200Response
+# ListDocuments200Response
 
 ## Properties
 

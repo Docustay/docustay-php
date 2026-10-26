@@ -1,4 +1,4 @@
-# # BuilderSessionRequest
+# BuilderSessionRequest
 
 ## Properties
 

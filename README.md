@@ -1,299 +1,238 @@
-# docustay-api
+# Docustay for PHP
 
-Send documents for signature and follow them, from your own software.
+The official PHP client for the [Docustay](https://docustay.app) e-signature API: send a document from a template, get a webhook when each person signs, download the sealed PDF.
 
-**Authentication.** Send `Authorization: Bearer <key>`. Make keys in Settings → Developers → API keys and give each only the scopes it needs (there are 12 in all): `documents:read`, `documents:write`, `people:read`, `plays:read`, `plays:write`, `drafts:write`, `templates:read`, `templates:write`, `webhooks:read`, `webhooks:write`, `account:read`, `embedded:write`. A key that starts `dsk_test_` works in **test mode**: documents it sends are practice runs (emailed only to the sender, stamped TEST, never counted or billed), it can only see and act on test documents (any other document answers `404`), and it can sign them itself with `POST /api/v1/documents/{id}/test-sign`. A key can also be limited to a list of addresses, given an expiry, or made **draft-only**.
+- API version: 2026-10-07
+- Package version: 0.2.2
 
-**Draft-only keys.** A draft-only key can make and edit drafts but cannot send. Asking it to send answers `202` with an `approval`, the document stays a draft, and a person approves or declines in Settings → Developers → Approvals. Keys can also have a daily limit of drafts and sends; past it you get `429`.
+## Install
 
-**Payments.** A template may contain payment fields (text tag `type=payment` with a set `amount`, optionally a `deposit`, or an amount you give when you send it with `amount=custom.<name>`). The signer pays on Stripe's hosted page; the money goes to your own connected Stripe account; Docustay's fee is 2% on the Free plan and 0% on Pro, plus Stripe's own fees. The document's `payments` list shows each payment, its receipt and the fee. Card details never reach Docustay.
-
-**Idempotency.** Requests that create a document or a template, or send one, need an `Idempotency-Key` header (8–200 characters). Repeating a request with the same key and body returns the first answer instead of doing it twice.
-
-**Your own reference.** Documents and templates take `externalId` (your id for it) and `metadata` (up to 20 short key/value pairs). List with `externalId=` or `metadata[key]=value` to find them again, and both come back in webhooks.
-
-**Errors.** Every error is `{ \"error\": { \"kind\", \"message\", \"requestId\", \"retryable\" } }`. `kind` is one of `invalid`, `unauthenticated`, `forbidden`, `not_found`, `conflict`, `rate_limited`, `dependency`, `timeout`. Quote the `requestId` to support, or search it in Settings → Developers → API log. **Plan limits** are `403 forbidden` with `error.detail.code`: `plan_document_limit` (the plan's documents this month are used) or `plan_template_limit` (Free: 5 new templates a month; a new version of a template you have does not count). Both carry `detail.used`, `detail.limit` and `detail.resetsAt` (the first of next month, UTC). Everything already made keeps working. Pro and self-hosted installs have no template limit.
-
-**Rate limits.** Each key has its own per-minute budget. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` (seconds); over the budget you get `429` with a `Retry-After` header.
-
-**Versions.** Every answer carries `Docustay-Version`, a date. A change that could break a caller gets a new date and is announced in the changelog before it ships; additions (a new field, a new route) are not breaking and do not change the date.
-
-**Pagination.** Lists take `limit` (1–200) and `cursor`; the answer carries `page.nextCursor` (null on the last page).
-
-**Signing links.** No response contains a signing link or access code, with one exception you control: a seat you send in `embedded` can be given an embedded signing session (`POST /api/v1/documents/{id}/embed-session`), a one-hour link for a frame on a website you listed. A key can start and follow a signature, and put your own signer in front of the form for seats you marked yourself; it cannot sign for anyone.
-
-For more information, please visit [https://docustay.app/contact](https://docustay.app/contact).
-
-## Installation & Usage
-
-### Requirements
-
-PHP 7.4 and later.
-Should also work with PHP 8.0.
-
-### Composer
-
-To install the bindings via [Composer](https://getcomposer.org/), add the following to `composer.json`:
-
-```json
-{
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/docustay/docustay-php.git"
-    }
-  ],
-  "require": {
-    "docustay/docustay-php": "*@dev"
-  }
-}
+```sh
+composer require docustay/docustay-php:0.2.2
 ```
 
-Then run `composer install`
+PHP 7.4 or newer, with the curl, json and mbstring extensions.
 
-### Manual Installation
+## Send your first document
 
-Download the files and include `autoload.php`:
+Put your key in `DOCUSTAY_API_KEY` and a template id in `DOCUSTAY_TEMPLATE_ID`.
 
 ```php
-<?php
-require_once('/path/to/docustay-api/vendor/autoload.php');
+require __DIR__ . '/vendor/autoload.php';
+
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+$api = new Docustay\Api\DocumentsApi(new GuzzleHttp\Client(), $config);
+
+$request = new Docustay\Model\SendRequest([
+    'template_id' => getenv('DOCUSTAY_TEMPLATE_ID'),
+    'parties' => [new Docustay\Model\SendRequestPartiesInner([
+        'seat' => 'signer_1', 'name' => 'Pat Example', 'email' => 'pat@example.com',
+    ])],
+]);
+$doc = $api->sendDocument(bin2hex(random_bytes(16)), $request);
 ```
 
-## Getting Started
+More: https://docustay.app/docs
 
-Please follow the [installation procedure](#installation--usage) and then run the following:
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-
-// Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new Docustay\Api\AccountApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-
-try {
-    $result = $apiInstance->aiUsage();
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling AccountApi->aiUsage: ', $e->getMessage(), PHP_EOL;
-}
-
-```
-
-## API Endpoints
+## API reference
 
 All URIs are relative to *https://app.docustay.app*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AccountApi* | [**aiUsage**](docs/Api/AccountApi.md#aiusage) | **GET** /api/v1/ai/usage | AI drafts used against your plan
-*AccountApi* | [**paymentsStatus**](docs/Api/AccountApi.md#paymentsstatus) | **GET** /api/v1/payments/status | Is Stripe ready to take a payment?
-*AccountApi* | [**usage**](docs/Api/AccountApi.md#usage) | **GET** /api/v1/usage | Documents, templates and emails used against your plan
-*DocumentsApi* | [**auditLogCsv**](docs/Api/DocumentsApi.md#auditlogcsv) | **GET** /api/v1/documents/{id}/audit-log.csv | The document&#39;s audit log as CSV
-*DocumentsApi* | [**cancelAiJob**](docs/Api/DocumentsApi.md#cancelaijob) | **POST** /api/v1/documents/ai/jobs/{id}/cancel | Cancel an AI job
-*DocumentsApi* | [**checkDocument**](docs/Api/DocumentsApi.md#checkdocument) | **POST** /api/v1/documents/check | Check a document&#39;s words before making it
-*DocumentsApi* | [**createDocument**](docs/Api/DocumentsApi.md#createdocument) | **POST** /api/v1/documents | Make a document from words and people
-*DocumentsApi* | [**detectFields**](docs/Api/DocumentsApi.md#detectfields) | **POST** /api/v1/documents/detect-fields | Find the fields on a PDF
-*DocumentsApi* | [**downloadSignedPdf**](docs/Api/DocumentsApi.md#downloadsignedpdf) | **GET** /api/v1/documents/{id}/signed.pdf | Download the signed copy
-*DocumentsApi* | [**draftWithAi**](docs/Api/DocumentsApi.md#draftwithai) | **POST** /api/v1/documents/ai/draft | Ask for an AI-written draft
-*DocumentsApi* | [**editWithAi**](docs/Api/DocumentsApi.md#editwithai) | **POST** /api/v1/documents/ai/edit | Ask the assistant to change a document
-*DocumentsApi* | [**embedSession**](docs/Api/DocumentsApi.md#embedsession) | **POST** /api/v1/documents/{id}/embed-session | Start an embedded signing session for a seat
-*DocumentsApi* | [**getAiDraft**](docs/Api/DocumentsApi.md#getaidraft) | **GET** /api/v1/documents/ai/jobs/{id} | Read an AI draft job
-*DocumentsApi* | [**getDocument**](docs/Api/DocumentsApi.md#getdocument) | **GET** /api/v1/documents/{id} | One document and where each person is
-*DocumentsApi* | [**getDraftSource**](docs/Api/DocumentsApi.md#getdraftsource) | **GET** /api/v1/documents/{id}/source | The words, people and choices of a draft
-*DocumentsApi* | [**getWizard**](docs/Api/DocumentsApi.md#getwizard) | **GET** /api/v1/ai/wizard | The wizard&#39;s questions
-*DocumentsApi* | [**listDocuments**](docs/Api/DocumentsApi.md#listdocuments) | **GET** /api/v1/documents | List documents
-*DocumentsApi* | [**listTemplates**](docs/Api/DocumentsApi.md#listtemplates) | **GET** /api/v1/documents/templates | Templates you can send
-*DocumentsApi* | [**remind**](docs/Api/DocumentsApi.md#remind) | **POST** /api/v1/documents/{id}/remind | Remind the people who still have to sign
-*DocumentsApi* | [**reviseDocument**](docs/Api/DocumentsApi.md#revisedocument) | **POST** /api/v1/documents/{id}/revise | Change the words of a draft
-*DocumentsApi* | [**search**](docs/Api/DocumentsApi.md#search) | **GET** /api/v1/search | Search documents, templates and people
-*DocumentsApi* | [**sendDocument**](docs/Api/DocumentsApi.md#senddocument) | **POST** /api/v1/documents/send | Send a template to people to sign
-*DocumentsApi* | [**sendDraft**](docs/Api/DocumentsApi.md#senddraft) | **POST** /api/v1/documents/{id}/send | Send a draft
-*DocumentsApi* | [**testSign**](docs/Api/DocumentsApi.md#testsign) | **POST** /api/v1/documents/{id}/test-sign | Sign a test document (test mode only)
-*DocumentsApi* | [**voidDocument**](docs/Api/DocumentsApi.md#voiddocument) | **POST** /api/v1/documents/{id}/void | Void a document that is still out for signature
-*EmailApi* | [**listEmails**](docs/Api/EmailApi.md#listemails) | **GET** /api/v1/emails | The log of email about your documents
-*EmbeddingApi* | [**builderSession**](docs/Api/EmbeddingApi.md#buildersession) | **POST** /api/v1/embedded/builder-session | Start an embedded template builder session
-*EmbeddingApi* | [**scribeSession**](docs/Api/EmbeddingApi.md#scribesession) | **POST** /api/v1/embedded/scribe-session | Start an embedded Scribe session
-*PaymentsApi* | [**listPayments**](docs/Api/PaymentsApi.md#listpayments) | **GET** /api/v1/payments | List payments taken through documents
-*PaymentsApi* | [**refundPayment**](docs/Api/PaymentsApi.md#refundpayment) | **POST** /api/v1/payments/{id}/refund | Refund a payment, in full or in part
-*PlaysApi* | [**answerDraft**](docs/Api/PlaysApi.md#answerdraft) | **POST** /api/v1/drafts/{draftRef}/answers | Answer a template&#39;s questions
-*PlaysApi* | [**archivePlay**](docs/Api/PlaysApi.md#archiveplay) | **DELETE** /api/v1/plays/{name} | Archive a play
-*PlaysApi* | [**duplicatePlay**](docs/Api/PlaysApi.md#duplicateplay) | **POST** /api/v1/plays/{name}/duplicate | Copy a play under a new name
-*PlaysApi* | [**getPlay**](docs/Api/PlaysApi.md#getplay) | **GET** /api/v1/plays/{name} | One play
-*PlaysApi* | [**listPlaybooks**](docs/Api/PlaysApi.md#listplaybooks) | **GET** /api/v1/playbooks | List playbooks (packs)
-*PlaysApi* | [**listPlays**](docs/Api/PlaysApi.md#listplays) | **GET** /api/v1/plays | List plays
-*PlaysApi* | [**publishPlay**](docs/Api/PlaysApi.md#publishplay) | **POST** /api/v1/plays/{name}/publish | Publish a play version
-*PlaysApi* | [**savePlay**](docs/Api/PlaysApi.md#saveplay) | **POST** /api/v1/plays | Save a play (a new version)
-*PlaysApi* | [**savePlaybook**](docs/Api/PlaysApi.md#saveplaybook) | **POST** /api/v1/playbooks | Save a playbook (pack)
-*PlaysApi* | [**setPlaybookOn**](docs/Api/PlaysApi.md#setplaybookon) | **POST** /api/v1/playbooks/{name}/enable | Switch a pack on or off
-*PlaysApi* | [**startDraft**](docs/Api/PlaysApi.md#startdraft) | **POST** /api/v1/drafts | Start a draft from a template
-*PlaysApi* | [**testPlay**](docs/Api/PlaysApi.md#testplay) | **POST** /api/v1/plays/test | Check a play without saving it
-*TeamsApi* | [**listTeams**](docs/Api/TeamsApi.md#listteams) | **GET** /api/v1/teams | Teams and their members
-*TemplatesApi* | [**createTemplateFromFile**](docs/Api/TemplatesApi.md#createtemplatefromfile) | **POST** /api/v1/templates/file | Make a template from a file with text tags
-*TemplatesApi* | [**createTemplateFromHtml**](docs/Api/TemplatesApi.md#createtemplatefromhtml) | **POST** /api/v1/templates/html | Make a template from HTML with text tags
-*TemplatesApi* | [**createTemplateFromSource**](docs/Api/TemplatesApi.md#createtemplatefromsource) | **POST** /api/v1/templates/source | Make a template from a document source
-*TemplatesApi* | [**customizeLibraryTemplate**](docs/Api/TemplatesApi.md#customizelibrarytemplate) | **POST** /api/v1/templates/library/{slug}/customize | Customize a built-in template
-*TemplatesApi* | [**draftFromLibraryTemplate**](docs/Api/TemplatesApi.md#draftfromlibrarytemplate) | **POST** /api/v1/templates/library/{slug}/documents | Make a draft from a built-in template
-*TemplatesApi* | [**getLibraryTemplate**](docs/Api/TemplatesApi.md#getlibrarytemplate) | **GET** /api/v1/templates/library/{slug} | One built-in template
-*TemplatesApi* | [**getTemplate**](docs/Api/TemplatesApi.md#gettemplate) | **GET** /api/v1/templates/{id} | One template and its seats
-*TemplatesApi* | [**listLibraryTemplates**](docs/Api/TemplatesApi.md#listlibrarytemplates) | **GET** /api/v1/templates/library | List the built-in templates
-*TemplatesApi* | [**setTemplateDefaults**](docs/Api/TemplatesApi.md#settemplatedefaults) | **POST** /api/v1/templates/{id}/defaults | Set what a document made from a template starts with
-*TemplatesApi* | [**useTemplate**](docs/Api/TemplatesApi.md#usetemplate) | **POST** /api/v1/templates/{id}/documents | Use a written template for people
-*WebhooksApi* | [**createWebhook**](docs/Api/WebhooksApi.md#createwebhook) | **POST** /api/v1/webhooks | Add a webhook
-*WebhooksApi* | [**deleteWebhook**](docs/Api/WebhooksApi.md#deletewebhook) | **DELETE** /api/v1/webhooks/{id} | Remove a webhook
-*WebhooksApi* | [**fetchRelayEvents**](docs/Api/WebhooksApi.md#fetchrelayevents) | **GET** /api/v1/webhooks/{id}/relay | Fetch stored deliveries of a relay webhook
-*WebhooksApi* | [**listWebhookDeliveries**](docs/Api/WebhooksApi.md#listwebhookdeliveries) | **GET** /api/v1/webhooks/{id}/deliveries | Recent deliveries
-*WebhooksApi* | [**listWebhookTopics**](docs/Api/WebhooksApi.md#listwebhooktopics) | **GET** /api/v1/webhooks/topics | The events a webhook can subscribe to
-*WebhooksApi* | [**listWebhooks**](docs/Api/WebhooksApi.md#listwebhooks) | **GET** /api/v1/webhooks | List webhooks
-*WebhooksApi* | [**rotateWebhookSecret**](docs/Api/WebhooksApi.md#rotatewebhooksecret) | **POST** /api/v1/webhooks/{id}/rotate | Rotate the signing secret
-*WebhooksApi* | [**testWebhook**](docs/Api/WebhooksApi.md#testwebhook) | **POST** /api/v1/webhooks/{id}/test | Send a test event
+*AccountApi* | [**aiUsage**](docs/ApiAccountApi.md#aiusage) | **GET** /api/v1/ai/usage | AI drafts used against your plan
+*AccountApi* | [**paymentsStatus**](docs/ApiAccountApi.md#paymentsstatus) | **GET** /api/v1/payments/status | Is Stripe ready to take a payment?
+*AccountApi* | [**preflight**](docs/ApiAccountApi.md#preflight) | **POST** /api/v1/preflight | Ask what an action would do to your plan, before doing it
+*AccountApi* | [**usage**](docs/ApiAccountApi.md#usage) | **GET** /api/v1/usage | Documents, templates and emails used against your plan
+*DocumentsApi* | [**auditLogCsv**](docs/ApiDocumentsApi.md#auditlogcsv) | **GET** /api/v1/documents/{id}/audit-log.csv | The document&#39;s audit log as CSV
+*DocumentsApi* | [**cancelAiJob**](docs/ApiDocumentsApi.md#cancelaijob) | **POST** /api/v1/documents/ai/jobs/{id}/cancel | Cancel an AI job
+*DocumentsApi* | [**checkDocument**](docs/ApiDocumentsApi.md#checkdocument) | **POST** /api/v1/documents/check | Check a document&#39;s words before making it
+*DocumentsApi* | [**createDocument**](docs/ApiDocumentsApi.md#createdocument) | **POST** /api/v1/documents | Make a document from words and people
+*DocumentsApi* | [**deleteDraft**](docs/ApiDocumentsApi.md#deletedraft) | **DELETE** /api/v1/documents/{id} | Delete a draft that was never sent
+*DocumentsApi* | [**detectFields**](docs/ApiDocumentsApi.md#detectfields) | **POST** /api/v1/documents/detect-fields | Find the fields on a PDF
+*DocumentsApi* | [**downloadSignedPdf**](docs/ApiDocumentsApi.md#downloadsignedpdf) | **GET** /api/v1/documents/{id}/signed.pdf | Download the signed copy
+*DocumentsApi* | [**draftWithAi**](docs/ApiDocumentsApi.md#draftwithai) | **POST** /api/v1/documents/ai/draft | Ask for an AI-written draft
+*DocumentsApi* | [**editWithAi**](docs/ApiDocumentsApi.md#editwithai) | **POST** /api/v1/documents/ai/edit | Ask the assistant to change a document
+*DocumentsApi* | [**embedSession**](docs/ApiDocumentsApi.md#embedsession) | **POST** /api/v1/documents/{id}/embed-session | Start an embedded signing session for a seat
+*DocumentsApi* | [**getAiDraft**](docs/ApiDocumentsApi.md#getaidraft) | **GET** /api/v1/documents/ai/jobs/{id} | Read an AI draft job
+*DocumentsApi* | [**getDocument**](docs/ApiDocumentsApi.md#getdocument) | **GET** /api/v1/documents/{id} | One document and where each person is
+*DocumentsApi* | [**getDraftSource**](docs/ApiDocumentsApi.md#getdraftsource) | **GET** /api/v1/documents/{id}/source | The words, people and choices of a draft
+*DocumentsApi* | [**getWizard**](docs/ApiDocumentsApi.md#getwizard) | **GET** /api/v1/ai/wizard | The wizard&#39;s questions
+*DocumentsApi* | [**listDocuments**](docs/ApiDocumentsApi.md#listdocuments) | **GET** /api/v1/documents | List documents
+*DocumentsApi* | [**listTemplates**](docs/ApiDocumentsApi.md#listtemplates) | **GET** /api/v1/documents/templates | Templates you can send
+*DocumentsApi* | [**remind**](docs/ApiDocumentsApi.md#remind) | **POST** /api/v1/documents/{id}/remind | Remind the people who still have to sign
+*DocumentsApi* | [**reviseDocument**](docs/ApiDocumentsApi.md#revisedocument) | **POST** /api/v1/documents/{id}/revise | Change the words of a draft
+*DocumentsApi* | [**search**](docs/ApiDocumentsApi.md#search) | **GET** /api/v1/search | Search documents, templates and people
+*DocumentsApi* | [**sendDocument**](docs/ApiDocumentsApi.md#senddocument) | **POST** /api/v1/documents/send | Send a template to people to sign
+*DocumentsApi* | [**sendDraft**](docs/ApiDocumentsApi.md#senddraft) | **POST** /api/v1/documents/{id}/send | Send a draft
+*DocumentsApi* | [**testSign**](docs/ApiDocumentsApi.md#testsign) | **POST** /api/v1/documents/{id}/test-sign | Sign a test document (test mode only)
+*DocumentsApi* | [**voidDocument**](docs/ApiDocumentsApi.md#voiddocument) | **POST** /api/v1/documents/{id}/void | Void a document that is still out for signature
+*EmailApi* | [**listEmails**](docs/ApiEmailApi.md#listemails) | **GET** /api/v1/emails | The log of email about your documents
+*EmbeddingApi* | [**builderSession**](docs/ApiEmbeddingApi.md#buildersession) | **POST** /api/v1/embedded/builder-session | Start an embedded template builder session
+*EmbeddingApi* | [**scribeSession**](docs/ApiEmbeddingApi.md#scribesession) | **POST** /api/v1/embedded/scribe-session | Start an embedded Scribe session
+*PaymentsApi* | [**listPayments**](docs/ApiPaymentsApi.md#listpayments) | **GET** /api/v1/payments | List payments taken through documents
+*PaymentsApi* | [**refundPayment**](docs/ApiPaymentsApi.md#refundpayment) | **POST** /api/v1/payments/{id}/refund | Refund a payment, in full or in part
+*PlaysApi* | [**answerDraft**](docs/ApiPlaysApi.md#answerdraft) | **POST** /api/v1/drafts/{draftRef}/answers | Answer a template&#39;s questions
+*PlaysApi* | [**archivePlay**](docs/ApiPlaysApi.md#archiveplay) | **DELETE** /api/v1/plays/{name} | Archive a play
+*PlaysApi* | [**duplicatePlay**](docs/ApiPlaysApi.md#duplicateplay) | **POST** /api/v1/plays/{name}/duplicate | Copy a play under a new name
+*PlaysApi* | [**getPlay**](docs/ApiPlaysApi.md#getplay) | **GET** /api/v1/plays/{name} | One play
+*PlaysApi* | [**listPlaybooks**](docs/ApiPlaysApi.md#listplaybooks) | **GET** /api/v1/playbooks | List playbooks (packs)
+*PlaysApi* | [**listPlays**](docs/ApiPlaysApi.md#listplays) | **GET** /api/v1/plays | List plays
+*PlaysApi* | [**publishPlay**](docs/ApiPlaysApi.md#publishplay) | **POST** /api/v1/plays/{name}/publish | Publish a play version
+*PlaysApi* | [**savePlay**](docs/ApiPlaysApi.md#saveplay) | **POST** /api/v1/plays | Save a play (a new version)
+*PlaysApi* | [**savePlaybook**](docs/ApiPlaysApi.md#saveplaybook) | **POST** /api/v1/playbooks | Save a playbook (pack)
+*PlaysApi* | [**setPlaybookOn**](docs/ApiPlaysApi.md#setplaybookon) | **POST** /api/v1/playbooks/{name}/enable | Switch a pack on or off
+*PlaysApi* | [**startDraft**](docs/ApiPlaysApi.md#startdraft) | **POST** /api/v1/drafts | Start a draft from a template
+*PlaysApi* | [**testPlay**](docs/ApiPlaysApi.md#testplay) | **POST** /api/v1/plays/test | Check a play without saving it
+*TeamsApi* | [**listTeams**](docs/ApiTeamsApi.md#listteams) | **GET** /api/v1/teams | Teams and their members
+*TemplatesApi* | [**createTemplateFromFile**](docs/ApiTemplatesApi.md#createtemplatefromfile) | **POST** /api/v1/templates/file | Make a template from a file with text tags
+*TemplatesApi* | [**createTemplateFromHtml**](docs/ApiTemplatesApi.md#createtemplatefromhtml) | **POST** /api/v1/templates/html | Make a template from HTML with text tags
+*TemplatesApi* | [**createTemplateFromSource**](docs/ApiTemplatesApi.md#createtemplatefromsource) | **POST** /api/v1/templates/source | Make a template from a document source
+*TemplatesApi* | [**customizeLibraryTemplate**](docs/ApiTemplatesApi.md#customizelibrarytemplate) | **POST** /api/v1/templates/library/{slug}/customize | Customize a built-in template
+*TemplatesApi* | [**draftFromLibraryTemplate**](docs/ApiTemplatesApi.md#draftfromlibrarytemplate) | **POST** /api/v1/templates/library/{slug}/documents | Make a draft from a built-in template
+*TemplatesApi* | [**getLibraryTemplate**](docs/ApiTemplatesApi.md#getlibrarytemplate) | **GET** /api/v1/templates/library/{slug} | One built-in template
+*TemplatesApi* | [**getTemplate**](docs/ApiTemplatesApi.md#gettemplate) | **GET** /api/v1/templates/{id} | One template and its seats
+*TemplatesApi* | [**listLibraryTemplates**](docs/ApiTemplatesApi.md#listlibrarytemplates) | **GET** /api/v1/templates/library | List the built-in templates
+*TemplatesApi* | [**setTemplateDefaults**](docs/ApiTemplatesApi.md#settemplatedefaults) | **POST** /api/v1/templates/{id}/defaults | Set what a document made from a template starts with
+*TemplatesApi* | [**useTemplate**](docs/ApiTemplatesApi.md#usetemplate) | **POST** /api/v1/templates/{id}/documents | Use a written template for people
+*WebhooksApi* | [**createWebhook**](docs/ApiWebhooksApi.md#createwebhook) | **POST** /api/v1/webhooks | Add a webhook
+*WebhooksApi* | [**deleteWebhook**](docs/ApiWebhooksApi.md#deletewebhook) | **DELETE** /api/v1/webhooks/{id} | Remove a webhook
+*WebhooksApi* | [**fetchRelayEvents**](docs/ApiWebhooksApi.md#fetchrelayevents) | **GET** /api/v1/webhooks/{id}/relay | Fetch stored deliveries of a relay webhook
+*WebhooksApi* | [**getWebhook**](docs/ApiWebhooksApi.md#getwebhook) | **GET** /api/v1/webhooks/{id} | Get a webhook
+*WebhooksApi* | [**listWebhookDeliveries**](docs/ApiWebhooksApi.md#listwebhookdeliveries) | **GET** /api/v1/webhooks/{id}/deliveries | Recent deliveries
+*WebhooksApi* | [**listWebhookTopics**](docs/ApiWebhooksApi.md#listwebhooktopics) | **GET** /api/v1/webhooks/topics | The events a webhook can subscribe to
+*WebhooksApi* | [**listWebhooks**](docs/ApiWebhooksApi.md#listwebhooks) | **GET** /api/v1/webhooks | List webhooks
+*WebhooksApi* | [**rotateWebhookSecret**](docs/ApiWebhooksApi.md#rotatewebhooksecret) | **POST** /api/v1/webhooks/{id}/rotate | Rotate the signing secret
+*WebhooksApi* | [**testWebhook**](docs/ApiWebhooksApi.md#testwebhook) | **POST** /api/v1/webhooks/{id}/test | Send a test event
+
 
 ## Models
 
-- [AiDraftJob](docs/Model/AiDraftJob.md)
-- [AiUsage](docs/Model/AiUsage.md)
-- [AiUsageByFeatureValue](docs/Model/AiUsageByFeatureValue.md)
-- [AnswerDraftRequest](docs/Model/AnswerDraftRequest.md)
-- [BuilderSession](docs/Model/BuilderSession.md)
-- [BuilderSessionRequest](docs/Model/BuilderSessionRequest.md)
-- [CheckDocument200Response](docs/Model/CheckDocument200Response.md)
-- [CheckDocumentRequest](docs/Model/CheckDocumentRequest.md)
-- [CreateDocumentRequest](docs/Model/CreateDocumentRequest.md)
-- [CreateTemplateFromSource201Response](docs/Model/CreateTemplateFromSource201Response.md)
-- [CreateTemplateFromSourceRequest](docs/Model/CreateTemplateFromSourceRequest.md)
-- [CreateWebhook201Response](docs/Model/CreateWebhook201Response.md)
-- [CreateWebhookRequest](docs/Model/CreateWebhookRequest.md)
-- [CustomizeLibraryTemplateRequest](docs/Model/CustomizeLibraryTemplateRequest.md)
-- [DeleteWebhook200Response](docs/Model/DeleteWebhook200Response.md)
-- [DetectFieldsRequest](docs/Model/DetectFieldsRequest.md)
-- [DetectFieldsResult](docs/Model/DetectFieldsResult.md)
-- [DetectFieldsResultDocumentsInner](docs/Model/DetectFieldsResultDocumentsInner.md)
-- [DetectFieldsResultPagesInner](docs/Model/DetectFieldsResultPagesInner.md)
-- [DetectFieldsResultSummary](docs/Model/DetectFieldsResultSummary.md)
-- [DetectedField](docs/Model/DetectedField.md)
-- [Document](docs/Model/Document.md)
-- [DocumentEventsInner](docs/Model/DocumentEventsInner.md)
-- [DocumentMade](docs/Model/DocumentMade.md)
-- [DocumentMadeApproval](docs/Model/DocumentMadeApproval.md)
-- [DocumentProgress](docs/Model/DocumentProgress.md)
-- [DocumentSummary](docs/Model/DocumentSummary.md)
-- [DraftFromLibraryTemplateRequest](docs/Model/DraftFromLibraryTemplateRequest.md)
-- [DraftWithAi202Response](docs/Model/DraftWithAi202Response.md)
-- [DraftWithAiRequest](docs/Model/DraftWithAiRequest.md)
-- [DuplicatePlayRequest](docs/Model/DuplicatePlayRequest.md)
-- [EditWithAiRequest](docs/Model/EditWithAiRequest.md)
-- [EditWithAiRequestVariablesInner](docs/Model/EditWithAiRequestVariablesInner.md)
-- [EmailChoice](docs/Model/EmailChoice.md)
-- [EmbedSession200Response](docs/Model/EmbedSession200Response.md)
-- [EmbedSessionRequest](docs/Model/EmbedSessionRequest.md)
-- [Error](docs/Model/Error.md)
-- [ErrorError](docs/Model/ErrorError.md)
-- [FetchRelayEvents200Response](docs/Model/FetchRelayEvents200Response.md)
-- [FetchRelayEvents200ResponseEventsInner](docs/Model/FetchRelayEvents200ResponseEventsInner.md)
-- [FileTemplateRequest](docs/Model/FileTemplateRequest.md)
-- [GetDraftSource200Response](docs/Model/GetDraftSource200Response.md)
-- [HtmlTemplateRequest](docs/Model/HtmlTemplateRequest.md)
-- [ListDocuments200Response](docs/Model/ListDocuments200Response.md)
-- [ListDocuments200ResponsePage](docs/Model/ListDocuments200ResponsePage.md)
-- [ListEmails200Response](docs/Model/ListEmails200Response.md)
-- [ListLibraryTemplates400Response](docs/Model/ListLibraryTemplates400Response.md)
-- [ListLibraryTemplates400ResponseError](docs/Model/ListLibraryTemplates400ResponseError.md)
-- [ListTeams200Response](docs/Model/ListTeams200Response.md)
-- [ListTeams200ResponseTeamsInner](docs/Model/ListTeams200ResponseTeamsInner.md)
-- [ListTeams200ResponseTeamsInnerMembersInner](docs/Model/ListTeams200ResponseTeamsInnerMembersInner.md)
-- [ListTemplates200Response](docs/Model/ListTemplates200Response.md)
-- [ListWebhookDeliveries200Response](docs/Model/ListWebhookDeliveries200Response.md)
-- [ListWebhookDeliveries200ResponseDeliveriesInner](docs/Model/ListWebhookDeliveries200ResponseDeliveriesInner.md)
-- [ListWebhookTopics200Response](docs/Model/ListWebhookTopics200Response.md)
-- [ListWebhooks200Response](docs/Model/ListWebhooks200Response.md)
-- [Party](docs/Model/Party.md)
-- [Payment](docs/Model/Payment.md)
-- [PaymentFee](docs/Model/PaymentFee.md)
-- [PaymentsStatus200Response](docs/Model/PaymentsStatus200Response.md)
-- [Person](docs/Model/Person.md)
-- [PublishPlayRequest](docs/Model/PublishPlayRequest.md)
-- [RefundPaymentRequest](docs/Model/RefundPaymentRequest.md)
-- [Remind200Response](docs/Model/Remind200Response.md)
-- [RemindRequest](docs/Model/RemindRequest.md)
-- [ReviseDocument201Response](docs/Model/ReviseDocument201Response.md)
-- [ReviseDocumentRequest](docs/Model/ReviseDocumentRequest.md)
-- [RotateWebhookSecret200Response](docs/Model/RotateWebhookSecret200Response.md)
-- [RotateWebhookSecretRequest](docs/Model/RotateWebhookSecretRequest.md)
-- [SavePlayRequest](docs/Model/SavePlayRequest.md)
-- [SavePlaybookRequest](docs/Model/SavePlaybookRequest.md)
-- [ScribeSessionRequest](docs/Model/ScribeSessionRequest.md)
-- [SendChoices](docs/Model/SendChoices.md)
-- [SendDocument201Response](docs/Model/SendDocument201Response.md)
-- [SendDocument201ResponseNotEmailedInner](docs/Model/SendDocument201ResponseNotEmailedInner.md)
-- [SendDraft201Response](docs/Model/SendDraft201Response.md)
-- [SendDraft202Response](docs/Model/SendDraft202Response.md)
-- [SendDraft202ResponseApproval](docs/Model/SendDraft202ResponseApproval.md)
-- [SendRequest](docs/Model/SendRequest.md)
-- [SendRequestPartiesInner](docs/Model/SendRequestPartiesInner.md)
-- [SetPlaybookOnRequest](docs/Model/SetPlaybookOnRequest.md)
-- [SetTemplateDefaults200Response](docs/Model/SetTemplateDefaults200Response.md)
-- [SetTemplateDefaultsRequest](docs/Model/SetTemplateDefaultsRequest.md)
-- [StartDraftRequest](docs/Model/StartDraftRequest.md)
-- [StartDraftRequestAnswersValue](docs/Model/StartDraftRequestAnswersValue.md)
-- [StartDraftRequestPeopleInner](docs/Model/StartDraftRequestPeopleInner.md)
-- [Template](docs/Model/Template.md)
-- [TemplateMade](docs/Model/TemplateMade.md)
-- [TemplateMadeDetected](docs/Model/TemplateMadeDetected.md)
-- [TemplateMadeWarningsInner](docs/Model/TemplateMadeWarningsInner.md)
-- [TemplateSeatsInner](docs/Model/TemplateSeatsInner.md)
-- [TestSign200Response](docs/Model/TestSign200Response.md)
-- [TestSign200ResponseProgress](docs/Model/TestSign200ResponseProgress.md)
-- [TestSignRequest](docs/Model/TestSignRequest.md)
-- [TestWebhook200Response](docs/Model/TestWebhook200Response.md)
-- [TestWebhookRequest](docs/Model/TestWebhookRequest.md)
-- [Usage](docs/Model/Usage.md)
-- [UsageBilling](docs/Model/UsageBilling.md)
-- [UsageDocuments](docs/Model/UsageDocuments.md)
-- [UsageDrafts](docs/Model/UsageDrafts.md)
-- [UsageEmails](docs/Model/UsageEmails.md)
-- [UsagePeriod](docs/Model/UsagePeriod.md)
-- [UsageTemplates](docs/Model/UsageTemplates.md)
-- [UseTemplateRequest](docs/Model/UseTemplateRequest.md)
-- [VoidDocument200Response](docs/Model/VoidDocument200Response.md)
-- [VoidDocumentRequest](docs/Model/VoidDocumentRequest.md)
-- [WebhookEndpoint](docs/Model/WebhookEndpoint.md)
-- [WizardBrief](docs/Model/WizardBrief.md)
-- [WizardBriefPayment](docs/Model/WizardBriefPayment.md)
+ - [AiDraftJob](docs/ModelAiDraftJob.md)
+ - [AiUsage](docs/ModelAiUsage.md)
+ - [AiUsageByFeatureValue](docs/ModelAiUsageByFeatureValue.md)
+ - [AnswerDraftRequest](docs/ModelAnswerDraftRequest.md)
+ - [BuilderSession](docs/ModelBuilderSession.md)
+ - [BuilderSessionRequest](docs/ModelBuilderSessionRequest.md)
+ - [CheckDocument200Response](docs/ModelCheckDocument200Response.md)
+ - [CheckDocumentRequest](docs/ModelCheckDocumentRequest.md)
+ - [CreateDocumentRequest](docs/ModelCreateDocumentRequest.md)
+ - [CreateTemplateFromSource201Response](docs/ModelCreateTemplateFromSource201Response.md)
+ - [CreateTemplateFromSourceRequest](docs/ModelCreateTemplateFromSourceRequest.md)
+ - [CreateWebhook201Response](docs/ModelCreateWebhook201Response.md)
+ - [CreateWebhookRequest](docs/ModelCreateWebhookRequest.md)
+ - [CustomizeLibraryTemplateRequest](docs/ModelCustomizeLibraryTemplateRequest.md)
+ - [DeleteDraft200Response](docs/ModelDeleteDraft200Response.md)
+ - [DeleteWebhook200Response](docs/ModelDeleteWebhook200Response.md)
+ - [DetectFieldsRequest](docs/ModelDetectFieldsRequest.md)
+ - [DetectFieldsResult](docs/ModelDetectFieldsResult.md)
+ - [DetectFieldsResultDocumentsInner](docs/ModelDetectFieldsResultDocumentsInner.md)
+ - [DetectFieldsResultPagesInner](docs/ModelDetectFieldsResultPagesInner.md)
+ - [DetectFieldsResultSummary](docs/ModelDetectFieldsResultSummary.md)
+ - [DetectedField](docs/ModelDetectedField.md)
+ - [Document](docs/ModelDocument.md)
+ - [DocumentEventsInner](docs/ModelDocumentEventsInner.md)
+ - [DocumentMade](docs/ModelDocumentMade.md)
+ - [DocumentSummary](docs/ModelDocumentSummary.md)
+ - [DraftFromLibraryTemplateRequest](docs/ModelDraftFromLibraryTemplateRequest.md)
+ - [DraftWithAi202Response](docs/ModelDraftWithAi202Response.md)
+ - [DraftWithAiRequest](docs/ModelDraftWithAiRequest.md)
+ - [DuplicatePlayRequest](docs/ModelDuplicatePlayRequest.md)
+ - [EditWithAiRequest](docs/ModelEditWithAiRequest.md)
+ - [EditWithAiRequestVariablesInner](docs/ModelEditWithAiRequestVariablesInner.md)
+ - [EmailChoice](docs/ModelEmailChoice.md)
+ - [EmbedSession200Response](docs/ModelEmbedSession200Response.md)
+ - [EmbedSessionRequest](docs/ModelEmbedSessionRequest.md)
+ - [Error](docs/ModelError.md)
+ - [ErrorError](docs/ModelErrorError.md)
+ - [FetchRelayEvents200Response](docs/ModelFetchRelayEvents200Response.md)
+ - [FetchRelayEvents200ResponseEventsInner](docs/ModelFetchRelayEvents200ResponseEventsInner.md)
+ - [FileTemplateRequest](docs/ModelFileTemplateRequest.md)
+ - [GetDraftSource200Response](docs/ModelGetDraftSource200Response.md)
+ - [HtmlTemplateRequest](docs/ModelHtmlTemplateRequest.md)
+ - [ListDocuments200Response](docs/ModelListDocuments200Response.md)
+ - [ListDocuments200ResponsePage](docs/ModelListDocuments200ResponsePage.md)
+ - [ListEmails200Response](docs/ModelListEmails200Response.md)
+ - [ListLibraryTemplates400Response](docs/ModelListLibraryTemplates400Response.md)
+ - [ListLibraryTemplates400ResponseError](docs/ModelListLibraryTemplates400ResponseError.md)
+ - [ListTeams200Response](docs/ModelListTeams200Response.md)
+ - [ListTeams200ResponseTeamsInner](docs/ModelListTeams200ResponseTeamsInner.md)
+ - [ListTeams200ResponseTeamsInnerMembersInner](docs/ModelListTeams200ResponseTeamsInnerMembersInner.md)
+ - [ListTemplates200Response](docs/ModelListTemplates200Response.md)
+ - [ListWebhookDeliveries200Response](docs/ModelListWebhookDeliveries200Response.md)
+ - [ListWebhookDeliveries200ResponseDeliveriesInner](docs/ModelListWebhookDeliveries200ResponseDeliveriesInner.md)
+ - [ListWebhookTopics200Response](docs/ModelListWebhookTopics200Response.md)
+ - [ListWebhooks200Response](docs/ModelListWebhooks200Response.md)
+ - [Party](docs/ModelParty.md)
+ - [Payment](docs/ModelPayment.md)
+ - [PaymentFee](docs/ModelPaymentFee.md)
+ - [PaymentsStatus200Response](docs/ModelPaymentsStatus200Response.md)
+ - [Person](docs/ModelPerson.md)
+ - [PreflightAnswer](docs/ModelPreflightAnswer.md)
+ - [PreflightAnswerCost](docs/ModelPreflightAnswerCost.md)
+ - [PreflightAnswerPeriod](docs/ModelPreflightAnswerPeriod.md)
+ - [PreflightAnswerPlan](docs/ModelPreflightAnswerPlan.md)
+ - [PreflightOption](docs/ModelPreflightOption.md)
+ - [PreflightRequest](docs/ModelPreflightRequest.md)
+ - [PublishPlayRequest](docs/ModelPublishPlayRequest.md)
+ - [RefundPaymentRequest](docs/ModelRefundPaymentRequest.md)
+ - [Remind200Response](docs/ModelRemind200Response.md)
+ - [RemindRequest](docs/ModelRemindRequest.md)
+ - [ReviseDocument201Response](docs/ModelReviseDocument201Response.md)
+ - [ReviseDocumentRequest](docs/ModelReviseDocumentRequest.md)
+ - [RotateWebhookSecret200Response](docs/ModelRotateWebhookSecret200Response.md)
+ - [RotateWebhookSecretRequest](docs/ModelRotateWebhookSecretRequest.md)
+ - [SavePlayRequest](docs/ModelSavePlayRequest.md)
+ - [SavePlaybookRequest](docs/ModelSavePlaybookRequest.md)
+ - [ScribeSessionRequest](docs/ModelScribeSessionRequest.md)
+ - [SendChoices](docs/ModelSendChoices.md)
+ - [SendDocument201Response](docs/ModelSendDocument201Response.md)
+ - [SendDocument201ResponseNotEmailedInner](docs/ModelSendDocument201ResponseNotEmailedInner.md)
+ - [SendDraft201Response](docs/ModelSendDraft201Response.md)
+ - [SendDraft202Response](docs/ModelSendDraft202Response.md)
+ - [SendDraft202ResponseApproval](docs/ModelSendDraft202ResponseApproval.md)
+ - [SendDraftRequest](docs/ModelSendDraftRequest.md)
+ - [SendRequest](docs/ModelSendRequest.md)
+ - [SendRequestPartiesInner](docs/ModelSendRequestPartiesInner.md)
+ - [SetPlaybookOnRequest](docs/ModelSetPlaybookOnRequest.md)
+ - [SetTemplateDefaults200Response](docs/ModelSetTemplateDefaults200Response.md)
+ - [SetTemplateDefaultsRequest](docs/ModelSetTemplateDefaultsRequest.md)
+ - [StartDraftRequest](docs/ModelStartDraftRequest.md)
+ - [StartDraftRequestAnswersValue](docs/ModelStartDraftRequestAnswersValue.md)
+ - [StartDraftRequestPeopleInner](docs/ModelStartDraftRequestPeopleInner.md)
+ - [Template](docs/ModelTemplate.md)
+ - [TemplateMade](docs/ModelTemplateMade.md)
+ - [TemplateMadeDetected](docs/ModelTemplateMadeDetected.md)
+ - [TemplateMadeWarningsInner](docs/ModelTemplateMadeWarningsInner.md)
+ - [TemplateSeatsInner](docs/ModelTemplateSeatsInner.md)
+ - [TestSign200Response](docs/ModelTestSign200Response.md)
+ - [TestSign200ResponseProgress](docs/ModelTestSign200ResponseProgress.md)
+ - [TestSignRequest](docs/ModelTestSignRequest.md)
+ - [TestWebhook200Response](docs/ModelTestWebhook200Response.md)
+ - [TestWebhookRequest](docs/ModelTestWebhookRequest.md)
+ - [Usage](docs/ModelUsage.md)
+ - [UsageBilling](docs/ModelUsageBilling.md)
+ - [UsageDocuments](docs/ModelUsageDocuments.md)
+ - [UsageDrafts](docs/ModelUsageDrafts.md)
+ - [UsageEmails](docs/ModelUsageEmails.md)
+ - [UsageLimits](docs/ModelUsageLimits.md)
+ - [UsagePeriod](docs/ModelUsagePeriod.md)
+ - [UsageSigners](docs/ModelUsageSigners.md)
+ - [UsageTemplates](docs/ModelUsageTemplates.md)
+ - [UseTemplateRequest](docs/ModelUseTemplateRequest.md)
+ - [VoidDocument200Response](docs/ModelVoidDocument200Response.md)
+ - [VoidDocumentRequest](docs/ModelVoidDocumentRequest.md)
+ - [WebhookDocumentsDocumentCreatedRequest](docs/ModelWebhookDocumentsDocumentCreatedRequest.md)
+ - [WebhookDocumentsDocumentSentRequest](docs/ModelWebhookDocumentsDocumentSentRequest.md)
+ - [WebhookEndpoint](docs/ModelWebhookEndpoint.md)
+ - [WizardBrief](docs/ModelWizardBrief.md)
+ - [WizardBriefPayment](docs/ModelWizardBriefPayment.md)
+
 
 ## Authorization
 
-Authentication schemes defined for the API:
-### bearerAuth
+Send your API key as a bearer token: `Authorization: Bearer $DOCUSTAY_API_KEY`. A test key (it starts with `ds_test_`) only ever emails you.
 
-- **Type**: Bearer authentication
+## Licence
 
-## Tests
-
-To run the tests, use:
-
-```bash
-composer install
-vendor/bin/phpunit
-```
-
-## Author
-
-support@docustay.app
-
-## About this package
-
-This PHP package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
-
-- API version: `2026-10-07`
-    - Generator version: `7.10.0`
-- Build package: `org.openapitools.codegen.languages.PhpClientCodegen`
+MIT. See the LICENSE file. The Docustay server is AGPL-3.0; this client is MIT so you can ship it in any project.

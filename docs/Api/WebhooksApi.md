@@ -4,25 +4,46 @@ All URIs are relative to https://app.docustay.app, except if the operation defin
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createWebhook()**](WebhooksApi.md#createWebhook) | **POST** /api/v1/webhooks | Add a webhook |
-| [**deleteWebhook()**](WebhooksApi.md#deleteWebhook) | **DELETE** /api/v1/webhooks/{id} | Remove a webhook |
-| [**fetchRelayEvents()**](WebhooksApi.md#fetchRelayEvents) | **GET** /api/v1/webhooks/{id}/relay | Fetch stored deliveries of a relay webhook |
-| [**listWebhookDeliveries()**](WebhooksApi.md#listWebhookDeliveries) | **GET** /api/v1/webhooks/{id}/deliveries | Recent deliveries |
-| [**listWebhookTopics()**](WebhooksApi.md#listWebhookTopics) | **GET** /api/v1/webhooks/topics | The events a webhook can subscribe to |
-| [**listWebhooks()**](WebhooksApi.md#listWebhooks) | **GET** /api/v1/webhooks | List webhooks |
-| [**rotateWebhookSecret()**](WebhooksApi.md#rotateWebhookSecret) | **POST** /api/v1/webhooks/{id}/rotate | Rotate the signing secret |
-| [**testWebhook()**](WebhooksApi.md#testWebhook) | **POST** /api/v1/webhooks/{id}/test | Send a test event |
+| [**webhookDocumentsAiAllowanceLow()**](WebhooksApi.md#webhookDocumentsAiAllowanceLow) | **POST** /documents.ai.allowance_low | documents.ai.allowance_low |
+| [**webhookDocumentsApprovalDecided()**](WebhooksApi.md#webhookDocumentsApprovalDecided) | **POST** /documents.approval.decided | documents.approval.decided |
+| [**webhookDocumentsApprovalRequested()**](WebhooksApi.md#webhookDocumentsApprovalRequested) | **POST** /documents.approval.requested | documents.approval.requested |
+| [**webhookDocumentsDocumentBounced()**](WebhooksApi.md#webhookDocumentsDocumentBounced) | **POST** /documents.document.bounced | documents.document.bounced |
+| [**webhookDocumentsDocumentChangesRequested()**](WebhooksApi.md#webhookDocumentsDocumentChangesRequested) | **POST** /documents.document.changes_requested | documents.document.changes_requested |
+| [**webhookDocumentsDocumentCreated()**](WebhooksApi.md#webhookDocumentsDocumentCreated) | **POST** /documents.document.created | documents.document.created |
+| [**webhookDocumentsDocumentDeclined()**](WebhooksApi.md#webhookDocumentsDocumentDeclined) | **POST** /documents.document.declined | documents.document.declined |
+| [**webhookDocumentsDocumentDelegated()**](WebhooksApi.md#webhookDocumentsDocumentDelegated) | **POST** /documents.document.delegated | documents.document.delegated |
+| [**webhookDocumentsDocumentDownloaded()**](WebhooksApi.md#webhookDocumentsDocumentDownloaded) | **POST** /documents.document.downloaded | documents.document.downloaded |
+| [**webhookDocumentsDocumentExecuted()**](WebhooksApi.md#webhookDocumentsDocumentExecuted) | **POST** /documents.document.executed | documents.document.executed |
+| [**webhookDocumentsDocumentExpired()**](WebhooksApi.md#webhookDocumentsDocumentExpired) | **POST** /documents.document.expired | documents.document.expired |
+| [**webhookDocumentsDocumentOpened()**](WebhooksApi.md#webhookDocumentsDocumentOpened) | **POST** /documents.document.opened | documents.document.opened |
+| [**webhookDocumentsDocumentReminderDue()**](WebhooksApi.md#webhookDocumentsDocumentReminderDue) | **POST** /documents.document.reminder_due | documents.document.reminder_due |
+| [**webhookDocumentsDocumentSent()**](WebhooksApi.md#webhookDocumentsDocumentSent) | **POST** /documents.document.sent | documents.document.sent |
+| [**webhookDocumentsDocumentSigned()**](WebhooksApi.md#webhookDocumentsDocumentSigned) | **POST** /documents.document.signed | documents.document.signed |
+| [**webhookDocumentsDocumentVoided()**](WebhooksApi.md#webhookDocumentsDocumentVoided) | **POST** /documents.document.voided | documents.document.voided |
+| [**webhookDocumentsEmailBounced()**](WebhooksApi.md#webhookDocumentsEmailBounced) | **POST** /documents.email.bounced | documents.email.bounced |
+| [**webhookDocumentsEmailComplained()**](WebhooksApi.md#webhookDocumentsEmailComplained) | **POST** /documents.email.complained | documents.email.complained |
+| [**webhookDocumentsEmailDelivered()**](WebhooksApi.md#webhookDocumentsEmailDelivered) | **POST** /documents.email.delivered | documents.email.delivered |
+| [**webhookDocumentsEmailPaused()**](WebhooksApi.md#webhookDocumentsEmailPaused) | **POST** /documents.email.paused | documents.email.paused |
+| [**webhookDocumentsPaymentFailed()**](WebhooksApi.md#webhookDocumentsPaymentFailed) | **POST** /documents.payment.failed | documents.payment.failed |
+| [**webhookDocumentsPaymentHoldLapsed()**](WebhooksApi.md#webhookDocumentsPaymentHoldLapsed) | **POST** /documents.payment.hold_lapsed | documents.payment.hold_lapsed |
+| [**webhookDocumentsPaymentReceived()**](WebhooksApi.md#webhookDocumentsPaymentReceived) | **POST** /documents.payment.received | documents.payment.received |
+| [**webhookDocumentsTeamCreated()**](WebhooksApi.md#webhookDocumentsTeamCreated) | **POST** /documents.team.created | documents.team.created |
+| [**webhookDocumentsTeamDeleted()**](WebhooksApi.md#webhookDocumentsTeamDeleted) | **POST** /documents.team.deleted | documents.team.deleted |
+| [**webhookDocumentsTeamUpdated()**](WebhooksApi.md#webhookDocumentsTeamUpdated) | **POST** /documents.team.updated | documents.team.updated |
+| [**webhookDocumentsTemplateCreated()**](WebhooksApi.md#webhookDocumentsTemplateCreated) | **POST** /documents.template.created | documents.template.created |
+| [**webhookDocumentsTemplateFieldsDetected()**](WebhooksApi.md#webhookDocumentsTemplateFieldsDetected) | **POST** /documents.template.fields_detected | documents.template.fields_detected |
+| [**webhookDocumentsUsageThreshold()**](WebhooksApi.md#webhookDocumentsUsageThreshold) | **POST** /documents.usage.threshold | documents.usage.threshold |
 
 
-## `createWebhook()`
+## `webhookDocumentsAiAllowanceLow()`
 
 ```php
-createWebhook($create_webhook_request): \Docustay\Model\CreateWebhook201Response
+webhookDocumentsAiAllowanceLow($webhook_documents_document_sent_request)
 ```
 
-Add a webhook
+documents.ai.allowance_low
 
-Give an `https` `url` that can be reached from the internet, or `relay: true` for an endpoint that keeps its signed deliveries for `docustay listen` to fetch to your own computer. The signing secret is in the answer **once**. Events are signed with HMAC-SHA256 (Standard Webhooks headers `webhook-id`, `webhook-timestamp`, `webhook-signature`; also `keystone-signature`).
+The workspace's Scribe allowance is nearly used. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
 
 ### Example
 
@@ -32,8 +53,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\WebhooksApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -41,13 +61,12 @@ $apiInstance = new Docustay\Api\WebhooksApi(
     new GuzzleHttp\Client(),
     $config
 );
-$create_webhook_request = new \Docustay\Model\CreateWebhookRequest(); // \Docustay\Model\CreateWebhookRequest
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.ai.allowance_low","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
 
 try {
-    $result = $apiInstance->createWebhook($create_webhook_request);
-    print_r($result);
+    $apiInstance->webhookDocumentsAiAllowanceLow($webhook_documents_document_sent_request);
 } catch (Exception $e) {
-    echo 'Exception when calling WebhooksApi->createWebhook: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling WebhooksApi->webhookDocumentsAiAllowanceLow: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -55,11 +74,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **create_webhook_request** | [**\Docustay\Model\CreateWebhookRequest**](../Model/CreateWebhookRequest.md)|  | |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
 
 ### Return type
 
-[**\Docustay\Model\CreateWebhook201Response**](../Model/CreateWebhook201Response.md)
+void (empty response body)
 
 ### Authorization
 
@@ -68,19 +87,21 @@ try {
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `deleteWebhook()`
+## `webhookDocumentsApprovalDecided()`
 
 ```php
-deleteWebhook($id): \Docustay\Model\DeleteWebhook200Response
+webhookDocumentsApprovalDecided($webhook_documents_document_sent_request)
 ```
 
-Remove a webhook
+documents.approval.decided
+
+A person approved or declined a send that a draft-only key asked for. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
 
 ### Example
 
@@ -90,8 +111,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\WebhooksApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -99,13 +119,12 @@ $apiInstance = new Docustay\Api\WebhooksApi(
     new GuzzleHttp\Client(),
     $config
 );
-$id = 'id_example'; // string
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.approval.decided","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
 
 try {
-    $result = $apiInstance->deleteWebhook($id);
-    print_r($result);
+    $apiInstance->webhookDocumentsApprovalDecided($webhook_documents_document_sent_request);
 } catch (Exception $e) {
-    echo 'Exception when calling WebhooksApi->deleteWebhook: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling WebhooksApi->webhookDocumentsApprovalDecided: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -113,307 +132,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **id** | **string**|  | |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
 
 ### Return type
 
-[**\Docustay\Model\DeleteWebhook200Response**](../Model/DeleteWebhook200Response.md)
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `fetchRelayEvents()`
-
-```php
-fetchRelayEvents($id, $after, $wait, $limit): \Docustay\Model\FetchRelayEvents200Response
-```
-
-Fetch stored deliveries of a relay webhook
-
-For `docustay listen`. Returns deliveries stored since `after` (an id from a previous answer; leave out for the newest few), oldest first, each with the exact headers to forward so the signature checks out. Waits up to `wait` seconds (max 25) when there is nothing yet. Kept 24 hours.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new Docustay\Api\WebhooksApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$id = 'id_example'; // string
-$after = 'after_example'; // string
-$wait = 56; // int
-$limit = 56; // int
-
-try {
-    $result = $apiInstance->fetchRelayEvents($id, $after, $wait, $limit);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling WebhooksApi->fetchRelayEvents: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **id** | **string**|  | |
-| **after** | **string**|  | [optional] |
-| **wait** | **int**|  | [optional] |
-| **limit** | **int**|  | [optional] |
-
-### Return type
-
-[**\Docustay\Model\FetchRelayEvents200Response**](../Model/FetchRelayEvents200Response.md)
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `listWebhookDeliveries()`
-
-```php
-listWebhookDeliveries($id): \Docustay\Model\ListWebhookDeliveries200Response
-```
-
-Recent deliveries
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new Docustay\Api\WebhooksApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$id = 'id_example'; // string
-
-try {
-    $result = $apiInstance->listWebhookDeliveries($id);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling WebhooksApi->listWebhookDeliveries: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **id** | **string**|  | |
-
-### Return type
-
-[**\Docustay\Model\ListWebhookDeliveries200Response**](../Model/ListWebhookDeliveries200Response.md)
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `listWebhookTopics()`
-
-```php
-listWebhookTopics(): \Docustay\Model\ListWebhookTopics200Response
-```
-
-The events a webhook can subscribe to
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new Docustay\Api\WebhooksApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-
-try {
-    $result = $apiInstance->listWebhookTopics();
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling WebhooksApi->listWebhookTopics: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-[**\Docustay\Model\ListWebhookTopics200Response**](../Model/ListWebhookTopics200Response.md)
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `listWebhooks()`
-
-```php
-listWebhooks(): \Docustay\Model\ListWebhooks200Response
-```
-
-List webhooks
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new Docustay\Api\WebhooksApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-
-try {
-    $result = $apiInstance->listWebhooks();
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling WebhooksApi->listWebhooks: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-[**\Docustay\Model\ListWebhooks200Response**](../Model/ListWebhooks200Response.md)
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `rotateWebhookSecret()`
-
-```php
-rotateWebhookSecret($id, $rotate_webhook_secret_request): \Docustay\Model\RotateWebhookSecret200Response
-```
-
-Rotate the signing secret
-
-Makes a new secret (shown once). For `windowHours` (default 24) every event is signed with both the new and the old secret, so your receiver can switch without a gap.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new Docustay\Api\WebhooksApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$id = 'id_example'; // string
-$rotate_webhook_secret_request = new \Docustay\Model\RotateWebhookSecretRequest(); // \Docustay\Model\RotateWebhookSecretRequest
-
-try {
-    $result = $apiInstance->rotateWebhookSecret($id, $rotate_webhook_secret_request);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling WebhooksApi->rotateWebhookSecret: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **id** | **string**|  | |
-| **rotate_webhook_secret_request** | [**\Docustay\Model\RotateWebhookSecretRequest**](../Model/RotateWebhookSecretRequest.md)|  | [optional] |
-
-### Return type
-
-[**\Docustay\Model\RotateWebhookSecret200Response**](../Model/RotateWebhookSecret200Response.md)
+void (empty response body)
 
 ### Authorization
 
@@ -422,21 +145,21 @@ try {
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `testWebhook()`
+## `webhookDocumentsApprovalRequested()`
 
 ```php
-testWebhook($id, $test_webhook_request): \Docustay\Model\TestWebhook200Response
+webhookDocumentsApprovalRequested($webhook_documents_document_sent_request)
 ```
 
-Send a test event
+documents.approval.requested
 
-Sends a sample signed event (`test: true` in its payload) to the webhook now and returns the receiver's answer. Nothing is stored and failures here never count toward disabling the webhook. Nothing is created, so no Idempotency-Key is needed: repeating the call just sends another test.
+A draft-only key asked to send, and a person must approve. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
 
 ### Example
 
@@ -446,8 +169,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\WebhooksApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -455,14 +177,12 @@ $apiInstance = new Docustay\Api\WebhooksApi(
     new GuzzleHttp\Client(),
     $config
 );
-$id = 'id_example'; // string
-$test_webhook_request = new \Docustay\Model\TestWebhookRequest(); // \Docustay\Model\TestWebhookRequest
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.approval.requested","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
 
 try {
-    $result = $apiInstance->testWebhook($id, $test_webhook_request);
-    print_r($result);
+    $apiInstance->webhookDocumentsApprovalRequested($webhook_documents_document_sent_request);
 } catch (Exception $e) {
-    echo 'Exception when calling WebhooksApi->testWebhook: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling WebhooksApi->webhookDocumentsApprovalRequested: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -470,12 +190,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **id** | **string**|  | |
-| **test_webhook_request** | [**\Docustay\Model\TestWebhookRequest**](../Model/TestWebhookRequest.md)|  | [optional] |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
 
 ### Return type
 
-[**\Docustay\Model\TestWebhook200Response**](../Model/TestWebhook200Response.md)
+void (empty response body)
 
 ### Authorization
 
@@ -484,7 +203,1515 @@ try {
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentBounced()`
+
+```php
+webhookDocumentsDocumentBounced($webhook_documents_document_sent_request)
+```
+
+documents.document.bounced
+
+An email to a signer could not be delivered. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.bounced","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentBounced($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentBounced: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentChangesRequested()`
+
+```php
+webhookDocumentsDocumentChangesRequested($webhook_documents_document_sent_request)
+```
+
+documents.document.changes_requested
+
+A person asked for changes instead of signing. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.changes_requested","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentChangesRequested($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentChangesRequested: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentCreated()`
+
+```php
+webhookDocumentsDocumentCreated($webhook_documents_document_created_request)
+```
+
+documents.document.created
+
+A document was made. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_created_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.created","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentCreatedRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentCreated($webhook_documents_document_created_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentCreated: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_created_request** | [**\Docustay\Model\WebhookDocumentsDocumentCreatedRequest**](../Model/WebhookDocumentsDocumentCreatedRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentDeclined()`
+
+```php
+webhookDocumentsDocumentDeclined($webhook_documents_document_sent_request)
+```
+
+documents.document.declined
+
+A person declined to sign. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.declined","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentDeclined($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentDeclined: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentDelegated()`
+
+```php
+webhookDocumentsDocumentDelegated($webhook_documents_document_sent_request)
+```
+
+documents.document.delegated
+
+A person passed their part to someone else. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.delegated","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentDelegated($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentDelegated: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentDownloaded()`
+
+```php
+webhookDocumentsDocumentDownloaded($webhook_documents_document_sent_request)
+```
+
+documents.document.downloaded
+
+Someone downloaded the document or its sealed copy. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.downloaded","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentDownloaded($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentDownloaded: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentExecuted()`
+
+```php
+webhookDocumentsDocumentExecuted($webhook_documents_document_sent_request)
+```
+
+documents.document.executed
+
+Everyone signed and the sealed copy is ready. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.executed","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentExecuted($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentExecuted: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentExpired()`
+
+```php
+webhookDocumentsDocumentExpired($webhook_documents_document_sent_request)
+```
+
+documents.document.expired
+
+The document reached its deadline unsigned. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.expired","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentExpired($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentExpired: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentOpened()`
+
+```php
+webhookDocumentsDocumentOpened($webhook_documents_document_sent_request)
+```
+
+documents.document.opened
+
+A person opened the document. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.opened","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentOpened($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentOpened: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentReminderDue()`
+
+```php
+webhookDocumentsDocumentReminderDue($webhook_documents_document_sent_request)
+```
+
+documents.document.reminder_due
+
+A scheduled reminder came due. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.reminder_due","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentReminderDue($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentReminderDue: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentSent()`
+
+```php
+webhookDocumentsDocumentSent($webhook_documents_document_sent_request)
+```
+
+documents.document.sent
+
+A document was sent to its people. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.sent","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentSent($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentSent: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentSigned()`
+
+```php
+webhookDocumentsDocumentSigned($webhook_documents_document_sent_request)
+```
+
+documents.document.signed
+
+A person signed their part. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.signed","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentSigned($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentSigned: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsDocumentVoided()`
+
+```php
+webhookDocumentsDocumentVoided($webhook_documents_document_sent_request)
+```
+
+documents.document.voided
+
+The sender cancelled the document. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.document.voided","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsDocumentVoided($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsDocumentVoided: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsEmailBounced()`
+
+```php
+webhookDocumentsEmailBounced($webhook_documents_document_sent_request)
+```
+
+documents.email.bounced
+
+An email bounced. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.email.bounced","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsEmailBounced($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsEmailBounced: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsEmailComplained()`
+
+```php
+webhookDocumentsEmailComplained($webhook_documents_document_sent_request)
+```
+
+documents.email.complained
+
+A recipient marked an email as spam. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.email.complained","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsEmailComplained($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsEmailComplained: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsEmailDelivered()`
+
+```php
+webhookDocumentsEmailDelivered($webhook_documents_document_sent_request)
+```
+
+documents.email.delivered
+
+The mail provider delivered an email. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.email.delivered","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsEmailDelivered($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsEmailDelivered: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsEmailPaused()`
+
+```php
+webhookDocumentsEmailPaused($webhook_documents_document_sent_request)
+```
+
+documents.email.paused
+
+Sending to an address was paused after repeated problems. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.email.paused","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsEmailPaused($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsEmailPaused: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsPaymentFailed()`
+
+```php
+webhookDocumentsPaymentFailed($webhook_documents_document_sent_request)
+```
+
+documents.payment.failed
+
+A payment, or a plan invoice, failed. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.payment.failed","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsPaymentFailed($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsPaymentFailed: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsPaymentHoldLapsed()`
+
+```php
+webhookDocumentsPaymentHoldLapsed($webhook_documents_document_sent_request)
+```
+
+documents.payment.hold_lapsed
+
+A payment hold ran out before the signer paid. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.payment.hold_lapsed","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsPaymentHoldLapsed($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsPaymentHoldLapsed: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsPaymentReceived()`
+
+```php
+webhookDocumentsPaymentReceived($webhook_documents_document_sent_request)
+```
+
+documents.payment.received
+
+A signer paid. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.payment.received","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsPaymentReceived($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsPaymentReceived: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsTeamCreated()`
+
+```php
+webhookDocumentsTeamCreated($webhook_documents_document_sent_request)
+```
+
+documents.team.created
+
+A team was made. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.team.created","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsTeamCreated($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsTeamCreated: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsTeamDeleted()`
+
+```php
+webhookDocumentsTeamDeleted($webhook_documents_document_sent_request)
+```
+
+documents.team.deleted
+
+A team was deleted. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.team.deleted","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsTeamDeleted($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsTeamDeleted: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsTeamUpdated()`
+
+```php
+webhookDocumentsTeamUpdated($webhook_documents_document_sent_request)
+```
+
+documents.team.updated
+
+A team was changed. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.team.updated","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsTeamUpdated($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsTeamUpdated: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsTemplateCreated()`
+
+```php
+webhookDocumentsTemplateCreated($webhook_documents_document_sent_request)
+```
+
+documents.template.created
+
+A template was made. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.template.created","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsTemplateCreated($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsTemplateCreated: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsTemplateFieldsDetected()`
+
+```php
+webhookDocumentsTemplateFieldsDetected($webhook_documents_document_sent_request)
+```
+
+documents.template.fields_detected
+
+Fields were found in an uploaded file. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.template.fields_detected","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsTemplateFieldsDetected($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsTemplateFieldsDetected: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `webhookDocumentsUsageThreshold()`
+
+```php
+webhookDocumentsUsageThreshold($webhook_documents_document_sent_request)
+```
+
+documents.usage.threshold
+
+The workspace crossed a usage threshold. Signed with the Standard Webhooks headers webhook-id, webhook-timestamp and webhook-signature.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\WebhooksApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_documents_document_sent_request = {"id":"01a1362b-5187-7ab3-a070-9abc82270c04","topic":"documents.usage.threshold","subject_type":"document","subject_id":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","payload":{"test":false},"emitted_at":"2026-10-13T17:02:11.412Z"}; // \Docustay\Model\WebhookDocumentsDocumentSentRequest
+
+try {
+    $apiInstance->webhookDocumentsUsageThreshold($webhook_documents_document_sent_request);
+} catch (Exception $e) {
+    echo 'Exception when calling WebhooksApi->webhookDocumentsUsageThreshold: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_documents_document_sent_request** | [**\Docustay\Model\WebhookDocumentsDocumentSentRequest**](../Model/WebhookDocumentsDocumentSentRequest.md)|  | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

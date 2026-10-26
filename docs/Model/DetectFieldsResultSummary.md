@@ -1,4 +1,4 @@
-# # DetectFieldsResultSummary
+# DetectFieldsResultSummary
 
 ## Properties
 

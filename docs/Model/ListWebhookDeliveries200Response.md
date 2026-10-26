@@ -1,4 +1,4 @@
-# # ListWebhookDeliveries200Response
+# ListWebhookDeliveries200Response
 
 ## Properties
 

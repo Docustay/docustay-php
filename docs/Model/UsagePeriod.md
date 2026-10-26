@@ -1,4 +1,4 @@
-# # UsagePeriod
+# UsagePeriod
 
 ## Properties
 

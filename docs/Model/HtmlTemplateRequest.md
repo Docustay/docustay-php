@@ -1,4 +1,4 @@
-# # HtmlTemplateRequest
+# HtmlTemplateRequest
 
 ## Properties
 

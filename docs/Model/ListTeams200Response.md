@@ -1,4 +1,4 @@
-# # ListTeams200Response
+# ListTeams200Response
 
 ## Properties
 

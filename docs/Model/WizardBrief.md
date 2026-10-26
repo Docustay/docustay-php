@@ -1,4 +1,4 @@
-# # WizardBrief
+# WizardBrief
 
 ## Properties
 

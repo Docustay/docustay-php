@@ -1,4 +1,4 @@
-# # TemplateMade
+# TemplateMade
 
 ## Properties
 

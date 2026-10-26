@@ -1,4 +1,4 @@
-# # RemindRequest
+# RemindRequest
 
 ## Properties
 

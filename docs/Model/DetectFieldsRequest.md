@@ -1,4 +1,4 @@
-# # DetectFieldsRequest
+# DetectFieldsRequest
 
 ## Properties
 

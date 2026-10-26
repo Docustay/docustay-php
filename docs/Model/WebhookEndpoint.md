@@ -1,4 +1,4 @@
-# # WebhookEndpoint
+# WebhookEndpoint
 
 ## Properties
 

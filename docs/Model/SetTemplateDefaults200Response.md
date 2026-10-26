@@ -1,4 +1,4 @@
-# # SetTemplateDefaults200Response
+# SetTemplateDefaults200Response
 
 ## Properties
 

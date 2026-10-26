@@ -1,4 +1,4 @@
-# # EmailChoice
+# EmailChoice
 
 ## Properties
 

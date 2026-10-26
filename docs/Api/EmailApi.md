@@ -25,8 +25,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\EmailApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -36,8 +35,8 @@ $apiInstance = new Docustay\Api\EmailApi(
 );
 $document_id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
 $to = 'to_example'; // string
-$status = 'status_example'; // string
-$kind = 'kind_example'; // string
+$status = 'status_example'; // string | Only emails in this state; any other value is refused (R13-D205).
+$kind = 'kind_example'; // string | Only emails of this kind; any other value is refused (R13-D346).
 $limit = 56; // int
 $cursor = 'cursor_example'; // string
 
@@ -55,8 +54,8 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **document_id** | **string**|  | [optional] |
 | **to** | **string**|  | [optional] |
-| **status** | **string**|  | [optional] |
-| **kind** | **string**|  | [optional] |
+| **status** | **string**| Only emails in this state; any other value is refused (R13-D205). | [optional] |
+| **kind** | **string**| Only emails of this kind; any other value is refused (R13-D346). | [optional] |
 | **limit** | **int**|  | [optional] |
 | **cursor** | **string**|  | [optional] |
 

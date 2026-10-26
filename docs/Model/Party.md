@@ -1,4 +1,4 @@
-# # Party
+# Party
 
 ## Properties
 

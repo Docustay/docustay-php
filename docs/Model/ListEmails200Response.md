@@ -1,4 +1,4 @@
-# # ListEmails200Response
+# ListEmails200Response
 
 ## Properties
 

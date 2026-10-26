@@ -1,4 +1,4 @@
-# # CreateWebhook201Response
+# CreateWebhook201Response
 
 ## Properties
 

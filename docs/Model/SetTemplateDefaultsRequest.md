@@ -1,4 +1,4 @@
-# # SetTemplateDefaultsRequest
+# SetTemplateDefaultsRequest
 
 ## Properties
 

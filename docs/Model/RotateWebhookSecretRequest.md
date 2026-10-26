@@ -1,4 +1,4 @@
-# # RotateWebhookSecretRequest
+# RotateWebhookSecretRequest
 
 ## Properties
 

@@ -15,6 +15,8 @@ listTeams(): \Docustay\Model\ListTeams200Response
 
 Teams and their members
 
+Teams and their members.
+
 ### Example
 
 ```php
@@ -23,8 +25,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TeamsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.

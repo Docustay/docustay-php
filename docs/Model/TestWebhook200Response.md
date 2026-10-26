@@ -1,4 +1,4 @@
-# # TestWebhook200Response
+# TestWebhook200Response
 
 ## Properties
 

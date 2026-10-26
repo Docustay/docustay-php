@@ -1,4 +1,4 @@
-# # Document
+# Document
 
 ## Properties
 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **executed_at** | **string** |  |
 **voided_at** | **string** |  |
 **void_reason** | **string** |  |
-**progress** | [**\Docustay\Model\DocumentProgress**](DocumentProgress.md) |  |
+**progress** | [**\Docustay\Model\TestSign200ResponseProgress**](TestSign200ResponseProgress.md) |  |
 **signed_copy_available** | **bool** |  |
 **parties** | [**\Docustay\Model\Party[]**](Party.md) |  |
 **payments** | [**\Docustay\Model\Payment[]**](Payment.md) | Payments made through payment fields on this document (empty when it has none). A payment field&#39;s amount is one set amount (optionally paid as a deposit now), or an amount you give when you send the document — see the text tag setting &#x60;amount&#x60;. |

@@ -1,4 +1,4 @@
-# # ListWebhookDeliveries200ResponseDeliveriesInner
+# ListWebhookDeliveries200ResponseDeliveriesInner
 
 ## Properties
 
@@ -11,5 +11,6 @@ Name | Type | Description | Notes
 **response_status** | **float** |  |
 **error** | **string** |  |
 **attempted_at** | **string** |  |
+**test** | **bool** |  |
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

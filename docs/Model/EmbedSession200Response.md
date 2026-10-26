@@ -1,4 +1,4 @@
-# # EmbedSession200Response
+# EmbedSession200Response
 
 ## Properties
 

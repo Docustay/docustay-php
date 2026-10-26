@@ -1,4 +1,4 @@
-# # CheckDocument200Response
+# CheckDocument200Response
 
 ## Properties
 

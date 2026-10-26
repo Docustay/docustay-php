@@ -1,4 +1,4 @@
-# # AiUsage
+# AiUsage
 
 ## Properties
 

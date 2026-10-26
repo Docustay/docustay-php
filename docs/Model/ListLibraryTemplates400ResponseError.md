@@ -1,4 +1,4 @@
-# # ListLibraryTemplates400ResponseError
+# ListLibraryTemplates400ResponseError
 
 ## Properties
 

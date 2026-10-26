@@ -26,8 +26,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\EmbeddingApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -35,7 +34,7 @@ $apiInstance = new Docustay\Api\EmbeddingApi(
     new GuzzleHttp\Client(),
     $config
 );
-$builder_session_request = new \Docustay\Model\BuilderSessionRequest(); // \Docustay\Model\BuilderSessionRequest
+$builder_session_request = {"origin":"https://app.example.com","name":"string"}; // \Docustay\Model\BuilderSessionRequest
 
 try {
     $result = $apiInstance->builderSession($builder_session_request);
@@ -86,8 +85,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\EmbeddingApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -95,7 +93,7 @@ $apiInstance = new Docustay\Api\EmbeddingApi(
     new GuzzleHttp\Client(),
     $config
 );
-$scribe_session_request = new \Docustay\Model\ScribeSessionRequest(); // \Docustay\Model\ScribeSessionRequest
+$scribe_session_request = {"origin":"https://app.example.com","name":"string"}; // \Docustay\Model\ScribeSessionRequest
 
 try {
     $result = $apiInstance->scribeSession($scribe_session_request);

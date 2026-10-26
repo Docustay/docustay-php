@@ -1,4 +1,4 @@
-# # TemplateMadeDetected
+# TemplateMadeDetected
 
 ## Properties
 

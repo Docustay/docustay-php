@@ -1,4 +1,4 @@
-# # ListWebhooks200Response
+# ListWebhooks200Response
 
 ## Properties
 

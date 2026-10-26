@@ -1,4 +1,4 @@
-# # EmbedSessionRequest
+# EmbedSessionRequest
 
 ## Properties
 

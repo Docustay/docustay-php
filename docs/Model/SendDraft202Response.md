@@ -1,4 +1,4 @@
-# # SendDraft202Response
+# SendDraft202Response
 
 ## Properties
 

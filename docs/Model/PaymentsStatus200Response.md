@@ -1,4 +1,4 @@
-# # PaymentsStatus200Response
+# PaymentsStatus200Response
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# # UsageBilling
+# UsageBilling
 
 ## Properties
 

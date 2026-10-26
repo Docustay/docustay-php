@@ -1,4 +1,4 @@
-# # WizardBriefPayment
+# WizardBriefPayment
 
 ## Properties
 

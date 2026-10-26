@@ -1,4 +1,4 @@
-# # SendRequest
+# SendRequest
 
 ## Properties
 
@@ -12,6 +12,8 @@ Name | Type | Description | Notes
 **message** | **string** |  | [optional]
 **subject** | **string** |  | [optional]
 **expiry_days** | **int** |  | [optional]
+**signing_order** | **string** | &#x60;sequential&#x60;: each seat signs in the template&#39;s seat order (signer_1 first), and an embedded seat gets its session only when it is that person&#39;s turn. Left out, the template&#39;s own setting. | [optional]
+**values** | **array<string,string>** | The boxes the sender fills in (\&quot;Filled in by: Sender\&quot;) and the template&#39;s send-time amounts, by key: a box&#39;s label in lower case with underscores (\&quot;Effective date\&quot; → &#x60;effective_date&#x60;). A send that leaves one empty answers 400 naming it. | [optional]
 **embedded** | **string[]** | Seats signed inside your own app instead of by emailed link (for example [\&quot;signer_1\&quot;]). Nobody is emailed for these seats: you ask for a session with POST /api/v1/documents/{id}/embed-session and show it on a website you listed under Settings → Developers → Embedding. | [optional]
 **parties** | [**\Docustay\Model\SendRequestPartiesInner[]**](SendRequestPartiesInner.md) | One entry for each seat of the template (see GET /api/v1/documents/templates). |
 

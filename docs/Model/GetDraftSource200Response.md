@@ -1,4 +1,4 @@
-# # GetDraftSource200Response
+# GetDraftSource200Response
 
 ## Properties
 

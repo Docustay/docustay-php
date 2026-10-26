@@ -26,8 +26,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PaymentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -88,8 +87,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PaymentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -99,7 +97,7 @@ $apiInstance = new Docustay\Api\PaymentsApi(
 );
 $id = 'id_example'; // string
 $idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
-$refund_payment_request = new \Docustay\Model\RefundPaymentRequest(); // \Docustay\Model\RefundPaymentRequest
+$refund_payment_request = {"amountMinor":1,"reason":"string"}; // \Docustay\Model\RefundPaymentRequest
 
 try {
     $result = $apiInstance->refundPayment($id, $idempotency_key, $refund_payment_request);

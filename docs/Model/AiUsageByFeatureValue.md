@@ -1,4 +1,4 @@
-# # AiUsageByFeatureValue
+# AiUsageByFeatureValue
 
 ## Properties
 

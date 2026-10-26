@@ -1,4 +1,4 @@
-# # ListDocuments200ResponsePage
+# ListDocuments200ResponsePage
 
 ## Properties
 

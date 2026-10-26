@@ -1,4 +1,4 @@
-# # TemplateSeatsInner
+# TemplateSeatsInner
 
 ## Properties
 

@@ -34,8 +34,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -44,7 +43,7 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     $config
 );
 $idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
-$file_template_request = new \Docustay\Model\FileTemplateRequest(); // \Docustay\Model\FileTemplateRequest
+$file_template_request = {"metadata":{"crmDealId":"D-1042"},"externalId":"contract-2026-0042","name":"string","fileName":"string","file":"string","fields":"tags","minConfidence":0}; // \Docustay\Model\FileTemplateRequest
 
 try {
     $result = $apiInstance->createTemplateFromFile($idempotency_key, $file_template_request);
@@ -96,8 +95,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -106,7 +104,7 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     $config
 );
 $idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
-$html_template_request = new \Docustay\Model\HtmlTemplateRequest(); // \Docustay\Model\HtmlTemplateRequest
+$html_template_request = {"metadata":{"crmDealId":"D-1042"},"externalId":"contract-2026-0042","name":"string","html":"string","paper":"letter"}; // \Docustay\Model\HtmlTemplateRequest
 
 try {
     $result = $apiInstance->createTemplateFromHtml($idempotency_key, $html_template_request);
@@ -158,8 +156,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -168,7 +165,7 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     $config
 );
 $idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
-$create_template_from_source_request = new \Docustay\Model\CreateTemplateFromSourceRequest(); // \Docustay\Model\CreateTemplateFromSourceRequest
+$create_template_from_source_request = {"metadata":{"crmDealId":"D-1042"},"externalId":"contract-2026-0042","name":"string","source":{},"profile":"typeset","paper":"letter"}; // \Docustay\Model\CreateTemplateFromSourceRequest
 
 try {
     $result = $apiInstance->createTemplateFromSource($idempotency_key, $create_template_from_source_request);
@@ -220,8 +217,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -230,7 +226,7 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     $config
 );
 $slug = 'slug_example'; // string
-$customize_library_template_request = new \Docustay\Model\CustomizeLibraryTemplateRequest(); // \Docustay\Model\CustomizeLibraryTemplateRequest
+$customize_library_template_request = {"name":"string"}; // \Docustay\Model\CustomizeLibraryTemplateRequest
 
 try {
     $result = $apiInstance->customizeLibraryTemplate($slug, $customize_library_template_request);
@@ -282,8 +278,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -292,7 +287,7 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     $config
 );
 $slug = 'slug_example'; // string
-$draft_from_library_template_request = new \Docustay\Model\DraftFromLibraryTemplateRequest(); // \Docustay\Model\DraftFromLibraryTemplateRequest
+$draft_from_library_template_request = {"title":"string"}; // \Docustay\Model\DraftFromLibraryTemplateRequest
 
 try {
     $result = $apiInstance->draftFromLibraryTemplate($slug, $draft_from_library_template_request);
@@ -344,8 +339,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -394,6 +388,8 @@ getTemplate($id): \Docustay\Model\Template
 
 One template and its seats
 
+One template and its seats.
+
 ### Example
 
 ```php
@@ -402,8 +398,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -462,8 +457,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -512,6 +506,8 @@ setTemplateDefaults($id, $set_template_defaults_request): \Docustay\Model\SetTem
 
 Set what a document made from a template starts with
 
+Set what a document made from a template starts with.
+
 ### Example
 
 ```php
@@ -520,8 +516,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -530,7 +525,7 @@ $apiInstance = new Docustay\Api\TemplatesApi(
     $config
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
-$set_template_defaults_request = new \Docustay\Model\SetTemplateDefaultsRequest(); // \Docustay\Model\SetTemplateDefaultsRequest
+$set_template_defaults_request = {"description":"string","clientDescription":"string","message":"string","send":{"replyTo":"person@example.com","senderName":"string","subject":"string","message":"string","expiryDays":0,"reminderDays":[1],"signingOrder":"any","internalNote":"string","requireDeclineReason":false}}; // \Docustay\Model\SetTemplateDefaultsRequest
 
 try {
     $result = $apiInstance->setTemplateDefaults($id, $set_template_defaults_request);
@@ -582,8 +577,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\TemplatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -593,7 +587,7 @@ $apiInstance = new Docustay\Api\TemplatesApi(
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
 $idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
-$use_template_request = new \Docustay\Model\UseTemplateRequest(); // \Docustay\Model\UseTemplateRequest
+$use_template_request = {"email":{"subject":"string","message":"string","replyTo":"person@example.com","senderName":"string"},"metadata":{"crmDealId":"D-1042"},"externalId":"contract-2026-0042","title":"string","people":[{"externalId":"contract-2026-0042","metadata":{"crmDealId":"D-1042"},"name":"string","email":"person@example.com","role":"string","action":"signer","order":1}],"variableValues":{},"facts":{},"send":{"replyTo":"person@example.com","senderName":"string","subject":"string","message":"string","expiryDays":0,"reminderDays":[1],"signingOrder":"any","internalNote":"string","requireDeclineReason":false},"sendNow":false}; // \Docustay\Model\UseTemplateRequest
 
 try {
     $result = $apiInstance->useTemplate($id, $idempotency_key, $use_template_request);

@@ -1,4 +1,4 @@
-# # RotateWebhookSecret200Response
+# RotateWebhookSecret200Response
 
 ## Properties
 

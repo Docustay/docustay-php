@@ -1,4 +1,4 @@
-# # ListTemplates200Response
+# ListTemplates200Response
 
 ## Properties
 

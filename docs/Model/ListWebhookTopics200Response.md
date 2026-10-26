@@ -1,4 +1,4 @@
-# # ListWebhookTopics200Response
+# ListWebhookTopics200Response
 
 ## Properties
 

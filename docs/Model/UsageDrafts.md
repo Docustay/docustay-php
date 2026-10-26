@@ -1,4 +1,4 @@
-# # UsageDrafts
+# UsageDrafts
 
 ## Properties
 

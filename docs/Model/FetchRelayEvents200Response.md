@@ -1,4 +1,4 @@
-# # FetchRelayEvents200Response
+# FetchRelayEvents200Response
 
 ## Properties
 

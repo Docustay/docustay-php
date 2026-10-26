@@ -1,4 +1,4 @@
-# # AiDraftJob
+# AiDraftJob
 
 ## Properties
 

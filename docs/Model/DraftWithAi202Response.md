@@ -1,4 +1,4 @@
-# # DraftWithAi202Response
+# DraftWithAi202Response
 
 ## Properties
 

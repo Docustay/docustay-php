@@ -1,4 +1,4 @@
-# # DetectedField
+# DetectedField
 
 ## Properties
 

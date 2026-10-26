@@ -1,4 +1,4 @@
-# # StartDraftRequestAnswersValue
+# StartDraftRequestAnswersValue
 
 ## Properties
 

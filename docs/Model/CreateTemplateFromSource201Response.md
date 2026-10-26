@@ -1,4 +1,4 @@
-# # CreateTemplateFromSource201Response
+# CreateTemplateFromSource201Response
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# # CustomizeLibraryTemplateRequest
+# CustomizeLibraryTemplateRequest
 
 ## Properties
 

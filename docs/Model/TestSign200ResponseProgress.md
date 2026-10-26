@@ -1,4 +1,4 @@
-# # TestSign200ResponseProgress
+# TestSign200ResponseProgress
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# # DetectFieldsResultDocumentsInner
+# DetectFieldsResultDocumentsInner
 
 ## Properties
 

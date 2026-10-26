@@ -1,4 +1,4 @@
-# # SendDraft202ResponseApproval
+# SendDraft202ResponseApproval
 
 ## Properties
 

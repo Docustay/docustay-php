@@ -1,4 +1,4 @@
-# # DraftFromLibraryTemplateRequest
+# DraftFromLibraryTemplateRequest
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# # DocumentEventsInner
+# DocumentEventsInner
 
 ## Properties
 

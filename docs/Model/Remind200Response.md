@@ -1,4 +1,4 @@
-# # Remind200Response
+# Remind200Response
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# # ListTeams200ResponseTeamsInnerMembersInner
+# ListTeams200ResponseTeamsInnerMembersInner
 
 ## Properties
 

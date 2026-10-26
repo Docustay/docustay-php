@@ -1,4 +1,4 @@
-# # SendChoices
+# SendChoices
 
 ## Properties
 

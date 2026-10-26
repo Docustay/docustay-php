@@ -8,6 +8,7 @@ All URIs are relative to https://app.docustay.app, except if the operation defin
 | [**cancelAiJob()**](DocumentsApi.md#cancelAiJob) | **POST** /api/v1/documents/ai/jobs/{id}/cancel | Cancel an AI job |
 | [**checkDocument()**](DocumentsApi.md#checkDocument) | **POST** /api/v1/documents/check | Check a document&#39;s words before making it |
 | [**createDocument()**](DocumentsApi.md#createDocument) | **POST** /api/v1/documents | Make a document from words and people |
+| [**deleteDraft()**](DocumentsApi.md#deleteDraft) | **DELETE** /api/v1/documents/{id} | Delete a draft that was never sent |
 | [**detectFields()**](DocumentsApi.md#detectFields) | **POST** /api/v1/documents/detect-fields | Find the fields on a PDF |
 | [**downloadSignedPdf()**](DocumentsApi.md#downloadSignedPdf) | **GET** /api/v1/documents/{id}/signed.pdf | Download the signed copy |
 | [**draftWithAi()**](DocumentsApi.md#draftWithAi) | **POST** /api/v1/documents/ai/draft | Ask for an AI-written draft |
@@ -36,6 +37,8 @@ auditLogCsv($id): string
 
 The document's audit log as CSV
 
+The document's audit log as CSV.
+
 ### Example
 
 ```php
@@ -44,8 +47,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -94,6 +96,8 @@ cancelAiJob($id): \Docustay\Model\AiDraftJob
 
 Cancel an AI job
 
+Cancel an AI job.
+
 ### Example
 
 ```php
@@ -102,8 +106,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -152,6 +155,8 @@ checkDocument($check_document_request): \Docustay\Model\CheckDocument200Response
 
 Check a document's words before making it
 
+Check a document's words before making it.
+
 ### Example
 
 ```php
@@ -160,8 +165,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -169,7 +173,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$check_document_request = new \Docustay\Model\CheckDocumentRequest(); // \Docustay\Model\CheckDocumentRequest
+$check_document_request = {"source":{},"facts":{},"people":[{"externalId":"contract-2026-0042","metadata":{"crmDealId":"D-1042"},"name":"string","email":"person@example.com","role":"string","action":"signer","order":1}],"variableValues":{},"requireSignature":false,"forTemplate":false}; // \Docustay\Model\CheckDocumentRequest
 
 try {
     $result = $apiInstance->checkDocument($check_document_request);
@@ -220,8 +224,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -230,7 +233,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     $config
 );
 $idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
-$create_document_request = new \Docustay\Model\CreateDocumentRequest(); // \Docustay\Model\CreateDocumentRequest
+$create_document_request = {"email":{"subject":"string","message":"string","replyTo":"person@example.com","senderName":"string"},"metadata":{"crmDealId":"D-1042"},"externalId":"contract-2026-0042","title":"string","source":{},"people":[{"externalId":"contract-2026-0042","metadata":{"crmDealId":"D-1042"},"name":"string","email":"person@example.com","role":"string","action":"signer","order":1}],"facts":{},"variableValues":{},"paper":"letter","send":{"replyTo":"person@example.com","senderName":"string","subject":"string","message":"string","expiryDays":0,"reminderDays":[1],"signingOrder":"any","internalNote":"string","requireDeclineReason":false},"description":"string","sendNow":false}; // \Docustay\Model\CreateDocumentRequest
 
 try {
     $result = $apiInstance->createDocument($idempotency_key, $create_document_request);
@@ -264,6 +267,65 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `deleteDraft()`
+
+```php
+deleteDraft($id): \Docustay\Model\DeleteDraft200Response
+```
+
+Delete a draft that was never sent
+
+Removes a draft and its files. A document that was sent cannot be deleted: void it instead (`POST /api/v1/documents/{id}/void`), which keeps its record.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
+
+$apiInstance = new Docustay\Api\DocumentsApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
+
+try {
+    $result = $apiInstance->deleteDraft($id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DocumentsApi->deleteDraft: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **string**|  | |
+
+### Return type
+
+[**\Docustay\Model\DeleteDraft200Response**](../Model/DeleteDraft200Response.md)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `detectFields()`
 
 ```php
@@ -282,8 +344,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -291,7 +352,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$detect_fields_request = new \Docustay\Model\DetectFieldsRequest(); // \Docustay\Model\DetectFieldsRequest
+$detect_fields_request = {"fileName":"string","file":"string","minConfidence":0,"ocr":false}; // \Docustay\Model\DetectFieldsRequest
 
 try {
     $result = $apiInstance->detectFields($detect_fields_request);
@@ -332,6 +393,8 @@ downloadSignedPdf($id): \SplFileObject
 
 Download the signed copy
 
+Download the signed copy.
+
 ### Example
 
 ```php
@@ -340,8 +403,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -390,7 +452,7 @@ draftWithAi($draft_with_ai_request): \Docustay\Model\DraftWithAi202Response
 
 Ask for an AI-written draft
 
-Starts a draft and answers at once with a job id; poll `GET /api/v1/documents/ai/jobs/{id}`. The draft is a suggestion for a person to read; nothing is saved or sent. Refused plainly when AI drafting is switched off for the workspace or a limit is reached.
+Starts a draft and answers at once with a job id; poll `GET /api/v1/documents/ai/jobs/{id}`. Send an `Idempotency-Key` header to make a retry safe: the same key and body answer the first job and spend no second draft. The draft is a suggestion for a person to read; nothing is saved or sent. Refused plainly when AI drafting is switched off for the workspace or a limit is reached.
 
 ### Example
 
@@ -400,8 +462,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -409,7 +470,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$draft_with_ai_request = new \Docustay\Model\DraftWithAiRequest(); // \Docustay\Model\DraftWithAiRequest
+$draft_with_ai_request = {"prompt":"string","brief":{"type":"string","kind":"string","answers":{},"final":"string","payment":{"collect":true,"amount":"1500","currency":"usd","payer_role":"string","description":"string","schedule_note":"string"}},"mode":"template"}; // \Docustay\Model\DraftWithAiRequest
 
 try {
     $result = $apiInstance->draftWithAi($draft_with_ai_request);
@@ -460,8 +521,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -469,7 +529,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$edit_with_ai_request = new \Docustay\Model\EditWithAiRequest(); // \Docustay\Model\EditWithAiRequest
+$edit_with_ai_request = {"request":"string","source":{},"mode":"template","variables":[{"key":"string","label":"string","kind":"text"}]}; // \Docustay\Model\EditWithAiRequest
 
 try {
     $result = $apiInstance->editWithAi($edit_with_ai_request);
@@ -510,7 +570,7 @@ embedSession($id, $embed_session_request): \Docustay\Model\EmbedSession200Respon
 
 Start an embedded signing session for a seat
 
-For a seat that was sent in `embedded`. Returns a link that works for one hour and is meant for an iframe or the `<docustay-sign>` element on one of your allowed websites. It is the only way a key can put someone in front of a signing form, and only for seats you marked embedded yourself. Needs an `Idempotency-Key` header.
+For a seat that was sent in `embedded`. Returns a link that works for one hour and is meant for an iframe or the `<docustay-sign>` element on one of your allowed websites. It is the only way a key can put someone in front of a signing form, and only for seats you marked embedded yourself. No `Idempotency-Key` is needed: each call starts a fresh one-hour session, and the last few stay open so a page that loads twice keeps working.
 
 ### Example
 
@@ -520,8 +580,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -530,7 +589,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     $config
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
-$embed_session_request = new \Docustay\Model\EmbedSessionRequest(); // \Docustay\Model\EmbedSessionRequest
+$embed_session_request = {"seat":"signer_1","origin":"https://app.example.com"}; // \Docustay\Model\EmbedSessionRequest
 
 try {
     $result = $apiInstance->embedSession($id, $embed_session_request);
@@ -572,6 +631,8 @@ getAiDraft($id): \Docustay\Model\AiDraftJob
 
 Read an AI draft job
 
+Read an AI draft job.
+
 ### Example
 
 ```php
@@ -580,8 +641,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -630,6 +690,8 @@ getDocument($id): \Docustay\Model\Document
 
 One document and where each person is
 
+One document and where each person is.
+
 ### Example
 
 ```php
@@ -638,8 +700,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -688,6 +749,8 @@ getDraftSource($id): \Docustay\Model\GetDraftSource200Response
 
 The words, people and choices of a draft
 
+The words, people and choices of a draft.
+
 ### Example
 
 ```php
@@ -696,8 +759,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -756,8 +818,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -813,8 +874,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -822,7 +882,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$state = 'state_example'; // string
+$state = 'state_example'; // string | Only documents in this state; any other value is refused.
 $limit = 56; // int
 $cursor = 'cursor_example'; // string
 $external_id = 'external_id_example'; // string | Only documents with this `externalId`.
@@ -839,7 +899,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **state** | **string**|  | [optional] |
+| **state** | **string**| Only documents in this state; any other value is refused. | [optional] |
 | **limit** | **int**|  | [optional] |
 | **cursor** | **string**|  | [optional] |
 | **external_id** | **string**| Only documents with this &#x60;externalId&#x60;. | [optional] |
@@ -869,6 +929,8 @@ listTemplates(): \Docustay\Model\ListTemplates200Response
 
 Templates you can send
 
+Templates you can send.
+
 ### Example
 
 ```php
@@ -877,8 +939,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -924,6 +985,8 @@ remind($id, $remind_request): \Docustay\Model\Remind200Response
 
 Remind the people who still have to sign
 
+Remind the people who still have to sign.
+
 ### Example
 
 ```php
@@ -932,8 +995,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -942,7 +1004,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     $config
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
-$remind_request = new \Docustay\Model\RemindRequest(); // \Docustay\Model\RemindRequest
+$remind_request = {"seat":"string"}; // \Docustay\Model\RemindRequest
 
 try {
     $result = $apiInstance->remind($id, $remind_request);
@@ -994,8 +1056,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -1005,7 +1066,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
 $idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
-$revise_document_request = new \Docustay\Model\ReviseDocumentRequest(); // \Docustay\Model\ReviseDocumentRequest
+$revise_document_request = {"source":{},"facts":{},"variableValues":{},"roleMap":{}}; // \Docustay\Model\ReviseDocumentRequest
 
 try {
     $result = $apiInstance->reviseDocument($id, $idempotency_key, $revise_document_request);
@@ -1058,8 +1119,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -1120,8 +1180,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -1130,7 +1189,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     $config
 );
 $idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
-$send_request = new \Docustay\Model\SendRequest(); // \Docustay\Model\SendRequest
+$send_request = {"templateId":"6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e","email":{"subject":"string","message":"string","replyTo":"person@example.com","senderName":"string"},"metadata":{"crmDealId":"D-1042"},"externalId":"contract-2026-0042","title":"string","message":"string","subject":"string","expiryDays":1,"signingOrder":"any","values":{"effective_date":"2026-11-01"},"embedded":["string"],"parties":[{"seat":"string","name":"string","email":"person@example.com","externalId":"contract-2026-0042","metadata":{"crmDealId":"D-1042"}}]}; // \Docustay\Model\SendRequest
 
 try {
     $result = $apiInstance->sendDocument($idempotency_key, $send_request);
@@ -1167,7 +1226,7 @@ try {
 ## `sendDraft()`
 
 ```php
-sendDraft($id, $idempotency_key): \Docustay\Model\SendDraft201Response
+sendDraft($id, $idempotency_key, $send_draft_request): \Docustay\Model\SendDraft201Response
 ```
 
 Send a draft
@@ -1182,8 +1241,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -1193,9 +1251,10 @@ $apiInstance = new Docustay\Api\DocumentsApi(
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
 $idempotency_key = 'idempotency_key_example'; // string | A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice.
+$send_draft_request = {"values":{"effective_date":"2026-11-01"}}; // \Docustay\Model\SendDraftRequest
 
 try {
-    $result = $apiInstance->sendDraft($id, $idempotency_key);
+    $result = $apiInstance->sendDraft($id, $idempotency_key, $send_draft_request);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling DocumentsApi->sendDraft: ', $e->getMessage(), PHP_EOL;
@@ -1208,6 +1267,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
 | **idempotency_key** | **string**| A unique value for this request (8–200 characters, for example a UUID). Repeating the request with the same key and body returns the first answer instead of doing it twice. | |
+| **send_draft_request** | [**\Docustay\Model\SendDraftRequest**](../Model/SendDraftRequest.md)|  | [optional] |
 
 ### Return type
 
@@ -1219,7 +1279,7 @@ try {
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
@@ -1244,8 +1304,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -1254,7 +1313,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     $config
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
-$test_sign_request = new \Docustay\Model\TestSignRequest(); // \Docustay\Model\TestSignRequest
+$test_sign_request = {"seat":"signer_1","decline":false,"reason":"string"}; // \Docustay\Model\TestSignRequest
 
 try {
     $result = $apiInstance->testSign($id, $test_sign_request);
@@ -1296,6 +1355,8 @@ voidDocument($id, $void_document_request): \Docustay\Model\VoidDocument200Respon
 
 Void a document that is still out for signature
 
+Void a document that is still out for signature.
+
 ### Example
 
 ```php
@@ -1304,8 +1365,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\DocumentsApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -1314,7 +1374,7 @@ $apiInstance = new Docustay\Api\DocumentsApi(
     $config
 );
 $id = 6f1c1f0e-7a0c-4d1d-9b5e-2f0a7b1c3d4e; // string
-$void_document_request = new \Docustay\Model\VoidDocumentRequest(); // \Docustay\Model\VoidDocumentRequest
+$void_document_request = {"reason":"string"}; // \Docustay\Model\VoidDocumentRequest
 
 try {
     $result = $apiInstance->voidDocument($id, $void_document_request);

@@ -26,6 +26,8 @@ answerDraft($draft_ref, $answer_draft_request): mixed
 
 Answer a template's questions
 
+Answer a template's questions.
+
 ### Example
 
 ```php
@@ -34,8 +36,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -44,7 +45,7 @@ $apiInstance = new Docustay\Api\PlaysApi(
     $config
 );
 $draft_ref = 'draft_ref_example'; // string
-$answer_draft_request = new \Docustay\Model\AnswerDraftRequest(); // \Docustay\Model\AnswerDraftRequest
+$answer_draft_request = {"answers":{},"values":{},"useDefaults":false}; // \Docustay\Model\AnswerDraftRequest
 
 try {
     $result = $apiInstance->answerDraft($draft_ref, $answer_draft_request);
@@ -86,6 +87,8 @@ archivePlay($name): mixed
 
 Archive a play
 
+Archive a play.
+
 ### Example
 
 ```php
@@ -94,8 +97,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -144,6 +146,8 @@ duplicatePlay($name, $duplicate_play_request): mixed
 
 Copy a play under a new name
 
+Copy a play under a new name.
+
 ### Example
 
 ```php
@@ -152,8 +156,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -162,7 +165,7 @@ $apiInstance = new Docustay\Api\PlaysApi(
     $config
 );
 $name = 'name_example'; // string
-$duplicate_play_request = new \Docustay\Model\DuplicatePlayRequest(); // \Docustay\Model\DuplicatePlayRequest
+$duplicate_play_request = {"as":"string"}; // \Docustay\Model\DuplicatePlayRequest
 
 try {
     $result = $apiInstance->duplicatePlay($name, $duplicate_play_request);
@@ -204,6 +207,8 @@ getPlay($name): mixed
 
 One play
 
+One play.
+
 ### Example
 
 ```php
@@ -212,8 +217,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -272,8 +276,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -329,8 +332,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -381,6 +383,8 @@ publishPlay($name, $publish_play_request): mixed
 
 Publish a play version
 
+Publish a play version.
+
 ### Example
 
 ```php
@@ -389,8 +393,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -399,7 +402,7 @@ $apiInstance = new Docustay\Api\PlaysApi(
     $config
 );
 $name = 'name_example'; // string
-$publish_play_request = new \Docustay\Model\PublishPlayRequest(); // \Docustay\Model\PublishPlayRequest
+$publish_play_request = {"version":1}; // \Docustay\Model\PublishPlayRequest
 
 try {
     $result = $apiInstance->publishPlay($name, $publish_play_request);
@@ -451,8 +454,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -460,7 +462,7 @@ $apiInstance = new Docustay\Api\PlaysApi(
     new GuzzleHttp\Client(),
     $config
 );
-$save_play_request = new \Docustay\Model\SavePlayRequest(); // \Docustay\Model\SavePlayRequest
+$save_play_request = {"source":"string"}; // \Docustay\Model\SavePlayRequest
 
 try {
     $result = $apiInstance->savePlay($save_play_request);
@@ -511,8 +513,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -520,7 +521,7 @@ $apiInstance = new Docustay\Api\PlaysApi(
     new GuzzleHttp\Client(),
     $config
 );
-$save_playbook_request = new \Docustay\Model\SavePlaybookRequest(); // \Docustay\Model\SavePlaybookRequest
+$save_playbook_request = {"name":"string","title":"string","description":"string","plays":["string"],"templates":["string"]}; // \Docustay\Model\SavePlaybookRequest
 
 try {
     $result = $apiInstance->savePlaybook($save_playbook_request);
@@ -561,6 +562,8 @@ setPlaybookOn($name, $set_playbook_on_request): mixed
 
 Switch a pack on or off
 
+Switch a pack on or off.
+
 ### Example
 
 ```php
@@ -569,8 +572,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -579,7 +581,7 @@ $apiInstance = new Docustay\Api\PlaysApi(
     $config
 );
 $name = 'name_example'; // string
-$set_playbook_on_request = new \Docustay\Model\SetPlaybookOnRequest(); // \Docustay\Model\SetPlaybookOnRequest
+$set_playbook_on_request = {"enabled":false}; // \Docustay\Model\SetPlaybookOnRequest
 
 try {
     $result = $apiInstance->setPlaybookOn($name, $set_playbook_on_request);
@@ -631,8 +633,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -640,7 +641,7 @@ $apiInstance = new Docustay\Api\PlaysApi(
     new GuzzleHttp\Client(),
     $config
 );
-$start_draft_request = new \Docustay\Model\StartDraftRequest(); // \Docustay\Model\StartDraftRequest
+$start_draft_request = {"template":"string","title":"string","people":[{"name":"string","email":"person@example.com","role":"string","action":"signer"}],"answers":{},"values":{},"useDefaults":false}; // \Docustay\Model\StartDraftRequest
 
 try {
     $result = $apiInstance->startDraft($start_draft_request);
@@ -691,8 +692,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure Bearer authorization: bearerAuth
-$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
+$config = Docustay\Configuration::getDefaultConfiguration()->setAccessToken(getenv('DOCUSTAY_API_KEY'));
 
 $apiInstance = new Docustay\Api\PlaysApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -700,7 +700,7 @@ $apiInstance = new Docustay\Api\PlaysApi(
     new GuzzleHttp\Client(),
     $config
 );
-$save_play_request = new \Docustay\Model\SavePlayRequest(); // \Docustay\Model\SavePlayRequest
+$save_play_request = {source=string}; // \Docustay\Model\SavePlayRequest
 
 try {
     $result = $apiInstance->testPlay($save_play_request);

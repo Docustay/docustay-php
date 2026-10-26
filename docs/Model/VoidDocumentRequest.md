@@ -1,4 +1,4 @@
-# # VoidDocumentRequest
+# VoidDocumentRequest
 
 ## Properties
 

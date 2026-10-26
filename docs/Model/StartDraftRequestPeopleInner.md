@@ -1,4 +1,4 @@
-# # StartDraftRequestPeopleInner
+# StartDraftRequestPeopleInner
 
 ## Properties
 

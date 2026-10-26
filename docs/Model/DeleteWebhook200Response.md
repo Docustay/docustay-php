@@ -1,4 +1,4 @@
-# # DeleteWebhook200Response
+# DeleteWebhook200Response
 
 ## Properties
 
